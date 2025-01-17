@@ -1,5 +1,4 @@
 # Dockerfile
-# 빌드 스테이지
 FROM node:18-alpine AS builder
 
 WORKDIR /app
@@ -24,7 +23,8 @@ RUN npm install
 # 빌드된 파일과 필요한 파일들만 복사
 COPY --from=builder /app/.next ./.next
 COPY --from=builder /app/public ./public
-COPY --from=builder /app/next.config.js ./
+COPY --from=builder /app/next.config.mjs ./
+COPY --from=builder /app/src ./src
 
 # 환경 변수 설정
 ENV NODE_ENV=development

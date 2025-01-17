@@ -22,7 +22,6 @@ RUN npm install
 
 # 빌드된 파일과 필요한 파일들만 복사
 COPY --from=builder /app/.next ./.next
-COPY --from=builder /app/public ./public
 COPY --from=builder /app/next.config.mjs ./
 COPY --from=builder /app/src ./src
 

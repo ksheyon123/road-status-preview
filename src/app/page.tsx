@@ -1,6 +1,20 @@
 import { sections } from "@/constants";
 import React from "react";
 
+// 상태에 따른 색상 반환 함수
+const getStatusColor = (status: string) => {
+  switch (status) {
+    case "원활":
+      return "#03bd41";
+    case "서행":
+      return "#ffac00";
+    case "정체":
+      return "#d80f17";
+    default:
+      return "#cad1d8";
+  }
+};
+
 // 방향 아이콘 컴포넌트
 const DirectionIcon = ({ direction }: { direction: string }) => {
   return (
@@ -20,20 +34,6 @@ const DirectionIcon = ({ direction }: { direction: string }) => {
       />
     </svg>
   );
-};
-
-// 상태에 따른 색상 반환 함수
-const getStatusColor = (status: string) => {
-  switch (status) {
-    case "원활":
-      return "#03bd41";
-    case "서행":
-      return "#ffac00";
-    case "정체":
-      return "#d80f17";
-    default:
-      return "#cad1d8";
-  }
 };
 
 // 원형 방향 아이콘 컴포넌트
@@ -71,69 +71,110 @@ const CircleDirectionIcon = ({
   );
 };
 
-// 교통 상황 막대 컴포넌트
-const TrafficBar = ({ status, time }: { status: string; time: string }) => {
+// VDS 인터페이스 정의
+interface VDS {
+  status: string;
+  percentage: number;
+  time: string;
+}
+
+// 수정된 TrafficBar 컴포넌트
+const TrafficBar = ({ segments }: { segments: VDS[] }) => {
+  // 전체 시간 계산
+  const totalTime = segments.reduce((acc, segment) => {
+    return acc + parseInt(segment.time);
+  }, 0);
+
+  // percentage가 가장 큰 상태 찾기
+  const mainStatus = segments.reduce((prev, current) =>
+    current.percentage > prev.percentage ? current : prev
+  ).status;
+
   return (
     <div className="h-full w-full flex items-center justify-center">
       <div className="relative h-12 w-3 bg-[#939396]">
-        <div
-          className="absolute top-[-8px] left-0 w-3 h-16"
-          style={{ backgroundColor: getStatusColor(status) }}
-        />
+        {/* 상태별 막대 렌더링 */}
+        {segments.map((segment, index) => {
+          let prevHeight = segments
+            .slice(0, index)
+            .reduce((acc, s) => acc + s.percentage, 0);
+
+          return (
+            <div
+              key={index}
+              className="absolute left-0 w-3"
+              style={{
+                top: `${prevHeight}%`,
+                height: `${segment.percentage}%`,
+                backgroundColor: getStatusColor(segment.status),
+              }}
+            />
+          );
+        })}
+
+        {/* 상태 및 시간 텍스트 */}
         <div className="absolute top-[5px] left-0 w-20 h-[30px] flex flex-col pl-6">
-          <span className="text-sm" style={{ color: getStatusColor(status) }}>
-            {status}
+          <span
+            className="text-sm"
+            style={{ color: getStatusColor(mainStatus) }}
+          >
+            {mainStatus}
           </span>
-          <span className="text-sm" style={{ color: "#77777a" }}>
-            약 {time}분
-          </span>
+          <span className="text-sm text-[#77777a]">약 {totalTime}분</span>
         </div>
       </div>
     </div>
   );
 };
 
-// 구간 컴포넌트
+// Section 컴포넌트 props 인터페이스 업데이트
+interface SectionProps {
+  name: string;
+  distance?: string;
+  leftVDS: VDS[];
+  rightVDS: VDS[];
+  isLast?: boolean;
+}
+
+// 수정된 Section 컴포넌트
 const Section = ({
   name,
   distance,
-  leftStatus,
-  leftTime,
-  rightStatus,
-  rightTime,
+  leftVDS,
+  rightVDS,
   isLast = false,
-}: {
-  name: string;
-  distance?: string;
-  leftStatus: string;
-  leftTime?: string;
-  rightStatus: string;
-  rightTime?: string;
-  isLast?: boolean;
-}) => {
+}: SectionProps) => {
+  // 주요 상태 결정 (가장 높은 비율을 차지하는 상태)
+  const getMainStatus = (segments: VDS[]) => {
+    return segments.reduce((prev, current) =>
+      current.percentage > prev.percentage ? current : prev
+    ).status;
+  };
+
   return (
     <div className="w-full">
-      {/* 흰색 영역 */}
       <div className="h-8 bg-white grid grid-cols-4 items-center">
         <div className="pl-4 font-medium">{name}</div>
         <div className="flex justify-center">
-          <CircleDirectionIcon status={leftStatus} direction="up" />
+          <CircleDirectionIcon status={getMainStatus(leftVDS)} direction="up" />
         </div>
         <div className="flex justify-center">
-          <CircleDirectionIcon status={rightStatus} direction="down" />
+          <CircleDirectionIcon
+            status={getMainStatus(rightVDS)}
+            direction="down"
+          />
         </div>
         <div></div>
       </div>
 
-      {/* 회색 영역 - 마지막 구간이 아닐 때만 표시 */}
       {!isLast && (
         <div className="h-12 bg-gray-100 grid grid-cols-4 items-center">
           <div className="pl-4 text-gray-600">{distance}km</div>
           <div className="w-full h-full">
-            <TrafficBar status={leftStatus} time={leftTime || ""} />
+            <TrafficBar segments={leftVDS} />
           </div>
           <div className="w-full h-full">
-            <TrafficBar status={rightStatus} time={rightTime || ""} />
+            <TrafficBar segments={rightVDS} />
           </div>
           <div className="w-full h-full"></div>
         </div>
@@ -168,10 +209,17 @@ const TrafficDashboard = () => {
         <div></div>
       </div>
 
-      {/* 구간들 - 스크롤 가능한 영역 */}
+      {/* 섹션 렌더링 */}
       <div className="flex-1 overflow-y-auto divide-y">
         {sections.map((section, index) => (
-          <Section key={index} {...section} />
+          <Section
+            key={index}
+            name={section.name}
+            distance={section.distance}
+            leftVDS={section.leftVDS}
+            rightVDS={section.rightVDS}
+            isLast={index === sections.length - 1}
+          />
         ))}
       </div>
 

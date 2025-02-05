@@ -11,7 +11,7 @@ const nextConfig = {
         remotes: {
           component: "host@http://localhost:3000/remoteEntry.js",
           leaflet:
-            "map@http://localhost:3001/_next/static/chunks/remoteEntry.js",
+            "map@http://localhost:3000/_next/static/chunks/remoteEntry.js",
         },
         filename: "static/chunks/remoteEntry.js",
         exposes: {}, // 호스트 앱에서 노출할 것이 없더라도 빈 객체 필요

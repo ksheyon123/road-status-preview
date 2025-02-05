@@ -19,7 +19,6 @@ const sections = [
     rightVDS: [
       { status: "서행", percentage: 60, time: "10" },
       { status: "정체", percentage: 40, time: "17" },
-      { status: "원활", percentage: 40, time: "5" },
     ],
   },
   {

@@ -16,28 +16,20 @@ import "tailwindcss/tailwind.css";
 //   }
 // );
 
-const Map: ComponentType<any> = dynamic(
-  async () => {
-    const component = await import("leaflet/LeafLet");
-    return (component as any).LeafletD3Map;
-  },
-  {
-    ssr: false,
-    loading: () => <div>Loading Header...</div>,
-  }
-);
+// const Map: ComponentType<any> = dynamic(
+//   async () => {
+//     const component = await import("leaflet/LeafLet");
+//     return (component as any).LeafletD3Map;
+//   },
+//   {
+//     ssr: false,
+//     loading: () => <div>Loading Header...</div>,
+//   }
+// );
 export default function Page() {
   return (
     <main>
-      <Suspense fallback={<>Loading...</>}>
-        <div>{/* <Header backBtn="a" /> */}</div>
-      </Suspense>
-
-      <div>
-        <Suspense fallback={<>Loading...</>}>
-          <Map />
-        </Suspense>
-      </div>
+      <div></div>
     </main>
   );
 }

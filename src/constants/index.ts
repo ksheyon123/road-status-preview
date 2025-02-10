@@ -1,3 +1,21 @@
+export enum STATUS_CODE {
+  SUCCESS = 200,
+  BAD_REQUEST = 400,
+  AUTH_FAILURE = 401,
+  NOT_FOUND = 404,
+  SERVER_ERROR = 500,
+}
+
+const highways = [
+  {
+    route_id: "0010",
+    route_name: "경부고속도로",
+    start_point: "서울",
+    end_point: "부산",
+    distance: 416050,
+  },
+];
+
 const sections = [
   {
     name: "한남IC",
@@ -132,4 +150,4 @@ const sections = [
   },
 ];
 
-export { sections };
+export { highways, sections };

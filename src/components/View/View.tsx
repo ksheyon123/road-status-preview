@@ -1,3 +1,4 @@
+import { RouteInfo } from "@/types/index";
 import dynamic from "next/dynamic";
 import { useState } from "react";
 
@@ -5,7 +6,7 @@ const DynamicHeader = dynamic(() => import("@/components/Header/Header"), {
   ssr: false, // 필요한 경우
 });
 
-const DynamicTrafficDashboard = dynamic(
+const DynamicTrafficDashboard = dynamic<{ data: RouteInfo }>(
   () => import("@/components/TrafficDashboard/TrafficDashboard"),
   {
     ssr: false, // 필요한 경우
@@ -30,7 +31,7 @@ const DynamicTabs = dynamic(() => import("@/components/Tabs/Tabs"), {
 //   }
 // );
 
-const View: React.FC = () => {
+const View: React.FC = ({ data }: any) => {
   const [activeTab, setActiveTab] = useState("전체구간");
   return (
     <>
@@ -39,7 +40,7 @@ const View: React.FC = () => {
         <DynamicTabs activeTab={activeTab} setActiveTab={setActiveTab} />
       </div>
       {/* <DynamicMap /> */}
-      <DynamicTrafficDashboard />
+      <DynamicTrafficDashboard data={data} />
     </>
   );
 };

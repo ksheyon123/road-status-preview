@@ -43,7 +43,7 @@ const CircleDirectionIcon = ({
       xmlns="http://www.w3.org/2000/svg"
       fill="none"
       viewBox="0 0 22 22"
-      className="w-8 h-8"
+      className="w-6 h-6"
       aria-hidden="true"
       style={{ position: "relative", zIndex: 20 }}
     >
@@ -52,9 +52,9 @@ const CircleDirectionIcon = ({
         cy="11"
         r="10.25"
         fill={getStatusColor(status)}
-        stroke="#fff"
+        stroke={getStatusColor(status)}
         strokeLinejoin="round"
-        strokeWidth="1.5"
+        // strokeWidth="1.5"
       />
       <path
         fill="#fff"
@@ -73,7 +73,7 @@ const TrafficBar = ({ time, distance, status }: SectionProps) => {
   return (
     <div className="h-full w-full flex items-center justify-center">
       <div className="relative h-[46px] w-3 bg-[#939396]">
-        <div className="relative h-[54px] top-[-4px] w-full">
+        <div className="relative h-[60px] top-[-6px] w-full">
           <div
             style={{
               height: "100%",
@@ -111,17 +111,19 @@ interface SectionProps {
   status: "SMOOTH" | "SLOW" | "CONGESTED";
   time: number;
   isLast?: boolean;
+  onClick?: Function;
 }
 
 // 수정된 Section 컴포넌트
 const Section = (props: SectionProps) => {
-  const { startPoint, endPoint, distance, status, isLast = false } = props;
-  // 주요 상태 결정 (가장 높은 비율을 차지하는 상태)
-  const getMainStatus = (segments: SectionInfo[]) => {
-    return segments.reduce((prev, current) =>
-      current.distance > prev.distance ? current : prev
-    ).status;
-  };
+  const {
+    startPoint,
+    endPoint,
+    distance,
+    status,
+    isLast = false,
+    onClick,
+  } = props;
 
   return (
     <div className="w-full">
@@ -141,6 +143,11 @@ const Section = (props: SectionProps) => {
           <span>{distance / 1000}km</span>
           <img
             className="w-[5px] h-[8px] ml-2 cursor-pointer"
+            onClick={() => {
+              if (!!onClick) {
+                onClick("구간상세");
+              }
+            }}
             src={ic_right_arrow_small.src}
             alt="right_arrow_small"
           />
@@ -170,8 +177,11 @@ const Section = (props: SectionProps) => {
   );
 };
 
-const TrafficDashboard = (props: { data: RouteInfo }) => {
-  const { data } = props;
+const TrafficDashboard = (props: {
+  data: RouteInfo;
+  onClickDetail: Function;
+}) => {
+  const { data, onClickDetail } = props;
   const { start_point, end_point, directions } = data;
   const { forward, reverse } = directions;
   return (
@@ -211,6 +221,7 @@ const TrafficDashboard = (props: { data: RouteInfo }) => {
                 status={item.status}
                 time={item.travel_time}
                 isLast={index === forward.sections.length - 1}
+                onClick={onClickDetail}
               />
             );
           })}

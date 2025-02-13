@@ -5,14 +5,8 @@ interface NavigationProps {
   setActiveTab: (tab: string) => void;
 }
 
-const Navigation: React.FC<NavigationProps> = () => {
-  const [activeTab, setActiveTab] = useState<string>("전체구간");
-
+const Tabs: React.FC<NavigationProps> = ({ activeTab, setActiveTab }) => {
   const tabs = ["전체구간", "구간상세", "사고.통제"];
-
-  const handleTabClick = (tab: string) => {
-    setActiveTab(tab);
-  };
 
   return (
     <div className="w-full">
@@ -20,12 +14,12 @@ const Navigation: React.FC<NavigationProps> = () => {
         {tabs.map((tab) => (
           <button
             key={tab}
-            onClick={() => handleTabClick(tab)}
-            className={`flex-1 py-3 text-center text-sm transition-colors
+            onClick={() => setActiveTab(tab)}
+            className={`flex-1 py-3 text-center text-base transition-colors
               ${
                 activeTab === tab
-                  ? "bg-[#4B7BF5] text-white font-medium"
-                  : "bg-white text-gray-600 hover:bg-gray-50"
+                  ? "bg-[#F7F7F8] text-[#7C7C7E] font-bold"
+                  : "bg-[#F7F7F8] text-[#9A9A9C] hover:bg-gray-50"
               }`}
           >
             {tab}
@@ -36,4 +30,4 @@ const Navigation: React.FC<NavigationProps> = () => {
   );
 };
 
-export default Navigation;
+export default Tabs;

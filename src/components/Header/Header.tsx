@@ -10,7 +10,7 @@ interface HeaderProps {
 
 const Header = ({ onBack, title = "경부고속도로" }: HeaderProps) => {
   return (
-    <header className="fixed top-0 left-0 right-0 h-16 bg-white border-b border-gray-200 flex items-center justify-between px-4 z-50">
+    <header className="fixed z-10 top-0 left-0 right-0 h-16 bg-white border-b border-gray-200 flex items-center justify-between px-4 ">
       <div className="flex items-center gap-4">
         {onBack && (
           <button onClick={onBack} className="p-2">
@@ -20,7 +20,7 @@ const Header = ({ onBack, title = "경부고속도로" }: HeaderProps) => {
         <img src={Highway.src} alt="고속도로" className="w-6 h-6" />
       </div>
 
-      <h1 className="absolute left-1/2 transform -translate-x-1/2 text-xl text-[#595959] font-medium">
+      <h1 className="absolute left-1/2 transform -translate-x-1/2 text-xl text-[#595959] font-bold">
         {title}
       </h1>
 

@@ -55,7 +55,8 @@ export async function getServerSideProps() {
 
   if (response.status === STATUS_CODE.SUCCESS) {
     const { data: result } = await response.json();
-    data = result;
+    const { highways } = result;
+    data = highways;
   }
   // Pass data to the page via props
   return {

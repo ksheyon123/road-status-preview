@@ -1,5 +1,5 @@
 import React from "react";
-import { RouteInfo } from "@/types/index";
+import { RouteInfo, SectionInfo } from "@/types/index";
 import ic_direction_up from "@/assets/images/up.png";
 import ic_direction_down from "@/assets/images/down.png";
 import ic_right_arrow_small from "@/assets/images/arrows_button_right__arrow_small.png";
@@ -67,10 +67,13 @@ const CircleDirectionIcon = ({
 };
 
 // 수정된 TrafficBar 컴포넌트
-const TrafficBar = ({ time, distance, status }: SectionProps) => {
-  const min = Math.floor(time / 60);
-  const seconds = time % 60;
-
+const TrafficBar = ({
+  time,
+  status,
+}: {
+  time: number;
+  status: "SMOOTH" | "SLOW" | "CONGESTED";
+}) => {
   return (
     <div className="h-full w-full flex items-center justify-center">
       <div className="relative h-[46px] w-3 bg-[#939396]">
@@ -94,9 +97,7 @@ const TrafficBar = ({ time, distance, status }: SectionProps) => {
                 ? "서행"
                 : "원활"}
             </span>
-            <span className="text-base text-[#77777a]">
-              약 {min}분 {seconds}초
-            </span>
+            <span className="text-base text-[#77777a]">약 {time}분</span>
           </div>
         </div>
       </div>
@@ -109,8 +110,8 @@ interface SectionProps {
   startPoint: string;
   endPoint: string;
   distance: number;
-  status: "SMOOTH" | "SLOW" | "CONGESTED";
-  time: number;
+  forward: Omit<SectionInfo, "start_name" & "end_name" & "distance">;
+  reverse: Omit<SectionInfo, "start_name" & "end_name" & "distance">;
   isLast?: boolean;
   onClick?: Function;
 }
@@ -121,27 +122,29 @@ const Section = (props: SectionProps) => {
     startPoint,
     endPoint,
     distance,
-    status,
     isLast = false,
     onClick,
+    forward,
+    reverse,
   } = props;
-
+  const { status: forwardStatus, travel_time: forwardTime } = forward;
+  const { status: reverseStatus, travel_time: reverseTime } = reverse;
   return (
     <div className="w-full">
       <div className="h-[30px] bg-white grid grid-cols-4 items-center">
         <div className="pl-4 text-[#777779] font-bold">{startPoint}</div>
         <div className="flex justify-center">
-          <CircleDirectionIcon status={status} direction="up" />
+          <CircleDirectionIcon status={forwardStatus} direction="up" />
         </div>
         <div className="flex justify-center">
-          <CircleDirectionIcon status={status} direction="down" />
+          <CircleDirectionIcon status={reverseStatus} direction="down" />
         </div>
         <div></div>
       </div>
 
       <div className="h-[46px] bg-gray-100 grid grid-cols-4 items-center">
         <div className="flex items-center pl-4 text-[#777779]">
-          <span>{distance / 1000}km</span>
+          <span>{distance}km</span>
           <img
             className="w-[5px] h-[8px] ml-2 cursor-pointer"
             onClick={() => {
@@ -154,10 +157,10 @@ const Section = (props: SectionProps) => {
           />
         </div>
         <div className="w-full h-full">
-          <TrafficBar {...props} />
+          <TrafficBar time={forwardTime} status={forwardStatus} />
         </div>
         <div className="w-full h-full">
-          <TrafficBar {...props} />
+          <TrafficBar time={reverseTime} status={reverseStatus} />
         </div>
         <div className="w-full h-full"></div>
       </div>
@@ -184,7 +187,49 @@ const TrafficDashboard = (props: {
 }) => {
   const { data, onClickDetail } = props;
   const { start_point, end_point, directions } = data;
-  const { forward, reverse } = directions;
+
+  function matchSections({ directions }: RouteInfo) {
+    const { forward, reverse } = directions;
+
+    // 매칭된 구간들을 저장할 배열
+    const matchedSections: any[] = [];
+
+    // 정방향 구간을 기준으로 순회
+    forward.sections.forEach((forwardSection) => {
+      // 역방향에서 매칭되는 구간 찾기
+      const reverseSection = reverse.sections.find((revSection) => {
+        // 시작점과 끝점이 반대로 매칭되는지 확인
+        return (
+          forwardSection.start_name === revSection.end_name &&
+          forwardSection.end_name === revSection.start_name
+        );
+      });
+
+      if (reverseSection) {
+        matchedSections.push({
+          start_name: forwardSection.start_name,
+          end_name: forwardSection.end_name,
+          distance: forwardSection.distance,
+          forward: {
+            section_id: forwardSection.section_id,
+            speed: forwardSection.speed,
+            status: forwardSection.status,
+            travel_time: forwardSection.travel_time,
+          },
+          reverse: {
+            section_id: reverseSection.section_id,
+            speed: reverseSection.speed,
+            status: reverseSection.status,
+            travel_time: reverseSection.travel_time,
+          },
+        });
+      }
+    });
+
+    return matchedSections;
+  }
+
+  const matchedSections = matchSections(data);
   return (
     <>
       <div className="w-screen min-w-[600px] mx-auto bg-gray-50 h-[600px] flex flex-col">
@@ -222,16 +267,16 @@ const TrafficDashboard = (props: {
 
         {/* 섹션 렌더링 */}
         <div className="flex-1 overflow-y-auto divide-y">
-          {forward.sections.map((item, index) => {
+          {matchedSections.map((item, index) => {
             return (
               <Section
                 key={index}
                 startPoint={item.start_name}
                 endPoint={item.end_name}
                 distance={item.distance}
-                status={item.status}
-                time={item.travel_time}
-                isLast={index === forward.sections.length - 1}
+                forward={item.forward}
+                reverse={item.reverse}
+                isLast={index === matchedSections.length - 1}
                 onClick={onClickDetail}
               />
             );

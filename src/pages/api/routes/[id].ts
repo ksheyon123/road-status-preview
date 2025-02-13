@@ -10,14 +10,16 @@ export default async function handler(
   res: NextApiResponse<ResponseData>
 ) {
   const id = req.query.id;
+  console.log(`${process.env.REMOTE_SERVER_API_URL}/api/v1/routes/${id}`);
   let data = routeInfo;
   const r = await fetch(
-    `${
-      process.env.REMOTE_SERVER_API_URL || "http://dany.com"
-    }/api/v1/routes/${id}`
+    `${process.env.REMOTE_SERVER_API_URL}/api/v1/routes/${id}`
   );
   if (r.status === 200) {
-    data = await r.json();
+    const data = await r.json();
+    res.status(200).json({ data });
+  } else {
+    throw new Error(r.statusText);
   }
 
   res.status(200).json({ data });

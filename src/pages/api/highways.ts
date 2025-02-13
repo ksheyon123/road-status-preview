@@ -9,13 +9,19 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<ResponseData>
 ) {
-  let data = highways;
-  const r = await fetch(
-    `${process.env.REMOTE_SERVER_API_URL || "http://dany.com"}/api/v1/highways`
-  );
-  if (r.status === 200) {
-    data = await r.json();
+  try {
+    console.log(`${process.env.REMOTE_SERVER_API_URL}/api/v1/highways`);
+    const r = await fetch(
+      `${process.env.REMOTE_SERVER_API_URL}/api/v1/highways`
+    );
+    if (r.status === 200) {
+      const data = await r.json();
+      res.status(200).json({ data });
+    } else {
+      throw new Error(r.statusText);
+    }
+  } catch (e: any) {
+    console.log(e);
+    res.status(500).json({ data: e });
   }
-
-  res.status(200).json({ data });
 }

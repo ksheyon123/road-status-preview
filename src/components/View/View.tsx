@@ -24,7 +24,7 @@ const DynamicMap = dynamic<{ width: string; height: string }>(
       .then((module) => (module as any).LeafletD3Map)
       .catch((err) => {
         console.error("Map loading failed:", err);
-        return () => <></>;
+        return false;
       }),
   {
     loading: () => <div>Loading map...</div>,
@@ -46,12 +46,14 @@ const View: React.FC = ({ data }: any) => {
 
   return (
     <>
-      <div className="pt-[56px]">
+      <div className="pt-[40px]">
         <DynamicHeader onBack={handleBack} />
         <DynamicTabs activeTab={activeTab} setActiveTab={setActiveTab} />
-        <div className="relative z-0 flex justify-center items-center w-screen h-[600px]  bg-[#e7e7e6]">
-          <DynamicMap width="600px" height="600px" />
-        </div>
+        {/* {!!DynamicMap && (
+          <div className="relative z-0 flex justify-center items-center w-screen h-[600px]  bg-[#e7e7e6]">
+            <DynamicMap width="600px" height="600px" />
+          </div>
+        )} */}
         <DynamicTrafficDashboard data={data} onClickDetail={onClickDetail} />
       </div>
     </>

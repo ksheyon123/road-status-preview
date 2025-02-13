@@ -1,8 +1,9 @@
 import React from "react";
+import { RouteInfo } from "@/types/index";
 import ic_direction_up from "@/assets/images/up.png";
 import ic_direction_down from "@/assets/images/down.png";
 import ic_right_arrow_small from "@/assets/images/arrows_button_right__arrow_small.png";
-import { RouteInfo, SectionInfo } from "@/types/index";
+import ic_right_arrow_direction from "@/assets/images/arrows_right__arrow_right_keyboard__Streamline_Core.png";
 
 // 상태에 따른 색상 반환 함수
 const getStatusColor = (status: string) => {
@@ -73,7 +74,7 @@ const TrafficBar = ({ time, distance, status }: SectionProps) => {
   return (
     <div className="h-full w-full flex items-center justify-center">
       <div className="relative h-[46px] w-3 bg-[#939396]">
-        <div className="relative h-[60px] top-[-6px] w-full">
+        <div className="relative h-[64px] top-[-8px] w-full">
           <div
             style={{
               height: "100%",
@@ -82,7 +83,7 @@ const TrafficBar = ({ time, distance, status }: SectionProps) => {
           />
 
           {/* 상태 및 시간 텍스트 */}
-          <div className="absolute top-[5px] left-0 w-[120px] flex flex-col pl-6">
+          <div className="absolute top-[16px] left-0 w-[120px] flex flex-col pl-6">
             <span
               className="text-base font-bold"
               style={{ color: getStatusColor(status) }}
@@ -90,7 +91,7 @@ const TrafficBar = ({ time, distance, status }: SectionProps) => {
               {status === "CONGESTED"
                 ? "정체"
                 : status === "SLOW"
-                ? "지체"
+                ? "서행"
                 : "원활"}
             </span>
             <span className="text-base text-[#77777a]">
@@ -128,7 +129,7 @@ const Section = (props: SectionProps) => {
   return (
     <div className="w-full">
       <div className="h-[30px] bg-white grid grid-cols-4 items-center">
-        <div className="pl-4 font-medium">{startPoint}</div>
+        <div className="pl-4 text-[#777779] font-bold">{startPoint}</div>
         <div className="flex justify-center">
           <CircleDirectionIcon status={status} direction="up" />
         </div>
@@ -139,7 +140,7 @@ const Section = (props: SectionProps) => {
       </div>
 
       <div className="h-[46px] bg-gray-100 grid grid-cols-4 items-center">
-        <div className="flex items-center pl-4 text-gray-600">
+        <div className="flex items-center pl-4 text-[#777779]">
           <span>{distance / 1000}km</span>
           <img
             className="w-[5px] h-[8px] ml-2 cursor-pointer"
@@ -188,21 +189,31 @@ const TrafficDashboard = (props: {
     <>
       <div className="w-screen min-w-[600px] mx-auto bg-gray-50 h-[600px] flex flex-col">
         {/* 헤더 */}
-        <div className="h-[35px] bg-white grid grid-cols-4 items-center border-b">
+        <div className="flex justify-center items-center h-[35px] bg-white">
+          <span className="text-[#737374] font-bold mr-3">{start_point}</span>
+          <img
+            width={10}
+            height={10}
+            src={ic_right_arrow_direction.src}
+            alt="right_arrow_direction"
+          />
+          <span className="text-[#737374] font-bold ml-3">{end_point}</span>
+        </div>
+        <div className="h-[35px] bg-[#F5F5F8] grid grid-cols-4 items-center border-b">
           <div className="pl-4"></div>
           <div className="flex items-center justify-center gap-2">
             <div className="relative">
               <DirectionIcon direction="down" />
-              <div className="absolute text-[14px] text-[#8F8F92] left-6 top-[-4px] w-20">
-                <span>{start_point} 방향</span>
+              <div className="absolute text-[12px] text-[#8F8F92] left-8 top-[-2px] w-20">
+                <span>부산 방향</span>
               </div>
             </div>
           </div>
           <div className="flex items-center justify-center gap-2">
             <div className="relative">
               <DirectionIcon direction="up" />
-              <div className="absolute text-[14px] text-[#8F8F92] left-6 top-[-4px] w-20">
-                <span>{end_point} 방향</span>
+              <div className="absolute text-[12px] text-[#8F8F92] left-8 top-[-2px] w-20">
+                <span>서울 방향</span>
               </div>
             </div>
           </div>

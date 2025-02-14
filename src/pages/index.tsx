@@ -32,32 +32,42 @@ export default function Home(props: any) {
 
 // This gets called on every request
 export async function getServerSideProps() {
-  let data = [];
-  const response = await fetch(
-    `${process.env.NEXT_PUBLIC_API_URL}/api/highways`,
-    {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
+  try {
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 30000); // 30초 타임아웃 설정
+
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/api/highways`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        signal: controller.signal,
+      }
+    );
+
+    clearTimeout(timeout);
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
     }
-  );
 
-  if (!response) {
-    return {
-      notFound: true,
-    };
-  }
-
-  if (response.status === STATUS_CODE.SUCCESS) {
     const { data: result } = await response.json();
     const { highways } = result;
-    data = highways;
+
+    return {
+      props: {
+        data: highways,
+      },
+    };
+  } catch (error) {
+    console.error("Failed to fetch data:", error);
+    return {
+      props: {
+        data: [],
+        error: "Failed to load data",
+      },
+    };
   }
-  // Pass data to the page via props
-  return {
-    props: {
-      data,
-    },
-  };
 }

@@ -1,19 +1,11 @@
 import { STATUS_CODE } from "@/constants";
-import dynamic from "next/dynamic";
-import {} from "@/types/index";
-
-const DynamicView = dynamic<{ data: any }>(
-  () => import("@/components/View/View"),
-  {
-    ssr: false, // 필요한 경우
-  }
-);
+import View from "@/components/View/View";
 
 export default function Home(props: any) {
   const { data } = props;
   return (
     <main>
-      <DynamicView data={data} />
+      <View data={data} />
     </main>
   );
 }
@@ -24,7 +16,13 @@ export async function getServerSideProps(props: any) {
   const { query } = props;
   const id = query.id || "";
   const response = await fetch(
-    `${process.env.NEXT_PUBLIC_API_URL}/api/routes/${id}`
+    `${process.env.NEXT_PUBLIC_API_URL}/api/routes/${id}`,
+    {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }
   );
 
   if (!response) {

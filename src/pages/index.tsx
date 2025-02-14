@@ -1,18 +1,8 @@
 import Link from "next/link";
-import dynamic from "next/dynamic";
-import { ListViewProps } from "@/components/ListView/ListView";
+import ListView from "@/components/ListView/ListView";
 import { STATUS_CODE } from "@/constants";
-import { RouteInfo } from "@/types/index";
 import ic_highway from "@/assets/images/highway.png";
 import ic_right_arrow from "@/assets/images/arrows_button_right__arrow_small.png";
-
-const ListView = dynamic<ListViewProps<RouteInfo>>(
-  () => import("@/components/ListView/ListView"),
-  {
-    ssr: false, // 필요한 경우
-    loading: () => <>Loading...</>,
-  }
-);
 
 export default function Home(props: any) {
   const { data } = props;
@@ -20,7 +10,7 @@ export default function Home(props: any) {
     <div>
       <ListView
         items={data}
-        renderItem={(item, idx) => {
+        renderItem={(item: any, idx) => {
           const { route_name, route_id } = item;
           return (
             <Link
@@ -44,7 +34,13 @@ export default function Home(props: any) {
 export async function getServerSideProps() {
   let data = [];
   const response = await fetch(
-    `${process.env.NEXT_PUBLIC_API_URL}/api/highways`
+    `${process.env.NEXT_PUBLIC_API_URL}/api/highways`,
+    {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }
   );
 
   if (!response) {

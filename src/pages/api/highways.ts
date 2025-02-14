@@ -1,8 +1,15 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { highways } from "@/constants/index";
+import fetch from "node-fetch";
+
 type ResponseData = {
   data?: any;
   message?: string;
+  error?: {
+    message: string;
+    code?: string;
+    name?: string;
+  };
 };
 
 export default async function handler(
@@ -11,8 +18,7 @@ export default async function handler(
 ) {
   try {
     console.log(`${process.env.REMOTE_SERVER_API_URL}/api/v1/highways`);
-    const controller = new AbortController();
-    const timeout = setTimeout(() => controller.abort(), 60000);
+
     const r = await fetch(
       `${process.env.REMOTE_SERVER_API_URL}/api/v1/highways`,
       {
@@ -20,10 +26,10 @@ export default async function handler(
         headers: {
           "Content-Type": "application/json",
         },
-        signal: controller.signal,
+        timeout: 60000,
       }
     );
-    clearTimeout(timeout);
+
     if (r.status === 200) {
       const data = await r.json();
       res.status(200).json({ data });
@@ -31,7 +37,18 @@ export default async function handler(
       throw new Error(r.statusText);
     }
   } catch (e: any) {
-    console.log(e);
-    res.status(500).json({ data: e });
+    console.error("Error details:", {
+      message: e.message,
+      code: e.code,
+      name: e.name,
+      stack: e.stack,
+    });
+    res.status(500).json({
+      error: {
+        message: e.message,
+        code: e.code,
+        name: e.name,
+      },
+    });
   }
 }

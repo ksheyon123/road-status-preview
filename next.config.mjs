@@ -3,6 +3,7 @@ import { NextFederationPlugin } from "@module-federation/nextjs-mf";
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
+  staticPageGenerationTimeout: 5000,
   webpack(config, options) {
     const { isServer } = options;
     config.plugins.push(

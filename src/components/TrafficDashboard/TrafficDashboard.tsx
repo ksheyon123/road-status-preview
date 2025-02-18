@@ -180,10 +180,10 @@ const Section = (props: SectionProps) => {
         <div className="h-[30px] bg-white grid grid-cols-4 items-center">
           <div className="pl-4 font-medium">{endPoint}</div>
           <div className="flex justify-center">
-            <CircleDirectionIcon status={status} direction="up" />
+            <CircleDirectionIcon status={forwardStatus} direction="up" />
           </div>
           <div className="flex justify-center">
-            <CircleDirectionIcon status={status} direction="down" />
+            <CircleDirectionIcon status={reverseStatus} direction="down" />
           </div>
           <div></div>
         </div>
@@ -197,8 +197,7 @@ const TrafficDashboard = (props: {
   onClickDetail: Function;
 }) => {
   const { data, onClickDetail } = props;
-  const { start_point, end_point, directions } = data;
-
+  const { start_point, end_point } = data;
   function matchSections({ directions }: RouteInfo) {
     const { forward, reverse } = directions;
 
@@ -241,35 +240,42 @@ const TrafficDashboard = (props: {
   }
 
   const matchedSections = matchSections(data);
+  console.log(matchedSections);
+  const detailStartPoint = matchedSections[0].start_name;
+  const detailEndPoint = matchedSections[matchedSections.length - 1].end_name;
   return (
     <>
       <div className="w-screen min-w-[600px] mx-auto bg-gray-50 h-[600px] flex flex-col">
         {/* 헤더 */}
         <div className="flex justify-center items-center h-[35px] bg-white">
-          <span className="text-[#737374] font-bold mr-3">{start_point}</span>
+          <span className="text-[#737374] font-bold mr-3">
+            {detailStartPoint}
+          </span>
           <img
             width={14}
             height={14}
             src={ic_both_side_arrow.src}
             alt="right_arrow_direction"
           />
-          <span className="text-[#737374] font-bold ml-3">{end_point}</span>
+          <span className="text-[#737374] font-bold ml-3">
+            {detailEndPoint}
+          </span>
         </div>
         <div className="h-[35px] bg-[#F5F5F8] grid grid-cols-4 items-center border-b">
           <div className="pl-4"></div>
           <div className="flex items-center justify-center gap-2">
             <div className="relative">
               <DirectionIcon direction="down" />
-              <div className="absolute text-[12px] text-[#8F8F92] left-8 top-[-2px] w-20">
-                <span>부산 방향</span>
+              <div className="absolute text-[12px] text-[#8F8F92] left-8 top-[-2px] w-32">
+                <span>{start_point} 방향</span>
               </div>
             </div>
           </div>
           <div className="flex items-center justify-center gap-2">
             <div className="relative">
               <DirectionIcon direction="up" />
-              <div className="absolute text-[12px] text-[#8F8F92] left-8 top-[-2px] w-20">
-                <span>서울 방향</span>
+              <div className="absolute text-[12px] text-[#8F8F92] left-8 top-[-2px] w-32">
+                <span>{end_point} 방향</span>
               </div>
             </div>
           </div>

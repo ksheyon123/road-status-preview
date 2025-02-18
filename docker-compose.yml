@@ -1,6 +1,8 @@
 version: "3"
 services:
   nextjs:
+    container_name: mlff_front
+    image: mlff__web__front:1.0 # 태그 추가
     build:
       context: .
       dockerfile: Dockerfile
@@ -8,4 +10,8 @@ services:
       - "3000:3000"
     environment:
       - NODE_ENV=development
+    env_file:
+      - .env
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     restart: always

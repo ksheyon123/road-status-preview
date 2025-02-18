@@ -2,6 +2,7 @@ import React from "react";
 import { RouteInfo, SectionInfo } from "@/types/index";
 import ic_direction_up from "@/assets/images/up.png";
 import ic_direction_down from "@/assets/images/down.png";
+import ic_both_side_arrow from "@/assets/images/arrows_expand_3__expand_smaller_.png";
 import ic_right_arrow_small from "@/assets/images/arrows_button_right__arrow_small.png";
 import ic_right_arrow_direction from "@/assets/images/arrows_right__arrow_right_keyboard__Streamline_Core.png";
 
@@ -74,6 +75,14 @@ const TrafficBar = ({
   time: number;
   status: "SMOOTH" | "SLOW" | "CONGESTED";
 }) => {
+  const convertTime = (time: number) => {
+    const min = Math.floor(time / 60);
+    const seconds = time % 60;
+    if (min === 0) {
+      return `1분 미만`;
+    }
+    return `약 ${min}분 ${seconds}초`;
+  };
   return (
     <div className="h-full w-full flex items-center justify-center">
       <div className="relative h-[46px] w-3 bg-[#939396]">
@@ -97,7 +106,9 @@ const TrafficBar = ({
                 ? "서행"
                 : "원활"}
             </span>
-            <span className="text-base text-[#77777a]">약 {time}분</span>
+            <span className="text-base text-[#77777a]">
+              {convertTime(time)}
+            </span>
           </div>
         </div>
       </div>
@@ -237,9 +248,9 @@ const TrafficDashboard = (props: {
         <div className="flex justify-center items-center h-[35px] bg-white">
           <span className="text-[#737374] font-bold mr-3">{start_point}</span>
           <img
-            width={10}
-            height={10}
-            src={ic_right_arrow_direction.src}
+            width={14}
+            height={14}
+            src={ic_both_side_arrow.src}
             alt="right_arrow_direction"
           />
           <span className="text-[#737374] font-bold ml-3">{end_point}</span>

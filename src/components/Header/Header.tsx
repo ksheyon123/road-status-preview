@@ -1,7 +1,4 @@
-import BackArrow from "@/assets/images/arrows_button_left__arrow.png";
-import Highway from "@/assets/images/highway.png";
-import Search from "@/assets/images/search__glass_search_magnifying__Streamline_Core.png";
-import Menu from "@/assets/images/setting_menu_1__button_parallel_horizontal_lines_menu_navigation_three_hamburger__Streamline_Core.png";
+import Image from "next/image";
 
 interface HeaderProps {
   onBack?: () => void;
@@ -15,13 +12,23 @@ const Header = ({ onBack, title = "경부고속도로", routeId }: HeaderProps) 
       <div className="flex items-center gap-4">
         {onBack && (
           <button onClick={onBack} className="p-2">
-            <img src={BackArrow.src} alt="뒤로가기" className="w-6 h-6" />
+            <Image
+              src="/src/assets/images/arrows_button_left__arrow.png"
+              alt="뒤로가기"
+              width={24}
+              height={24}
+            />
           </button>
         )}
         <div className="relative w-8 h-8">
-          <img className="w-full h-full" src={Highway.src} alt="고속도로" />
+          <Image
+            src="/src/assets/images/highway.png"
+            alt="고속도로"
+            width={32}
+            height={32}
+          />
           <div className="absolute flex justify-center items-center top-[1.8px] left-0 w-8 h-8 font-medium text-[#FFF]">
-            {routeId}
+            {routeId || ""}
           </div>
         </div>
       </div>
@@ -32,10 +39,20 @@ const Header = ({ onBack, title = "경부고속도로", routeId }: HeaderProps) 
 
       <div className="flex items-center gap-4">
         <button className="p-2">
-          <img src={Search.src} alt="검색" className="w-6 h-6" />
+          <Image
+            src="/src/assets/images/search__glass_search_magnifying__Streamline_Core.png"
+            alt="검색"
+            width={24}
+            height={24}
+          />
         </button>
         <button className="p-2">
-          <img src={Menu.src} alt="메뉴" className="w-6 h-6" />
+          <Image
+            src="/src/assets/images/setting_menu_1__button_parallel_horizontal_lines_menu_navigation_three_hamburger__Streamline_Core.png"
+            alt="메뉴"
+            width={24}
+            height={24}
+          />
         </button>
       </div>
     </header>

@@ -2,12 +2,15 @@ import { STATUS_CODE } from "@/constants";
 import View from "@/components/View/View";
 import { get } from "@/https";
 import { HighwayInfo, RouteInfo } from "@/types/index";
+import { ModalProvider } from "@/contexts/ModalContext";
 
 export default function Home(props: any) {
   const { data } = props;
   return (
     <main>
-      <View data={data} />
+      <ModalProvider>
+        <View data={data} />
+      </ModalProvider>
     </main>
   );
 }

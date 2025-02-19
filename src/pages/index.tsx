@@ -28,7 +28,7 @@ export default function Home(props: any) {
                     alt="route_img"
                   />
                   <div className="absolute w-[30px] h-[30px] flex justify-center items-center top-[2px] left-0">
-                    <div className="text-[10px] text-[#FFF]">
+                    <div className="text-[10px] font-bold text-[#FFF]">
                       {Number(route_id)}
                     </div>
                   </div>

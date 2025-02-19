@@ -8,7 +8,7 @@ const DynamicHeader = dynamic(() => import("@/components/Header/Header"), {
 });
 
 const DynamicTrafficDashboard = dynamic<{
-  data: RouteInfo;
+  data: RouteInfo & { from: string; to: string };
   onClickDetail: Function;
 }>(() => import("@/components/TrafficDashboard/TrafficDashboard"), {
   ssr: false, // 필요한 경우
@@ -18,7 +18,9 @@ const DynamicTabs = dynamic(() => import("@/components/Tabs/Tabs"), {
   ssr: false, // 필요한 경우
 });
 
-const View: React.FC<{ data: RouteInfo }> = ({ data }) => {
+const View: React.FC<{ data: RouteInfo & { from: string; to: string } }> = ({
+  data,
+}) => {
   const { route_name } = data;
   const router = useRouter();
   const [activeTab, setActiveTab] = useState("전체구간");

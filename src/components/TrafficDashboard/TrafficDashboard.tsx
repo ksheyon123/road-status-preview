@@ -193,11 +193,11 @@ const Section = (props: SectionProps) => {
 };
 
 const TrafficDashboard = (props: {
-  data: RouteInfo;
+  data: RouteInfo & { from: string; to: string };
   onClickDetail: Function;
 }) => {
   const { data, onClickDetail } = props;
-  const { start_point, end_point } = data;
+  const { start_point, end_point, from, to } = data;
   function matchSections({ directions }: RouteInfo) {
     const { forward, reverse } = directions;
 
@@ -240,26 +240,19 @@ const TrafficDashboard = (props: {
   }
 
   const matchedSections = matchSections(data);
-  console.log(matchedSections);
-  const detailStartPoint = matchedSections[0].start_name;
-  const detailEndPoint = matchedSections[matchedSections.length - 1].end_name;
   return (
     <>
       <div className="w-screen min-w-[600px] mx-auto bg-gray-50 h-[600px] flex flex-col">
         {/* 헤더 */}
         <div className="flex justify-center items-center h-[35px] bg-white">
-          <span className="text-[#737374] font-bold mr-3">
-            {detailStartPoint}
-          </span>
+          <span className="text-[#737374] font-bold mr-3">{start_point}</span>
           <img
             width={14}
             height={14}
             src={ic_both_side_arrow.src}
             alt="right_arrow_direction"
           />
-          <span className="text-[#737374] font-bold ml-3">
-            {detailEndPoint}
-          </span>
+          <span className="text-[#737374] font-bold ml-3">{end_point}</span>
         </div>
         <div className="h-[35px] bg-[#F5F5F8] grid grid-cols-4 items-center border-b">
           <div className="pl-4"></div>
@@ -267,7 +260,7 @@ const TrafficDashboard = (props: {
             <div className="relative">
               <DirectionIcon direction="down" />
               <div className="absolute text-[12px] text-[#8F8F92] left-8 top-[-2px] w-32">
-                <span>{start_point} 방향</span>
+                <span>{from} 방향</span>
               </div>
             </div>
           </div>
@@ -275,7 +268,7 @@ const TrafficDashboard = (props: {
             <div className="relative">
               <DirectionIcon direction="up" />
               <div className="absolute text-[12px] text-[#8F8F92] left-8 top-[-2px] w-32">
-                <span>{end_point} 방향</span>
+                <span>{to} 방향</span>
               </div>
             </div>
           </div>

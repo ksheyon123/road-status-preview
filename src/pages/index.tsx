@@ -3,6 +3,9 @@ import ListView from "@/components/ListView/ListView";
 import { STATUS_CODE } from "@/constants";
 import ic_highway from "@/assets/images/highway.png";
 import ic_right_arrow from "@/assets/images/arrows_button_right__arrow_small.png";
+import { get } from "@/https";
+import { HighwayInfo, RouteInfo } from "@/types/index";
+import { ApiError } from "@/types/https";
 
 export default function Home(props: any) {
   const { data } = props;
@@ -18,7 +21,18 @@ export default function Home(props: any) {
               className="flex items-center justify-between p-4 cursor-pointer"
             >
               <div className="flex items-center space-x-3">
-                <img src={ic_highway.src} alt="route_img" />
+                <div className="relative w-[30px] h-[30px]">
+                  <img
+                    className="w-full h-full"
+                    src={ic_highway.src}
+                    alt="route_img"
+                  />
+                  <div className="absolute w-[30px] h-[30px] flex justify-center items-center top-[2px] left-0">
+                    <div className="text-[10px] text-[#FFF]">
+                      {Number(route_id)}
+                    </div>
+                  </div>
+                </div>
                 <span className="text-lg">{route_name}</span>
               </div>
               <img src={ic_right_arrow.src} alt="right_arrow" />
@@ -33,29 +47,12 @@ export default function Home(props: any) {
 // This gets called on every request
 export async function getServerSideProps() {
   try {
-    const controller = new AbortController();
-    const timeout = setTimeout(() => controller.abort(), 30000); // 30초 타임아웃 설정
-
-    const response = await fetch(
+    const config = {};
+    const { data } = await get<HighwayInfo>(
       `${process.env.NEXT_PUBLIC_API_URL}/api/highways`,
-      {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        signal: controller.signal,
-      }
+      config
     );
-
-    clearTimeout(timeout);
-
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
-    }
-
-    const { data: result } = await response.json();
-    const { highways } = result;
-
+    const { highways } = data;
     return {
       props: {
         data: highways,

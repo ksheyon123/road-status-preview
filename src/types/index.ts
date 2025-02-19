@@ -1,9 +1,11 @@
 export type HighwayInfo = {
-  route_id: string;
-  route_name: string;
-  start_point: string;
-  end_point: string;
-  distance: number;
+  highways: {
+    route_id: string;
+    route_name: string;
+    start_point: string;
+    end_point: string;
+    distance: number;
+  }[];
 };
 
 export type RouteInfo = {

@@ -1,6 +1,6 @@
 import React, { ChangeEvent, KeyboardEvent } from "react";
 import BaseInput from "./BaseInput";
-import Image from "next/image";
+import searchIconSrc from "@/assets/images/search__glass_search_magnifying__Streamline_Core.png";
 
 interface SearchInputProps {
   value: string;
@@ -38,9 +38,9 @@ const SearchInput: React.FC<SearchInputProps> = ({
       style={{ width }}
     >
       <div className="absolute left-3">
-        <Image
+        <img
           data-testid="search-icon"
-          src="/src/assets/images/search__glass_search_magnifying__Streamline_Core.png"
+          src={searchIconSrc.src}
           alt="search icon"
           width={20}
           height={20}

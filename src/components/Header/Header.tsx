@@ -1,7 +1,7 @@
-import arrowLeft from "../../assets/images/arrows_button_left__arrow.png";
-import highway from "../../assets/images/highway.png";
-import search from "../../assets/images/search__glass_search_magnifying__Streamline_Core.png";
-import menu from "../../assets/images/setting_menu_1__button_parallel_horizontal_lines_menu_navigation_three_hamburger__Streamline_Core.png";
+import arrowLeft from "@/assets/images/arrows_button_left__arrow.png";
+import highway from "@/assets/images/highway.png";
+import search from "@/assets/images/search__glass_search_magnifying__Streamline_Core.png";
+import menu from "@/assets/images/setting_menu_1__button_parallel_horizontal_lines_menu_navigation_three_hamburger__Streamline_Core.png";
 
 interface HeaderProps {
   onBack?: () => void;

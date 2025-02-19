@@ -6,6 +6,7 @@
     "dev": "NEXT_PRIVATE_LOCAL_WEBPACK=true next dev",
     "build": "NEXT_PRIVATE_LOCAL_WEBPACK=true next build",
     "start": "next start",
+    "test": "jest",
     "lint": "next lint"
   },
   "dependencies": {
@@ -15,14 +16,26 @@
     "react-dom": "^18.3.1"
   },
   "devDependencies": {
+    "@babel/core": "^7.26.9",
+    "@babel/preset-env": "^7.26.9",
+    "@babel/preset-react": "^7.26.3",
+    "@babel/preset-typescript": "^7.26.0",
     "@module-federation/nextjs-mf": "^8.8.12",
+    "@testing-library/jest-dom": "^6.6.3",
+    "@testing-library/react": "^16.2.0",
+    "@testing-library/user-event": "^14.6.1",
+    "@types/jest": "^29.5.14",
     "@types/node": "^20",
     "@types/node-fetch": "^2.6.12",
     "@types/react": "^18.2.14",
     "@types/react-dom": "^18.2.14",
     "autoprefixer": "^10.4.20",
+    "babel-jest": "^29.7.0",
+    "jest": "^29.7.0",
+    "jest-environment-jsdom": "^29.7.0",
     "postcss": "^8",
     "tailwindcss": "^3.4.17",
+    "ts-jest": "^29.2.5",
     "typescript": "^5",
     "webpack": "^5.89.0"
   }

@@ -6,7 +6,7 @@ interface NavigationProps {
 }
 
 const Tabs: React.FC<NavigationProps> = ({ activeTab, setActiveTab }) => {
-  const tabs = ["전체구간", "구간상세", "사고.통제"];
+  const tabs = ["전체구간", "사고.통제"];
 
   return (
     <div className="w-full">

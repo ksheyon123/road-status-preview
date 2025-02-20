@@ -7,9 +7,15 @@ interface HeaderProps {
   onBack?: () => void;
   title?: string;
   routeId?: number;
+  openModal?: Function;
 }
 
-const Header = ({ onBack, title = "경부고속도로", routeId }: HeaderProps) => {
+const Header = ({
+  onBack,
+  title = "경부고속도로",
+  routeId,
+  openModal,
+}: HeaderProps) => {
   return (
     <header className="fixed z-10 top-0 left-0 right-0 h-16 bg-white border-b border-gray-200 flex items-center justify-between px-4 ">
       <div className="flex items-center gap-4">
@@ -31,7 +37,12 @@ const Header = ({ onBack, title = "경부고속도로", routeId }: HeaderProps) 
       </h1>
 
       <div className="flex items-center gap-4">
-        <button className="p-2">
+        <button
+          className="p-2"
+          onClick={() => {
+            if (!!openModal) openModal();
+          }}
+        >
           <img src={search.src} alt="검색" width={24} height={24} />
         </button>
         <button className="p-2">

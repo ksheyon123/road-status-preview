@@ -8,11 +8,12 @@ export interface BasicInputProps
   className?: string;
   label?: string;
   icon?: string;
+  iconClass?: string;
   error?: string;
   helperText?: string;
   helperIcon?: React.ReactNode;
-  width?: number;
-  height?: number;
+  width?: number | string;
+  height?: number | string;
 }
 
 const BasicInput: React.FC<BasicInputProps> = ({
@@ -21,6 +22,7 @@ const BasicInput: React.FC<BasicInputProps> = ({
   className = "",
   label,
   icon,
+  iconClass,
   error,
   helperText,
   helperIcon,
@@ -29,8 +31,8 @@ const BasicInput: React.FC<BasicInputProps> = ({
   ...props
 }) => {
   const containerStyle = {
-    width: `${width}px`,
-    minHeight: `${height}px`,
+    width: typeof width === "number" ? `${width}px` : width,
+    height: typeof height === "number" ? `${height}px` : height,
   };
 
   return (
@@ -43,35 +45,25 @@ const BasicInput: React.FC<BasicInputProps> = ({
       )}
 
       {/* Input Container */}
-      <div className="relative">
-        {/* Icon */}
-        {icon && (
-          <img
-            src={icon}
-            alt="input icon"
-            className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5"
-          />
-        )}
-
-        {/* BaseInput */}
-        <BaseInput
-          value={value}
-          onChange={onChange}
-          className={`
+      <div
+        className={`
             w-full
-            px-3
-            py-2
             border
-            rounded-md
             focus:outline-none
             focus:ring-2
             focus:ring-blue-500
+            flex w-full h-full items-center
             ${error ? "border-red-500" : "border-gray-300"}
-            ${icon ? "pl-10" : ""}
             ${className}
-          `}
-          {...props}
-        />
+            `}
+      >
+        {/* Icon */}
+        {icon && (
+          <img src={icon} alt="input icon" className={`w-5 h-5 ${iconClass}`} />
+        )}
+
+        {/* BaseInput */}
+        <BaseInput value={value} onChange={onChange} {...props} />
       </div>
 
       {/* Error Message */}

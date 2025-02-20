@@ -1,4 +1,3 @@
-import { STATUS_CODE } from "@/constants";
 import View from "@/components/View/View";
 import { get } from "@/https";
 import { HighwayInfo, RouteInfo } from "@/types/index";

@@ -37,7 +37,7 @@ describe("BasicInput", () => {
     expect(screen.getByAltText("input icon")).toHaveAttribute("src", icon);
   });
 
-  it("width와 height prop이 제공되면 해당 크기가 적용된다", () => {
+  it("width와 height prop이 number로 제공되면 px 단위가 적용된다", () => {
     const width = 300;
     const height = 80;
     render(<BasicInput {...defaultProps} width={width} height={height} />);
@@ -45,7 +45,19 @@ describe("BasicInput", () => {
       screen.getByTestId("base-input").parentElement?.parentElement;
     expect(container).toHaveStyle({
       width: `${width}px`,
-      minHeight: `${height}px`,
+      height: `${height}px`,
+    });
+  });
+
+  it("width와 height prop이 string으로 제공되면 해당 값이 그대로 적용된다", () => {
+    const width = "100%";
+    const height = "100vh";
+    render(<BasicInput {...defaultProps} width={width} height={height} />);
+    const container =
+      screen.getByTestId("base-input").parentElement?.parentElement;
+    expect(container).toHaveStyle({
+      width,
+      height: height,
     });
   });
 });

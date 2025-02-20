@@ -23,7 +23,7 @@ const BaseInput: React.FC<BaseInputProps> = ({
       onChange={onChange}
       disabled={disabled}
       placeholder={placeholder}
-      className={className}
+      className="w-full h-full bg-transparent outline-none border-none text-[14px]"
       {...props}
     />
   );

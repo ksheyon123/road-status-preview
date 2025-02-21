@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { useModalContext } from "@/contexts/ModalContext";
 import { useHighwayContext } from "@/contexts/HighwayContext";
 import SearchModal from "../Modal/SearchModal";
+import { getRoutes } from "@/https/apis";
 
 const DynamicHeader = dynamic(() => import("@/components/Header/Header"), {
   ssr: false, // 필요한 경우
@@ -20,32 +21,33 @@ const DynamicTabs = dynamic(() => import("@/components/Tabs/Tabs"), {
   ssr: false, // 필요한 경우
 });
 
-const Container: React.FC<{ data: RouteInfo }> = ({ data }) => {
+const Container: React.FC = () => {
   const { openComponent } = useModalContext();
-  const { highways, curHighway } = useHighwayContext();
+  const { curHighway } = useHighwayContext();
+
   const [activeTab, setActiveTab] = useState("전체구간");
   const [viewData, setViewData] = useState<
     RouteInfo & { from: string; to: string }
-  >({
-    ...data,
-    from: "",
-    to: "",
-  });
+  >();
 
-  const { route_name, route_id } = curHighway!;
+  const { route_name, route_id, start_point, end_point } = curHighway!;
 
-  useEffect(() => {
-    if (highways.length > 0) {
-      const [filtered] = highways.filter(
-        (el: HighwayInfo["highways"][0]) => el.route_id === route_id
-      );
+  const updateRoute = async () => {
+    try {
+      const { data } = await getRoutes(route_id);
       setViewData({
         ...data,
-        from: filtered.start_point,
-        to: filtered.end_point,
+        from: start_point,
+        to: end_point,
       });
+    } catch (e) {
+      throw e;
     }
-  }, [highways, data, route_id]);
+  };
+
+  useEffect(() => {
+    updateRoute();
+  }, [route_id]);
 
   const onClickDetail = async () => {
     setActiveTab("구간상세");
@@ -64,10 +66,12 @@ const Container: React.FC<{ data: RouteInfo }> = ({ data }) => {
           openModal={openModal}
         />
         <DynamicTabs activeTab={activeTab} setActiveTab={setActiveTab} />
-        <DynamicTrafficDashboard
-          data={viewData}
-          onClickDetail={onClickDetail}
-        />
+        {viewData && (
+          <DynamicTrafficDashboard
+            data={viewData}
+            onClickDetail={onClickDetail}
+          />
+        )}
       </div>
     </>
   );

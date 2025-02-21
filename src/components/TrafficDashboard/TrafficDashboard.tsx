@@ -5,6 +5,7 @@ import ic_direction_down from "@/assets/images/down.png";
 import ic_both_side_arrow from "@/assets/images/arrows_expand_3__expand_smaller_.png";
 import ic_right_arrow_small from "@/assets/images/arrows_button_right__arrow_small.png";
 import ic_right_arrow_direction from "@/assets/images/arrows_right__arrow_right_keyboard__Streamline_Core.png";
+import ic_warning_sign from "@/assets/images/warning-sign.png";
 
 // 상태에 따른 색상 반환 함수
 const getStatusColor = (status: string) => {
@@ -45,7 +46,7 @@ const CircleDirectionIcon = ({
       xmlns="http://www.w3.org/2000/svg"
       fill="none"
       viewBox="0 0 22 22"
-      className="w-6 h-6"
+      className="w-4 h-4"
       aria-hidden="true"
       style={{ position: "relative", zIndex: 20 }}
     >
@@ -85,7 +86,8 @@ const TrafficBar = ({
   };
   return (
     <div className="h-full w-full flex items-center justify-center">
-      <div className="relative h-[46px] w-3 bg-[#939396]">
+      {/* 상태 및 시간 막대 */}
+      <div className="relative h-[46px] w-2 bg-[#939396]">
         <div className="relative h-[64px] top-[-8px] w-full">
           <div
             style={{
@@ -94,10 +96,19 @@ const TrafficBar = ({
             }}
           />
 
+          {/* 경고 아이콘 */}
+          <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-10 w-4 h-4">
+            <img
+              src={ic_warning_sign.src}
+              alt="warning"
+              className="w-full h-full"
+            />
+          </div>
+
           {/* 상태 및 시간 텍스트 */}
           <div className="absolute top-[16px] left-0 w-[120px] flex flex-col pl-6">
             <span
-              className="text-base font-bold"
+              className="text-xs font-bold"
               style={{ color: getStatusColor(status) }}
             >
               {status === "CONGESTED"
@@ -106,9 +117,7 @@ const TrafficBar = ({
                 ? "서행"
                 : "원활"}
             </span>
-            <span className="text-base text-[#77777a]">
-              {convertTime(time)}
-            </span>
+            <span className="text-xs text-[#77777a]">{convertTime(time)}</span>
           </div>
         </div>
       </div>
@@ -142,8 +151,10 @@ const Section = (props: SectionProps) => {
   const { status: reverseStatus, travel_time: reverseTime } = reverse;
   return (
     <div className="w-full">
-      <div className="h-[30px] bg-white grid grid-cols-4 items-center">
-        <div className="pl-4 text-[#777779] font-bold">{startPoint}</div>
+      <div className="h-8 bg-white grid grid-cols-4 items-center">
+        <div className="pl-4 text-[#777779] font-bold text-[10px]">
+          {startPoint}
+        </div>
         <div className="flex justify-center">
           <CircleDirectionIcon status={forwardStatus} direction="up" />
         </div>
@@ -154,7 +165,7 @@ const Section = (props: SectionProps) => {
       </div>
 
       <div className="h-[46px] bg-gray-100 grid grid-cols-4 items-center">
-        <div className="flex items-center pl-4 text-[#777779]">
+        <div className="flex items-center pl-4 text-[#777779] text-[10px]">
           <span>{distance}km</span>
           <img
             className="w-[5px] h-[8px] ml-2 cursor-pointer"
@@ -177,8 +188,10 @@ const Section = (props: SectionProps) => {
       </div>
 
       {isLast && (
-        <div className="h-[30px] bg-white grid grid-cols-4 items-center">
-          <div className="pl-4 font-medium">{endPoint}</div>
+        <div className="h-8 bg-white grid grid-cols-4 items-center">
+          <div className="pl-4 text-[10px] text-[#777779] font-bold">
+            {endPoint}
+          </div>
           <div className="flex justify-center">
             <CircleDirectionIcon status={forwardStatus} direction="up" />
           </div>
@@ -242,19 +255,8 @@ const TrafficDashboard = (props: {
   const matchedSections = matchSections(data);
   return (
     <>
-      <div className="w-screen min-w-[600px] mx-auto bg-gray-50 h-[600px] flex flex-col">
-        {/* 헤더 */}
-        <div className="flex justify-center items-center h-[35px] bg-white">
-          <span className="text-[#737374] font-bold mr-3">{start_point}</span>
-          <img
-            width={14}
-            height={14}
-            src={ic_both_side_arrow.src}
-            alt="right_arrow_direction"
-          />
-          <span className="text-[#737374] font-bold ml-3">{end_point}</span>
-        </div>
-        <div className="h-[35px] bg-[#F5F5F8] grid grid-cols-4 items-center border-b">
+      <div className="flex flex-col w-screen min-w-[600px] mx-auto bg-gray-50">
+        <div className="h-[30px] bg-[#F5F5F8] grid grid-cols-4 items-center border-b">
           <div className="pl-4"></div>
           <div className="flex items-center justify-center gap-2">
             <div className="relative">
@@ -272,7 +274,6 @@ const TrafficDashboard = (props: {
               </div>
             </div>
           </div>
-          <div></div>
         </div>
 
         {/* 섹션 렌더링 */}

@@ -3,7 +3,8 @@ import BasicInput from "@/components/Input/BasicInput";
 import List from "@/components/List/List";
 import Button from "@/components/Button/Button";
 import Image from "next/image";
-import ArrowLeft from "@/assets/images/arrows_button_left__arrow.png";
+import ArrowLeftIcon from "@/assets/images/arrows_button_left__arrow.png";
+import SearchIcon from "@/assets/images/search__glass_search_magnifying__Streamline_Core.png";
 import Highway from "@/assets/images/highway.png";
 import { useModalContext } from "@/contexts/ModalContext";
 import { HighwayInfo } from "@/types/index";
@@ -50,25 +51,31 @@ const SearchModal: React.FC<IProps> = () => {
 
   return (
     <div className="w-screen h-screen bg-white">
-      <div className="h-[62px] flex items-center pt-[12px] pr-[0px] pb-[6px] pl-[12px]">
+      <div className="h-10 flex items-center py-2 px-4 border-b border-[#EEE]">
+        <div
+          className="mr-2 w-4 h-4 cursor-pointer"
+          onClick={() => closeModal()}
+        >
+          <Image width={16} height={16} src={ArrowLeftIcon.src} alt="back" />
+        </div>
         <BasicInput
           value={searchText}
           width="100%"
           height="100%"
-          iconClass="mx-[10px] w-[24px] h-[24px]"
+          iconClass="mx-[10px] w-[24px] h-[24px] "
           onChange={handleSearch}
-          placeholder="고속도로"
-          className="w-full h-full bg-[#F5F5F5] rounded-[22px] border-none placeholder-[14px]"
-          icon={ArrowLeft.src}
+          placeholder="고속도로 검색"
+          className="w-full h-full bg-[#F5F5F5] rounded-sm border-none placeholder-[14px] py-1 px-2"
         />
-        <Button
-          variant="text"
-          onClick={closeModal}
-          hover={false}
-          className="w-[44px] text-gray-900 text-xl px-0"
-        >
-          취소
-        </Button>
+        <div className="ml-2 w-4 h-4 cursor-pointer">
+          <Image
+            className=""
+            width={16}
+            height={16}
+            src={SearchIcon.src}
+            alt="search"
+          />
+        </div>
       </div>
       <List
         className="h-[calc(100vh-62px)] overflow-auto"

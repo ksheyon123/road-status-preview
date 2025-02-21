@@ -1,5 +1,4 @@
 import Container from "@/components/Container/Container";
-import { getRoutes } from "@/https/apis";
 
 export default function Page() {
   return (

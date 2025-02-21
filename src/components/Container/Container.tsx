@@ -5,6 +5,7 @@ import { useModalContext } from "@/contexts/ModalContext";
 import { useHighwayContext } from "@/contexts/HighwayContext";
 import SearchModal from "../Modal/SearchModal";
 import { getRoutes } from "@/https/apis";
+import DirectionTabs from "../DirectionTabs/DirectionTabs";
 
 const DynamicHeader = dynamic(() => import("@/components/Header/Header"), {
   ssr: false, // 필요한 경우
@@ -49,10 +50,6 @@ const Container: React.FC = () => {
     updateRoute();
   }, [route_id]);
 
-  const onClickDetail = async () => {
-    setActiveTab("구간상세");
-  };
-
   const openModal = () => {
     openComponent(SearchModal);
   };
@@ -66,12 +63,10 @@ const Container: React.FC = () => {
           openModal={openModal}
         />
         <DynamicTabs activeTab={activeTab} setActiveTab={setActiveTab} />
-        {viewData && (
-          <DynamicTrafficDashboard
-            data={viewData}
-            onClickDetail={onClickDetail}
-          />
+        {activeTab === "전체구간" && viewData && (
+          <DynamicTrafficDashboard data={viewData} onClickDetail={() => {}} />
         )}
+        {activeTab === "사고.통제" && <DirectionTabs />}
       </div>
     </>
   );

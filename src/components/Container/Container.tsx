@@ -6,6 +6,7 @@ import { useHighwayContext } from "@/contexts/HighwayContext";
 import SearchModal from "../Modal/SearchModal";
 import { getRoutes } from "@/https/apis";
 import DirectionTabs from "../DirectionTabs/DirectionTabs";
+import AlertModalHeader from "../Modal/AlertModalHeader";
 
 const DynamicHeader = dynamic(() => import("@/components/Header/Header"), {
   ssr: false, // 필요한 경우
@@ -14,6 +15,7 @@ const DynamicHeader = dynamic(() => import("@/components/Header/Header"), {
 const DynamicTrafficDashboard = dynamic<{
   data: RouteInfo & { from: string; to: string };
   onClickDetail: Function;
+  openModal: Function;
 }>(() => import("@/components/TrafficDashboard/TrafficDashboard"), {
   ssr: false, // 필요한 경우
 });
@@ -23,7 +25,7 @@ const DynamicTabs = dynamic(() => import("@/components/Tabs/Tabs"), {
 });
 
 const Container: React.FC = () => {
-  const { openComponent } = useModalContext();
+  const { openModal } = useModalContext();
   const { curHighway } = useHighwayContext();
 
   const [activeTab, setActiveTab] = useState("전체구간");
@@ -50,8 +52,14 @@ const Container: React.FC = () => {
     updateRoute();
   }, [route_id]);
 
-  const openModal = () => {
-    openComponent(SearchModal);
+  const openSearchModal = () => {
+    openModal(<SearchModal />);
+  };
+
+  const openAlertModal = () => {
+    openModal(<div>AAAAAA</div>, <AlertModalHeader />, {
+      useHeader: true,
+    });
   };
 
   return (
@@ -60,11 +68,15 @@ const Container: React.FC = () => {
         <DynamicHeader
           title={`${route_name}고속도로`}
           routeId={Number(route_id)}
-          openModal={openModal}
+          openModal={openSearchModal}
         />
         <DynamicTabs activeTab={activeTab} setActiveTab={setActiveTab} />
         {activeTab === "전체구간" && viewData && (
-          <DynamicTrafficDashboard data={viewData} onClickDetail={() => {}} />
+          <DynamicTrafficDashboard
+            data={viewData}
+            onClickDetail={() => {}}
+            openModal={openAlertModal}
+          />
         )}
         {activeTab === "사고.통제" && <DirectionTabs />}
       </div>

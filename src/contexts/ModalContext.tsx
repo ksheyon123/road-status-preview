@@ -1,17 +1,13 @@
 import React, { createContext, useContext, ReactNode } from "react";
-import { useModal, type ModalOptions } from "../hooks/useModal";
+import { useModal, type ModalOptions } from "@/hooks/useModal";
 
 interface ModalContextType {
   isOpen: boolean;
   content: ReactNode | null;
+  header: ReactNode | null;
   options: ModalOptions;
   openModal: ReturnType<typeof useModal>["openModal"];
-  openComponent: ReturnType<typeof useModal>["openComponent"];
-  openComponentWithOptions: ReturnType<
-    typeof useModal
-  >["openComponentWithOptions"];
   closeModal: ReturnType<typeof useModal>["closeModal"];
-  customModal: ReturnType<typeof useModal>["customModal"];
 }
 
 const ModalContext = createContext<ModalContextType | undefined>(undefined);
@@ -28,6 +24,7 @@ export const ModalProvider: React.FC<ModalProviderProps> = ({ children }) => {
       {children}
       {modal.isOpen && modal.content && (
         <div className="fixed inset-0 z-50 flex items-center justify-center">
+          {/* 배경 영역 */}
           {modal.options.useDefaultBackdrop ? (
             <div
               className="fixed inset-0 bg-black bg-opacity-50"
@@ -39,15 +36,24 @@ export const ModalProvider: React.FC<ModalProviderProps> = ({ children }) => {
               <div {...modal.options.backdropProps} />
             )
           )}
+          {/* 컨텐츠 영역 */}
           {modal.options.useDefaultContainer ? (
             <div
-              className="relative z-50 bg-white rounded-lg shadow-lg"
+              className="relative z-50 bg-white rounded-lg shadow-lg "
               {...modal.options.containerProps}
             >
+              {modal.options.useHeader && (
+                <div {...modal.options.headerProps}>{modal.header}</div>
+              )}
               {modal.content}
             </div>
           ) : modal.options.containerProps ? (
-            <div {...modal.options.containerProps}>{modal.content}</div>
+            <div {...modal.options.containerProps}>
+              {modal.options.useHeader && (
+                <div {...modal.options.headerProps}>{modal.header}</div>
+              )}
+              {modal.content}
+            </div>
           ) : (
             modal.content
           )}

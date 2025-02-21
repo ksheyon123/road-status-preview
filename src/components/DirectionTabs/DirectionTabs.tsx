@@ -1,8 +1,11 @@
 import React, { useState } from "react";
 import AlertCircleIcon from "@/assets/images/info.png";
 import Image from "next/image";
+import { useHighwayContext } from "@/contexts/HighwayContext";
+import { highways } from "@/constants";
 
 const DirectionTabs = () => {
+  const { curHighway } = useHighwayContext();
   const [activeTab, setActiveTab] = useState("down");
 
   const travelData = [
@@ -53,31 +56,36 @@ const DirectionTabs = () => {
       <p>사고 • 통제 정보가 없습니다.</p>
     </div>
   );
-
+  const s = curHighway?.start_point;
+  const e = curHighway?.end_point;
   return (
     <div className="w-full px-[10px] pt-2 ">
       <div className="w-full h-10 py-2">
-        <div className="flex w-full h-full">
+        <div className="flex w-full h-full text-[10px]">
           <div
-            className={`flex-1 text-white rounded-sm ${
-              activeTab === "up" ? "bg-[#F5F5F8]" : "bg-[#444447]"
+            className={`flex-1 text-center pt-1 rounded-sm ${
+              activeTab === "up"
+                ? "bg-[#F5F5F8] text-[#000]"
+                : "bg-[#444447] text-white"
             }`}
             onClick={() => setActiveTab("down")}
           >
-            부산 방향
+            {s} 방향
           </div>
           <div
-            className={`flex-1 text-white rounded-sm ${
-              activeTab === "down" ? "bg-[#F5F5F8]" : "bg-[#444447]"
+            className={`flex-1 text-center pt-1 rounded-sm ${
+              activeTab === "down"
+                ? "bg-[#F5F5F8] text-[#000]"
+                : "bg-[#444447] text-white"
             }`}
             onClick={() => setActiveTab("up")}
           >
-            서울 방향
+            {e} 방향
           </div>
         </div>
       </div>
       <div className="w-full border border-gray-200">
-        {travelData.length > 0 ? (
+        {activeTab === "up" && travelData.length > 0 ? (
           travelData.map((item, index) => (
             <TravelItem key={index} data={item} />
           ))

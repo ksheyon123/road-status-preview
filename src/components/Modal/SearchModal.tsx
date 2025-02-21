@@ -60,9 +60,8 @@ const SearchModal: React.FC<IProps> = () => {
         </div>
         <BasicInput
           value={searchText}
-          width="100%"
+          width="calc(100vw - 80px)"
           height="100%"
-          iconClass="mx-[10px] w-[24px] h-[24px] "
           onChange={handleSearch}
           placeholder="고속도로 검색"
           className="w-full h-full bg-[#F5F5F5] rounded-sm border-none placeholder-[14px] py-1 px-2"

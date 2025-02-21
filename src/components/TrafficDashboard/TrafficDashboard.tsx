@@ -72,9 +72,11 @@ const CircleDirectionIcon = ({
 const TrafficBar = ({
   time,
   status,
+  openModal,
 }: {
   time: number;
   status: "SMOOTH" | "SLOW" | "CONGESTED";
+  openModal?: Function;
 }) => {
   const convertTime = (time: number) => {
     const min = Math.floor(time / 60);
@@ -97,11 +99,16 @@ const TrafficBar = ({
           />
 
           {/* 경고 아이콘 */}
-          <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-10 w-4 h-4">
+          <div
+            className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-10 w-4 h-4 "
+            onClick={() => {
+              if (!!openModal) openModal();
+            }}
+          >
             <img
               src={ic_warning_sign.src}
               alt="warning"
-              className="w-full h-full"
+              className="w-full h-full cursor-pointer"
             />
           </div>
 
@@ -134,6 +141,7 @@ interface SectionProps {
   reverse: Omit<SectionInfo, "start_name" & "end_name" & "distance">;
   isLast?: boolean;
   onClick?: Function;
+  openModal?: Function;
 }
 
 // 수정된 Section 컴포넌트
@@ -146,6 +154,7 @@ const Section = (props: SectionProps) => {
     onClick,
     forward,
     reverse,
+    openModal,
   } = props;
   const { status: forwardStatus, travel_time: forwardTime } = forward;
   const { status: reverseStatus, travel_time: reverseTime } = reverse;
@@ -179,10 +188,18 @@ const Section = (props: SectionProps) => {
           />
         </div>
         <div className="w-full h-full">
-          <TrafficBar time={forwardTime} status={forwardStatus} />
+          <TrafficBar
+            time={forwardTime}
+            status={forwardStatus}
+            openModal={openModal}
+          />
         </div>
         <div className="w-full h-full">
-          <TrafficBar time={reverseTime} status={reverseStatus} />
+          <TrafficBar
+            time={reverseTime}
+            status={reverseStatus}
+            openModal={openModal}
+          />
         </div>
         <div className="w-full h-full"></div>
       </div>
@@ -208,9 +225,10 @@ const Section = (props: SectionProps) => {
 const TrafficDashboard = (props: {
   data: RouteInfo & { from: string; to: string };
   onClickDetail: Function;
+  openModal?: Function;
 }) => {
-  const { data, onClickDetail } = props;
-  const { start_point, end_point, from, to } = data;
+  const { data, onClickDetail, openModal } = props;
+  const { from, to } = data;
   function matchSections({ directions }: RouteInfo) {
     const { forward, reverse } = directions;
 
@@ -289,6 +307,7 @@ const TrafficDashboard = (props: {
                 reverse={item.reverse}
                 isLast={index === matchedSections.length - 1}
                 onClick={onClickDetail}
+                openModal={openModal}
               />
             );
           })}

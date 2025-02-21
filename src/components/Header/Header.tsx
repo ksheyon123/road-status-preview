@@ -36,7 +36,6 @@ const Header = ({
 
       <div className="flex items-center gap-4">
         <button
-          className="p-2"
           onClick={() => {
             if (!!openModal) openModal();
           }}

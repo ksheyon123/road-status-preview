@@ -10,7 +10,9 @@ const List = <T,>({ items, children, className = "" }: ListProps<T>) => {
   return (
     <div className={`w-full list-none ${className}`}>
       {items.map((item, index) => (
-        <>{children(item, index)}</>
+        <div className="w-full" key={index}>
+          {children(item, index)}
+        </div>
       ))}
     </div>
   );

@@ -1,13 +1,14 @@
-import React, { useState, ChangeEvent, useEffect, useContext } from "react";
-import BasicInput from "../Input/BasicInput";
-import List from "../List/List";
-import Button from "../Button/Button";
+import React, { useState, ChangeEvent, useEffect } from "react";
+import BasicInput from "@/components/Input/BasicInput";
+import List from "@/components/List/List";
+import Button from "@/components/Button/Button";
 import Image from "next/image";
-import ArrowLeft from "../../assets/images/arrows_button_left__arrow.png";
-import Highway from "../../assets/images/highway.png";
+import ArrowLeft from "@/assets/images/arrows_button_left__arrow.png";
+import Highway from "@/assets/images/highway.png";
 import { useModalContext } from "@/contexts/ModalContext";
 import { HighwayInfo } from "@/types/index";
 import { get } from "@/https";
+import { useHighwayContext } from "@/contexts/HighwayContext";
 
 interface Highway {
   id: string;
@@ -21,7 +22,7 @@ const SearchModal: React.FC<IProps> = () => {
   const [highways, setHighways] = useState<HighwayInfo["highways"]>([]);
   const [filtered, setFiltered] = useState<HighwayInfo["highways"]>([]);
   const { closeModal } = useModalContext();
-
+  const { updateHighway } = useHighwayContext();
   useEffect(() => {
     const fetchHighways = async () => {
       try {
@@ -49,7 +50,7 @@ const SearchModal: React.FC<IProps> = () => {
 
   return (
     <div className="w-screen h-screen bg-white">
-      <div className="h-[62px] flex items-center pt-[12px] pr-[0px] pb-[6px] pl-[12px] gap-2">
+      <div className="h-[62px] flex items-center pt-[12px] pr-[0px] pb-[6px] pl-[12px]">
         <BasicInput
           value={searchText}
           width="100%"
@@ -64,7 +65,7 @@ const SearchModal: React.FC<IProps> = () => {
           variant="text"
           onClick={closeModal}
           hover={false}
-          className="w-[44px] text-gray-900 text-xl w-full h-full px-0"
+          className="w-[44px] text-gray-900 text-xl px-0"
         >
           취소
         </Button>
@@ -76,6 +77,10 @@ const SearchModal: React.FC<IProps> = () => {
           <div
             key={index}
             className="flex py-[2px] pl-[16px] pr-[8px] items-center cursor-pointer h-[40px]"
+            onClick={() => {
+              updateHighway(item);
+              closeModal();
+            }}
           >
             <Image
               width={20}

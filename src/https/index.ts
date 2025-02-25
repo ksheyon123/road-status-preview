@@ -5,7 +5,7 @@ import {
   RequestConfig,
 } from "@/types/https";
 
-const DEFAULT_TIMEOUT = 10000; // 10초
+const DEFAULT_TIMEOUT = 5000; // 10초
 const DEFAULT_HEADERS = {
   "Content-Type": "application/json",
 };

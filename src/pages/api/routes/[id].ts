@@ -1,6 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { get } from "@/https";
 import { RouteInfo } from "@/types/index";
+import { routeInfo } from "@/constants";
 
 export default async function handler(
   req: NextApiRequest,

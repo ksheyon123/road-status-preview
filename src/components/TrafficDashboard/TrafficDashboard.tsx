@@ -2,9 +2,7 @@ import React from "react";
 import { RouteInfo, SectionInfo } from "@/types/index";
 import ic_direction_up from "@/assets/images/up.png";
 import ic_direction_down from "@/assets/images/down.png";
-import ic_both_side_arrow from "@/assets/images/arrows_expand_3__expand_smaller_.png";
 import ic_right_arrow_small from "@/assets/images/arrows_button_right__arrow_small.png";
-import ic_right_arrow_direction from "@/assets/images/arrows_right__arrow_right_keyboard__Streamline_Core.png";
 import ic_warning_sign from "@/assets/images/warning-sign.png";
 
 // 상태에 따른 색상 반환 함수
@@ -48,7 +46,6 @@ const CircleDirectionIcon = ({
       viewBox="0 0 22 22"
       className="w-4 h-4"
       aria-hidden="true"
-      style={{ position: "relative", zIndex: 20 }}
     >
       <circle
         cx="11"
@@ -72,10 +69,14 @@ const CircleDirectionIcon = ({
 const TrafficBar = ({
   time,
   status,
+  sectionId,
+  hasAccident,
   openModal,
 }: {
   time: number;
   status: "SMOOTH" | "SLOW" | "CONGESTED";
+  sectionId: string;
+  hasAccident?: boolean;
   openModal?: Function;
 }) => {
   const convertTime = (time: number) => {
@@ -99,18 +100,20 @@ const TrafficBar = ({
           />
 
           {/* 경고 아이콘 */}
-          <div
-            className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-10 w-4 h-4 "
-            onClick={() => {
-              if (!!openModal) openModal();
-            }}
-          >
-            <img
-              src={ic_warning_sign.src}
-              alt="warning"
-              className="w-full h-full cursor-pointer"
-            />
-          </div>
+          {hasAccident && (
+            <div
+              className="absolute z-5 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-4 h-4 "
+              onClick={() => {
+                if (!!openModal) openModal(sectionId);
+              }}
+            >
+              <img
+                src={ic_warning_sign.src}
+                alt="warning"
+                className="w-full h-full cursor-pointer"
+              />
+            </div>
+          )}
 
           {/* 상태 및 시간 텍스트 */}
           <div className="absolute top-[16px] left-0 w-[120px] flex flex-col pl-6">
@@ -156,8 +159,18 @@ const Section = (props: SectionProps) => {
     reverse,
     openModal,
   } = props;
-  const { status: forwardStatus, travel_time: forwardTime } = forward;
-  const { status: reverseStatus, travel_time: reverseTime } = reverse;
+  const {
+    status: forwardStatus,
+    travel_time: forwardTime,
+    section_id: forwardSectionId,
+    hasAccident: forwardHasAccident,
+  } = forward;
+  const {
+    status: reverseStatus,
+    travel_time: reverseTime,
+    section_id: reverseSectionId,
+    hasAccident: reverseHasAccident,
+  } = reverse;
   return (
     <div className="w-full">
       <div className="h-8 bg-white grid grid-cols-4 items-center">
@@ -191,6 +204,8 @@ const Section = (props: SectionProps) => {
           <TrafficBar
             time={forwardTime}
             status={forwardStatus}
+            sectionId={forwardSectionId}
+            hasAccident={forwardHasAccident}
             openModal={openModal}
           />
         </div>
@@ -198,6 +213,8 @@ const Section = (props: SectionProps) => {
           <TrafficBar
             time={reverseTime}
             status={reverseStatus}
+            sectionId={reverseSectionId}
+            hasAccident={reverseHasAccident}
             openModal={openModal}
           />
         </div>
@@ -253,12 +270,16 @@ const TrafficDashboard = (props: {
           distance: forwardSection.distance,
           forward: {
             section_id: forwardSection.section_id,
+            conzone_id: forwardSection.section_id,
+            hasAccident: forwardSection.hasAccident,
             speed: forwardSection.speed,
             status: forwardSection.status,
             travel_time: forwardSection.travel_time,
           },
           reverse: {
             section_id: reverseSection.section_id,
+            conzone_id: reverseSection.section_id,
+            hasAccident: reverseSection.hasAccident,
             speed: reverseSection.speed,
             status: reverseSection.status,
             travel_time: reverseSection.travel_time,
@@ -311,31 +332,6 @@ const TrafficDashboard = (props: {
               />
             );
           })}
-        </div>
-
-        {/* 범례 */}
-        <div className="flex gap-4 p-4 bg-white border-t">
-          <div className="flex items-center gap-2">
-            <div
-              className="w-12 h-1"
-              style={{ backgroundColor: "#03bd41" }}
-            ></div>
-            <span>원활</span>
-          </div>
-          <div className="flex items-center gap-2">
-            <div
-              className="w-12 h-1"
-              style={{ backgroundColor: "#ffac00" }}
-            ></div>
-            <span>서행</span>
-          </div>
-          <div className="flex items-center gap-2">
-            <div
-              className="w-12 h-1"
-              style={{ backgroundColor: "#d80f17" }}
-            ></div>
-            <span>정체</span>
-          </div>
         </div>
       </div>
     </>

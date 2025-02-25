@@ -9,7 +9,7 @@ export enum STATUS_CODE {
 const highways = [
   {
     route_id: "0010",
-    route_name: "경부고속도로",
+    route_name: "경부",
     start_point: "서울",
     end_point: "부산",
     distance: 416050,

@@ -33,4 +33,24 @@ export type SectionInfo = {
   status: "SMOOTH" | "SLOW" | "CONGESTED";
   travel_time: number;
   speed: number;
+  hasAccident?: boolean;
+};
+
+export type AccidentInfo = {
+  accidents: {
+    occurred_at: string;
+    route_id: string;
+    direction: string;
+    accident_type: string;
+    accident_detail_type: string;
+    description: string;
+    coordinates: {
+      x: number;
+      y: number;
+    };
+    conzone_id: string;
+    cleared_at: string;
+    start_name: string;
+    end_name: string;
+  }[];
 };

@@ -1,5 +1,6 @@
 export type HighwayInfo = {
   highways: {
+    route_display_id: string;
     route_id: string;
     route_name: string;
     start_point: string;

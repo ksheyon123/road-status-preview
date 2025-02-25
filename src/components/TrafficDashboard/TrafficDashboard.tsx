@@ -102,7 +102,7 @@ const TrafficBar = ({
           {/* 경고 아이콘 */}
           {hasAccident && (
             <div
-              className="absolute z-5 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-4 h-4 "
+              className="absolute z-[5] top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-4 h-4 "
               onClick={() => {
                 if (!!openModal) openModal(sectionId);
               }}

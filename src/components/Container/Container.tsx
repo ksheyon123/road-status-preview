@@ -36,7 +36,8 @@ const Container: React.FC = () => {
     RouteInfo & { from: string; to: string }
   >();
 
-  const { route_name, route_id, start_point, end_point } = curHighway!;
+  const { route_name, route_id, start_point, end_point, route_display_id } =
+    curHighway!;
 
   const accidentRouteSet = (
     accidents: AccidentInfo["accidents"],
@@ -198,7 +199,7 @@ const Container: React.FC = () => {
       <div className="pt-[40px]">
         <DynamicHeader
           title={`${route_name}고속도로`}
-          routeId={Number(route_id)}
+          routeId={route_display_id}
           openModal={openSearchModal}
         />
         <DynamicTabs activeTab={activeTab} setActiveTab={setActiveTab} />

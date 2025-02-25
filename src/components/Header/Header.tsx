@@ -7,7 +7,7 @@ import Image from "next/image";
 interface HeaderProps {
   onBack?: () => void;
   title?: string;
-  routeId?: number;
+  routeId?: string;
   openModal?: Function;
 }
 
@@ -27,8 +27,13 @@ const Header = ({
         )}
         <div className="relative w-4 h-4">
           <Image src={highway.src} alt="고속도로" width={16} height={16} />
-          <div className="absolute flex justify-center items-center top-[1.8px] left-0 w-4 h-4 font-medium text-[8px] text-[#FFF]">
-            {routeId || ""}
+          <div className="absolute flex justify-center items-center top-[1.8px] left-0 w-4 h-4">
+            <span
+              className="font-medium text-[8px] text-[#FFF]"
+              style={{ letterSpacing: -1 }}
+            >
+              {routeId || ""}
+            </span>
           </div>
         </div>
         <h1 className="text-sm text-[#595959] font-bold">{title}</h1>

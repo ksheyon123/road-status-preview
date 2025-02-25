@@ -88,13 +88,23 @@ const SearchModal: React.FC<IProps> = () => {
               closeModal();
             }}
           >
-            <Image
-              width={20}
-              height={20}
-              className="mr-5"
-              src={Highway.src}
-              alt="highway"
-            />
+            <div className="relative w-5 h-5 mr-2">
+              <Image
+                width={20}
+                height={20}
+                className="mr-5"
+                src={Highway.src}
+                alt="highway"
+              />
+              <div className="absolute top-[1px] left-[-1px] w-5 h-5 flex justify-center items-center">
+                <span
+                  className="text-[#FFF] text-[6px] font-bold"
+                  style={{ letterSpacing: -1 }}
+                >
+                  {item.route_display_id}
+                </span>
+              </div>
+            </div>
             <span className="text-[#000] text-[16px]">{item.route_name}</span>
           </div>
         )}

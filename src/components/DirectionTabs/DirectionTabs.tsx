@@ -85,32 +85,23 @@ const EmptyState = () => (
 
 const DirectionTabs = ({ data }: { data: AccidentInfo["accidents"] }) => {
   const { curHighway } = useHighwayContext();
-  const [activeTab, setActiveTab] = useState("down");
-
-  const travelData = [
-    {
-      route: "대형반교IC→ 상석교",
-      type: "공사",
-      content:
-        "[공사] 경부고속도로 대형반교IC 에서 금토JC방향 종점방향 작업 5차로 대형반교IC→ 금토JC 경부선 종점",
-      time: "2025.02.20. 14:18 ~ 2025.02.20. 14:48",
-    },
-  ];
+  // 상행 : E, 하행 : S
+  const [activeTab, setActiveTab] = useState("S");
 
   const s = curHighway?.start_point;
   const e = curHighway?.end_point;
 
   const filteredData = data.filter((el) => {
-    if (activeTab === "down") {
-      if (el.direction === `${s} 방향`) {
+    if (activeTab === "E") {
+      if (el.conzone_id.includes("E")) {
         return {
           ...el,
         };
       }
     }
 
-    if (activeTab === "up") {
-      if (el.direction === `${e} 방향`) {
+    if (activeTab === "S") {
+      if (el.conzone_id.includes("S")) {
         return {
           ...el,
         };
@@ -123,32 +114,31 @@ const DirectionTabs = ({ data }: { data: AccidentInfo["accidents"] }) => {
       <div className="w-full h-10 py-2">
         <div className="flex w-full h-full text-[10px]">
           <div
-            className={`flex-1 text-center pt-1 rounded-sm ${
-              activeTab === "up"
+            className={`flex-1 text-center pt-1 rounded-sm cursor-pointer ${
+              activeTab === "E"
                 ? "bg-[#F5F5F8] text-[#000]"
                 : "bg-[#444447] text-white"
             }`}
-            onClick={() => setActiveTab("down")}
+            onClick={() => setActiveTab("S")}
           >
             {s} 방향
           </div>
           <div
-            className={`flex-1 text-center pt-1 rounded-sm ${
-              activeTab === "down"
+            className={`flex-1 text-center pt-1 rounded-sm cursor-pointer ${
+              activeTab === "S"
                 ? "bg-[#F5F5F8] text-[#000]"
                 : "bg-[#444447] text-white"
             }`}
-            onClick={() => setActiveTab("up")}
+            onClick={() => setActiveTab("E")}
           >
             {e} 방향
           </div>
         </div>
       </div>
       <div className="w-full">
-        {travelData.length > 0 ? (
+        {filteredData.length > 0 ? (
           filteredData.map((item, index) => {
             const {
-              direction,
               accident_type,
               accident_detail_type,
               description,
@@ -168,7 +158,7 @@ const DirectionTabs = ({ data }: { data: AccidentInfo["accidents"] }) => {
               }`,
             };
             return (
-              <div className="py-2">
+              <div key={index} className="py-2">
                 <TravelItem key={index} data={data} />
               </div>
             );

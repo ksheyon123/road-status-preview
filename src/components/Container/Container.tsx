@@ -1,6 +1,6 @@
 import { AccidentInfo, RouteInfo, SectionInfo } from "@/types/index";
 import dynamic from "next/dynamic";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useModalContext } from "@/contexts/ModalContext";
 import { useHighwayContext } from "@/contexts/HighwayContext";
 import SearchModal from "../Modal/SearchModal";
@@ -12,6 +12,10 @@ import Legend from "@/components/Legend/Legend";
 
 import SockJS from "sockjs-client";
 import { Client, IMessage, IFrame, StompSubscription } from "@stomp/stompjs";
+import {
+  processRouteData,
+  processAccidentData,
+} from "@/components/Container/utils";
 
 const DynamicHeader = dynamic(() => import("@/components/Header/Header"), {
   ssr: false, // 필요한 경우
@@ -32,112 +36,77 @@ const DynamicTabs = dynamic(() => import("@/components/Tabs/Tabs"), {
 const Container: React.FC = () => {
   const { openModal } = useModalContext();
   const { curHighway } = useHighwayContext();
-  const [accidents, setAccidents] = useState<AccidentInfo["accidents"]>([]);
-
+  const [rawRouteData, setRawRouteData] = useState<RouteInfo | null>(null);
+  const [rawAccidents, setRawAccidents] = useState<AccidentInfo["accidents"]>(
+    []
+  );
   const [activeTab, setActiveTab] = useState("전체구간");
-  const [viewData, setViewData] = useState<
+  const [accidents, setAccidents] = useState<AccidentInfo["accidents"]>([]);
+  const [viewData, setRoute] = useState<
     RouteInfo & { from: string; to: string }
   >();
 
   const { route_name, route_id, start_point, end_point, route_display_id } =
     curHighway!;
 
-  const accidentRouteSet = (
-    accidents: AccidentInfo["accidents"],
-    forward: SectionInfo[],
-    reverse: SectionInfo[]
-  ) => {
-    return accidents.map((accident) => {
-      const { conzone_id } = accident;
-      const filteredForwardSection = forward.filter(
-        (el) => el.section_id === conzone_id
-      )[0];
+  // 데이터 처리 함수 - 원본 데이터를 기반으로 가공된 데이터 생성
+  const processData = useCallback(() => {
+    if (!rawRouteData || !rawAccidents.length) return;
 
-      const filteredReverseSection = reverse.filter(
-        (el) => el.section_id === conzone_id
-      )[0];
-      if (!!filteredForwardSection) {
-        const { start_name, end_name } = filteredForwardSection;
-        return {
-          ...accident,
-          start_name,
-          end_name,
-        };
-      } else if (!!filteredReverseSection) {
-        const { start_name, end_name } = filteredReverseSection;
-        return {
-          ...accident,
-          start_name,
-          end_name,
-        };
-      } else {
-        return {
-          ...accident,
-        };
-      }
-    });
-  };
+    const filteredAccidents = rawAccidents.filter(
+      (el) => el.route_id === route_id
+    );
 
-  const updateAccident = (
-    sections: SectionInfo[],
-    accidents: AccidentInfo["accidents"]
-  ) => {
-    return sections.map((section) => {
-      const hasAccident = !!accidents.find(
-        (accident) => accident.conzone_id === section.section_id
-      );
-      return {
-        ...section,
-        hasAccident,
-      };
-    });
-  };
+    const { forward, reverse } = rawRouteData.directions;
 
-  const updateRoute = async () => {
+    // 가공된 사고 데이터 생성
+    const processedAccidents = processAccidentData(
+      filteredAccidents,
+      forward.sections,
+      reverse.sections
+    );
+
+    // 가공된 경로 데이터 생성
+    const processedRouteData = processRouteData(
+      rawRouteData,
+      filteredAccidents,
+      start_point,
+      end_point
+    );
+
+    setAccidents(processedAccidents);
+    setRoute(processedRouteData);
+  }, [rawRouteData, rawAccidents, route_id, start_point, end_point]);
+
+  // API에서 데이터 가져오기
+  const fetchData = async () => {
     try {
       const [accidentData, routeData] = await Promise.all([
         getAccidents(),
         getRoutes(route_id),
       ]);
-      const { accidents } = accidentData.data;
-      const { data } = routeData;
-      const filteredAccidents = accidents.filter(
-        (el) => el.route_id === route_id
+      console.log(
+        accidentData.data.accidents.filter((el) => el.route_id === "0010")
       );
-      const { forward, reverse } = data.directions;
-      const returnValue = accidentRouteSet(
-        filteredAccidents,
-        forward.sections,
-        reverse.sections
-      );
-      setAccidents(returnValue);
-      setViewData({
-        ...data,
-        directions: {
-          forward: {
-            sections: updateAccident(
-              data.directions.forward.sections,
-              filteredAccidents
-            ),
-          },
-          reverse: {
-            sections: updateAccident(
-              data.directions.reverse.sections,
-              filteredAccidents
-            ),
-          },
-        },
-        from: start_point,
-        to: end_point,
-      });
+      // 원본 데이터 저장
+      setRawAccidents(accidentData.data.accidents);
+      setRawRouteData(routeData.data);
     } catch (e) {
+      console.error("데이터 가져오기 오류:", e);
       throw e;
     }
   };
 
+  // 데이터 가져오기 및 처리
   useEffect(() => {
-    updateRoute();
+    fetchData();
   }, [route_id]);
+
+  // 원본 데이터가 변경되면 가공 데이터 업데이트
+  useEffect(() => {
+    console.log("PROCESSING");
+    processData();
+  }, [rawRouteData, rawAccidents, processData]);
 
   const openSearchModal = () => {
     openModal(<SearchModal />);
@@ -197,11 +166,11 @@ const Container: React.FC = () => {
     );
   };
 
+  // 소켓 연결 및 데이터 처리
   useEffect(() => {
     let client: Client;
     const createStompClient = (): void => {
       try {
-        // 방법 2: 직접 WebSocket 사용
         client = new Client({
           brokerURL: "wss://svc1.metadium.club:8888/ws-highway/websocket",
           debug:
@@ -211,25 +180,68 @@ const Container: React.FC = () => {
           heartbeatOutgoing: 4000,
           onConnect: (frame: IFrame): void => {
             console.log("STOMP 연결 성공:", frame);
+
+            // 사고 정보 구독
             client.subscribe(
               `/topic/accident-${route_id}`,
               (message: IMessage): void => {
                 try {
-                  const data: any = JSON.parse(message.body);
-                  console.log("메시지 수신:", data);
+                  const accidentData: any = JSON.parse(message.body);
+                  console.log("사고 메시지 수신:", accidentData);
+
+                  // 소켓으로 받은 사고 데이터 업데이트
+                  if (accidentData && accidentData.accidents) {
+                    setRawAccidents((prevAccidents) => {
+                      // 기존 데이터와 새 데이터를 병합하는 로직
+                      // 실제 구현은 데이터 구조에 따라 달라질 수 있음
+                      const newAccidents = [...prevAccidents];
+
+                      // 새로운 사고 정보 추가 또는 기존 정보 업데이트
+                      accidentData.accidents.forEach((newAccident: any) => {
+                        const existingIndex = newAccidents.findIndex(
+                          (acc) => acc.conzone_id === newAccident.conzone_id
+                        );
+
+                        if (existingIndex >= 0) {
+                          newAccidents[existingIndex] = newAccident;
+                        } else {
+                          newAccidents.push(newAccident);
+                        }
+                      });
+
+                      return newAccidents;
+                    });
+                  }
                 } catch (e) {
-                  console.error("메시지 파싱 오류:", e);
+                  console.error("사고 메시지 파싱 오류:", e);
                 }
               }
             );
+
+            // 교통 정보 구독
             client.subscribe(
               `/topic/traffic-${route_id}`,
               (message: IMessage): void => {
                 try {
-                  const data: any = JSON.parse(message.body);
-                  console.log("메시지 수신:", data);
+                  const trafficData: any = JSON.parse(message.body);
+                  console.log("교통 메시지 수신:", trafficData);
+
+                  // 소켓으로 받은 교통 데이터 업데이트
+                  if (trafficData && trafficData.data) {
+                    setRawRouteData((prevRouteData) => {
+                      if (!prevRouteData) return trafficData.data;
+
+                      // 기존 데이터와 새 데이터를 병합하는 로직
+                      // 실제 구현은 데이터 구조에 따라 달라질 수 있음
+                      return {
+                        ...prevRouteData,
+                        // 필요한 필드 업데이트
+                        ...trafficData.data,
+                      };
+                    });
+                  }
                 } catch (e) {
-                  console.error("메시지 파싱 오류:", e);
+                  console.error("교통 메시지 파싱 오류:", e);
                 }
               }
             );
@@ -252,9 +264,13 @@ const Container: React.FC = () => {
 
     return () => {
       console.log("STOMP 연결 해제됨");
-      client.deactivate();
+      if (client) {
+        client.deactivate();
+      }
     };
   }, [route_id]);
+
+  console.log(accidents);
 
   return (
     <>

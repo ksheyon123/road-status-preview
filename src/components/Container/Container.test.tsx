@@ -270,6 +270,122 @@ describe("Container 컴포넌트", () => {
     });
   });
 
+  it("웹소켓을 통해 사고 데이터가 업데이트되면 processData가 호출된다", async () => {
+    // processData 함수 호출 횟수를 추적하기 위한 스파이 설정
+    const processDataSpy = jest.spyOn(utils, "processRouteData");
+
+    // 컴포넌트 렌더링
+    await act(async () => {
+      render(<Container />);
+    });
+
+    // 초기 데이터 로딩 후 processData 호출 확인
+    await waitFor(() => {
+      expect(processDataSpy).toHaveBeenCalled();
+    });
+
+    // 호출 횟수 초기화
+    processDataSpy.mockClear();
+
+    // 웹소켓을 통한 데이터 업데이트 시뮬레이션
+    await act(async () => {
+      // Client 인스턴스 가져오기
+      const mockClientInstance = (Client as jest.Mock).mock.results[0].value;
+
+      // subscribe 메서드 호출 시 전달된 콜백 함수 가져오기
+      const subscribeCall = mockClientInstance.subscribe.mock.calls.find(
+        (call: any) => call[0] === `/topic/accident-0010`
+      );
+
+      if (subscribeCall && subscribeCall[1]) {
+        // 콜백 함수 실행하여 데이터 업데이트 시뮬레이션
+        subscribeCall[1]({
+          body: JSON.stringify({
+            accidents: [
+              {
+                occurred_at: "2025-02-26T10:00:00",
+                route_id: "0010",
+                direction: "forward",
+                accident_type: "사고",
+                accident_detail_type: "추돌사고",
+                description: "차량 3대 추돌",
+                coordinates: { x: 127.1, y: 37.5 },
+                conzone_id: "section1",
+                cleared_at: "-",
+              },
+            ],
+          }),
+        });
+      }
+    });
+
+    // 데이터 업데이트 후 processData가 다시 호출되었는지 확인
+    await waitFor(() => {
+      expect(processDataSpy).toHaveBeenCalled();
+    });
+  });
+
+  it("웹소켓을 통해 교통 데이터가 업데이트되면 processData가 호출된다", async () => {
+    // processData 함수 호출 횟수를 추적하기 위한 스파이 설정
+    const processDataSpy = jest.spyOn(utils, "processRouteData");
+
+    // 컴포넌트 렌더링
+    await act(async () => {
+      render(<Container />);
+    });
+
+    // 초기 데이터 로딩 후 processData 호출 확인
+    await waitFor(() => {
+      expect(processDataSpy).toHaveBeenCalled();
+    });
+
+    // 호출 횟수 초기화
+    processDataSpy.mockClear();
+
+    // 웹소켓을 통한 데이터 업데이트 시뮬레이션
+    await act(async () => {
+      // Client 인스턴스 가져오기
+      const mockClientInstance = (Client as jest.Mock).mock.results[0].value;
+
+      // subscribe 메서드 호출 시 전달된 콜백 함수 가져오기
+      const subscribeCall = mockClientInstance.subscribe.mock.calls.find(
+        (call: any) => call[0] === `/topic/traffic-0010`
+      );
+
+      if (subscribeCall && subscribeCall[1]) {
+        // 콜백 함수 실행하여 데이터 업데이트 시뮬레이션
+        subscribeCall[1]({
+          body: JSON.stringify({
+            data: {
+              ...mockRouteData.data,
+              updated_at: "2025-02-26T10:30:00",
+              directions: {
+                forward: {
+                  sections: [
+                    {
+                      ...mockRouteData.data.directions.forward.sections[0],
+                      status: "CONGESTED",
+                      travel_time: 30,
+                      speed: 40,
+                    },
+                  ],
+                },
+                reverse: {
+                  sections: mockRouteData.data.directions.reverse.sections,
+                },
+              },
+            },
+          }),
+        });
+      }
+    });
+
+    // 데이터 업데이트 후 processData가 다시 호출되었는지 확인
+    await waitFor(() => {
+      expect(processDataSpy).toHaveBeenCalled();
+    });
+  });
+
   it("검색 모달을 열 수 있다", async () => {
     const mockOpenModal = jest.fn();
     (useModalContext as jest.Mock).mockReturnValue({

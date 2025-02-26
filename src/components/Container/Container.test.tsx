@@ -4,7 +4,7 @@ import Container from "./Container";
 import { useModalContext } from "@/contexts/ModalContext";
 import { useHighwayContext } from "@/contexts/HighwayContext";
 import { getAccidents, getRoutes } from "@/https/apis";
-import * as utils from "./utils";
+import * as utils from "@/utils/utils";
 import { Client } from "@stomp/stompjs";
 
 // 모킹

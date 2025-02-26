@@ -12,10 +12,7 @@ import Legend from "@/components/Legend/Legend";
 
 import SockJS from "sockjs-client";
 import { Client, IMessage, IFrame, StompSubscription } from "@stomp/stompjs";
-import {
-  processRouteData,
-  processAccidentData,
-} from "@/components/Container/utils";
+import { processRouteData, processAccidentData } from "@/utils/utils";
 
 const DynamicHeader = dynamic(() => import("@/components/Header/Header"), {
   ssr: false, // 필요한 경우
@@ -186,18 +183,20 @@ const Container: React.FC = () => {
               `/topic/accident-${route_id}`,
               (message: IMessage): void => {
                 try {
-                  const accidentData: any = JSON.parse(message.body);
+                  const accidentData: AccidentInfo["accidents"] = JSON.parse(
+                    message.body
+                  );
                   console.log("사고 메시지 수신:", accidentData);
 
                   // 소켓으로 받은 사고 데이터 업데이트
-                  if (accidentData && accidentData.accidents) {
+                  if (accidentData && accidentData.length > 0) {
                     setRawAccidents((prevAccidents) => {
                       // 기존 데이터와 새 데이터를 병합하는 로직
                       // 실제 구현은 데이터 구조에 따라 달라질 수 있음
                       const newAccidents = [...prevAccidents];
 
                       // 새로운 사고 정보 추가 또는 기존 정보 업데이트
-                      accidentData.accidents.forEach((newAccident: any) => {
+                      accidentData.forEach((newAccident: any) => {
                         const existingIndex = newAccidents.findIndex(
                           (acc) => acc.conzone_id === newAccident.conzone_id
                         );
@@ -223,20 +222,20 @@ const Container: React.FC = () => {
               `/topic/traffic-${route_id}`,
               (message: IMessage): void => {
                 try {
-                  const trafficData: any = JSON.parse(message.body);
+                  const trafficData: RouteInfo = JSON.parse(message.body);
                   console.log("교통 메시지 수신:", trafficData);
 
                   // 소켓으로 받은 교통 데이터 업데이트
-                  if (trafficData && trafficData.data) {
+                  if (trafficData) {
                     setRawRouteData((prevRouteData) => {
-                      if (!prevRouteData) return trafficData.data;
+                      if (!prevRouteData) return trafficData;
 
                       // 기존 데이터와 새 데이터를 병합하는 로직
                       // 실제 구현은 데이터 구조에 따라 달라질 수 있음
                       return {
                         ...prevRouteData,
                         // 필요한 필드 업데이트
-                        ...trafficData.data,
+                        ...trafficData,
                       };
                     });
                   }

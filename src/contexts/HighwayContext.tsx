@@ -28,7 +28,6 @@ export function HighwayProvider({ children }: { children: React.ReactNode }) {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<ApiError | null>(null);
 
-  console.log(curHighway);
   useEffect(() => {
     async function fetchHighways() {
       try {

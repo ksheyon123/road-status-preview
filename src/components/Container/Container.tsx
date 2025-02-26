@@ -10,6 +10,9 @@ import AlertModalHeader from "../Modal/AlertModalHeader";
 import moment from "moment";
 import Legend from "@/components/Legend/Legend";
 
+import SockJS from "sockjs-client";
+import { Client, IMessage, IFrame, StompSubscription } from "@stomp/stompjs";
+
 const DynamicHeader = dynamic(() => import("@/components/Header/Header"), {
   ssr: false, // 필요한 경우
 });
@@ -193,6 +196,65 @@ const Container: React.FC = () => {
       }
     );
   };
+
+  useEffect(() => {
+    let client: Client;
+    const createStompClient = (): void => {
+      try {
+        // 방법 2: 직접 WebSocket 사용
+        client = new Client({
+          brokerURL: "wss://svc1.metadium.club:8888/ws-highway/websocket",
+          debug:
+            process.env.NODE_ENV === "development" ? console.log : undefined,
+          reconnectDelay: 5000,
+          heartbeatIncoming: 4000,
+          heartbeatOutgoing: 4000,
+          onConnect: (frame: IFrame): void => {
+            console.log("STOMP 연결 성공:", frame);
+            client.subscribe(
+              `/topic/accident-${route_id}`,
+              (message: IMessage): void => {
+                try {
+                  const data: any = JSON.parse(message.body);
+                  console.log("메시지 수신:", data);
+                } catch (e) {
+                  console.error("메시지 파싱 오류:", e);
+                }
+              }
+            );
+            client.subscribe(
+              `/topic/traffic-${route_id}`,
+              (message: IMessage): void => {
+                try {
+                  const data: any = JSON.parse(message.body);
+                  console.log("메시지 수신:", data);
+                } catch (e) {
+                  console.error("메시지 파싱 오류:", e);
+                }
+              }
+            );
+          },
+          onStompError: (frame: IFrame): void => {
+            console.error("STOMP 프로토콜 오류:", frame);
+          },
+          onWebSocketClose: (evt: CloseEvent): void => {
+            console.log("WebSocket 연결 종료:", evt);
+          },
+        });
+
+        client.activate();
+      } catch (e) {
+        console.error("STOMP 클라이언트 생성 오류:", e);
+      }
+    };
+
+    createStompClient();
+
+    return () => {
+      console.log("STOMP 연결 해제됨");
+      client.deactivate();
+    };
+  }, [route_id]);
 
   return (
     <>

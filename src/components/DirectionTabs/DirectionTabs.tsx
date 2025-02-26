@@ -118,7 +118,6 @@ const DirectionTabs = ({ data }: { data: AccidentInfo["accidents"] }) => {
     }
   });
 
-  console.log(moment("2025-02-19T18:47:37").format("YYYY-MM-DD HH:mm:ss"));
   return (
     <div className="w-full px-[10px] pt-2 ">
       <div className="w-full h-10 py-2">

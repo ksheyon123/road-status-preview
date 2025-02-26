@@ -1,4 +1,4 @@
-import { AccidentInfo, RouteInfo, SectionInfo } from "@/types/index";
+import { AccidentInfo, RealTimeTraffic, RouteInfo } from "@/types/index";
 import dynamic from "next/dynamic";
 import { useState, useEffect, useCallback } from "react";
 import { useModalContext } from "@/contexts/ModalContext";
@@ -12,7 +12,11 @@ import Legend from "@/components/Legend/Legend";
 
 import SockJS from "sockjs-client";
 import { Client, IMessage, IFrame, StompSubscription } from "@stomp/stompjs";
-import { processRouteData, processAccidentData } from "@/utils/utils";
+import {
+  processRouteData,
+  processAccidentData,
+  processRealTimeRouteData,
+} from "@/utils/utils";
 
 const DynamicHeader = dynamic(() => import("@/components/Header/Header"), {
   ssr: false, // 필요한 경우
@@ -37,6 +41,7 @@ const Container: React.FC = () => {
   const [rawAccidents, setRawAccidents] = useState<AccidentInfo["accidents"]>(
     []
   );
+  const [realtimeData, setRealtimeData] = useState<RealTimeTraffic[]>([]);
   const [activeTab, setActiveTab] = useState("전체구간");
   const [accidents, setAccidents] = useState<AccidentInfo["accidents"]>([]);
   const [viewData, setRoute] = useState<
@@ -48,6 +53,7 @@ const Container: React.FC = () => {
 
   // 데이터 처리 함수 - 원본 데이터를 기반으로 가공된 데이터 생성
   const processData = useCallback(() => {
+    console.log("PROCESSING");
     if (!rawRouteData || !rawAccidents.length) return;
 
     const filteredAccidents = rawAccidents.filter(
@@ -64,16 +70,26 @@ const Container: React.FC = () => {
     );
 
     // 가공된 경로 데이터 생성
-    const processedRouteData = processRouteData(
+    const temp = processRouteData(
       rawRouteData,
       filteredAccidents,
       start_point,
       end_point
     );
 
+    const processedRouteData = processRealTimeRouteData(temp, realtimeData);
+    console.log(processedRouteData.directions.forward.sections);
+    console.log(processedRouteData.directions.reverse.sections);
     setAccidents(processedAccidents);
     setRoute(processedRouteData);
-  }, [rawRouteData, rawAccidents, route_id, start_point, end_point]);
+  }, [
+    rawRouteData,
+    rawAccidents,
+    realtimeData,
+    route_id,
+    start_point,
+    end_point,
+  ]);
 
   // API에서 데이터 가져오기
   const fetchData = async () => {
@@ -101,9 +117,8 @@ const Container: React.FC = () => {
 
   // 원본 데이터가 변경되면 가공 데이터 업데이트
   useEffect(() => {
-    console.log("PROCESSING");
     processData();
-  }, [rawRouteData, rawAccidents, processData]);
+  }, [rawRouteData, rawAccidents, realtimeData, processData]);
 
   const openSearchModal = () => {
     openModal(<SearchModal />);
@@ -169,15 +184,15 @@ const Container: React.FC = () => {
     const createStompClient = (): void => {
       try {
         client = new Client({
-          brokerURL: "wss://svc1.metadium.club:8888/ws-highway/websocket",
-          debug:
-            process.env.NODE_ENV === "development" ? console.log : undefined,
+          brokerURL: process.env.NEXT_PUBLIC_WS_URL,
+          ...(process.env.NODE_ENV === "development" && {
+            debug: console.log,
+          }),
           reconnectDelay: 5000,
           heartbeatIncoming: 4000,
           heartbeatOutgoing: 4000,
           onConnect: (frame: IFrame): void => {
             console.log("STOMP 연결 성공:", frame);
-
             // 사고 정보 구독
             client.subscribe(
               `/topic/accident-${route_id}`,
@@ -222,21 +237,58 @@ const Container: React.FC = () => {
               `/topic/traffic-${route_id}`,
               (message: IMessage): void => {
                 try {
-                  const trafficData: RouteInfo = JSON.parse(message.body);
+                  const trafficData: RealTimeTraffic[] = JSON.parse(
+                    message.body
+                  );
                   console.log("교통 메시지 수신:", trafficData);
 
                   // 소켓으로 받은 교통 데이터 업데이트
-                  if (trafficData) {
-                    setRawRouteData((prevRouteData) => {
+                  if (trafficData && trafficData.length > 0) {
+                    setRealtimeData((prevRouteData) => {
                       if (!prevRouteData) return trafficData;
 
-                      // 기존 데이터와 새 데이터를 병합하는 로직
-                      // 실제 구현은 데이터 구조에 따라 달라질 수 있음
-                      return {
-                        ...prevRouteData,
-                        // 필요한 필드 업데이트
-                        ...trafficData,
-                      };
+                      // 이전 값과 비교하여 변동이 있는 정보만 추가
+                      const newRouteData: RealTimeTraffic[] = [];
+
+                      trafficData.forEach((newItem) => {
+                        // 이전 데이터에서 같은 conzone_id를 가진 항목 찾기
+                        const prevItem = prevRouteData.find(
+                          (item) => item.conzone_id === newItem.conzone_id
+                        );
+
+                        // 이전 항목이 없거나, congestion 상태나 travel_time이 변경된 경우에만 추가
+                        if (
+                          !prevItem ||
+                          prevItem.congestion !== newItem.congestion ||
+                          prevItem.travel_time !== newItem.travel_time
+                        ) {
+                          newRouteData.push(newItem);
+                        }
+                      });
+
+                      // 변동이 있는 항목이 없으면 이전 데이터 유지
+                      if (newRouteData.length === 0) {
+                        return prevRouteData;
+                      }
+
+                      // 이전 데이터를 기반으로 변동된 항목만 업데이트
+                      const updatedRouteData = [...prevRouteData];
+
+                      newRouteData.forEach((newItem) => {
+                        const index = updatedRouteData.findIndex(
+                          (item) => item.conzone_id === newItem.conzone_id
+                        );
+
+                        if (index !== -1) {
+                          // 기존 항목 업데이트
+                          updatedRouteData[index] = newItem;
+                        } else {
+                          // 새 항목 추가
+                          updatedRouteData.push(newItem);
+                        }
+                      });
+                      console.log("Traffic data updated!");
+                      return updatedRouteData;
                     });
                   }
                 } catch (e) {
@@ -268,8 +320,6 @@ const Container: React.FC = () => {
       }
     };
   }, [route_id]);
-
-  console.log(accidents);
 
   return (
     <>

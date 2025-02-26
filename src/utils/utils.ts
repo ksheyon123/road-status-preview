@@ -1,4 +1,9 @@
-import { AccidentInfo, RouteInfo, SectionInfo } from "@/types/index";
+import {
+  AccidentInfo,
+  RealTimeTraffic,
+  RouteInfo,
+  SectionInfo,
+} from "@/types/index";
 
 /**
  * 사고 데이터에 경로 정보를 추가하는 함수
@@ -58,8 +63,29 @@ export const updateSectionsWithAccidents = (
   });
 };
 
+export const updateSectionsWithRealTime = (
+  sections: SectionInfo[],
+  realtimeData: RealTimeTraffic[]
+): SectionInfo[] => {
+  return sections.map((section) => {
+    const data = realtimeData.find((d) => d.conzone_id === section.section_id)!;
+    if (!data) return section;
+    const { conzone_id, congestion, travel_time } = data;
+    return {
+      ...section,
+      section_id: conzone_id,
+      status: congestion,
+      travel_time,
+    };
+  });
+};
+
 /**
- * 경로 데이터를 가공하는 함수
+ * @description 경로 데이터를 가공하는 함수
+ * @param routeData 기본 Route Data
+ * @param accidents Route Data에 추가할 Accidents
+ * @param startPoint 고속도로 시작 지점
+ * @param endPoint 고속도로 끝 지점
  */
 export const processRouteData = (
   routeData: RouteInfo,
@@ -85,5 +111,28 @@ export const processRouteData = (
     },
     from: startPoint,
     to: endPoint,
+  };
+};
+
+export const processRealTimeRouteData = (
+  routeData: RouteInfo & { from: string; to: string },
+  realtimeData: RealTimeTraffic[]
+) => {
+  return {
+    ...routeData,
+    directions: {
+      forward: {
+        sections: updateSectionsWithRealTime(
+          routeData.directions.forward.sections,
+          realtimeData
+        ),
+      },
+      reverse: {
+        sections: updateSectionsWithRealTime(
+          routeData.directions.reverse.sections,
+          realtimeData
+        ),
+      },
+    },
   };
 };

@@ -2,16 +2,32 @@ version: "3"
 services:
   nextjs:
     container_name: mlff_front
-    image: mlff__web__front:1.0 # 태그 추가
+    image: mlff__web__front:1.0
     build:
       context: .
       dockerfile: Dockerfile
+      args:
+        - NODE_ENV=production # 빌드 시 환경 변수 설정
     ports:
       - "3000:3000"
     environment:
-      - NODE_ENV=development
+      - NODE_ENV=production # 실행 시 환경 변수
     env_file:
       - .env
     extra_hosts:
       - "host.docker.internal:host-gateway"
     restart: always
+    volumes:
+      - ./logs:/app/logs # 로그 파일을 호스트와 공유 (필요한 경우)
+    healthcheck: # 컨테이너 상태 확인
+      test: ["CMD", "curl", "-f", "http://localhost:3000"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    networks:
+      - app_network
+
+networks:
+  app_network:
+    driver: bridge

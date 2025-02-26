@@ -6,6 +6,7 @@ import { useHighwayContext } from "@/contexts/HighwayContext";
 import { getAccidents, getRoutes } from "@/https/apis";
 import * as utils from "@/utils/utils";
 import { Client, IFrame, IMessage } from "@stomp/stompjs";
+import { RealTimeTraffic } from "@/types/index";
 
 // 모킹
 jest.mock("@/contexts/ModalContext");
@@ -403,7 +404,7 @@ describe("Container 컴포넌트", () => {
   });
 
   // 테스트 케이스 분할 - 3: 교통 데이터 업데이트 테스트
-  it("client.subscribe 콜백이 교통 데이터를 받으면 setRawRouteData가 호출된다", async () => {
+  it("client.subscribe 콜백이 교통 데이터를 받으면 setRealtimeData가 호출된다", async () => {
     // 컴포넌트 렌더링
     await act(async () => {
       render(<Container />);
@@ -440,28 +441,13 @@ describe("Container 컴포넌트", () => {
     processDataSpy.mockClear(); // 이전 호출 기록 초기화
 
     // 새로운 교통 데이터
-    const newTrafficData = {
-      route_id: "0010",
-      route_name: "경부",
-      start_point: "서울",
-      end_point: "부산",
-      updated_at: "2025-02-26T10:30:00",
-      directions: {
-        forward: {
-          sections: [
-            {
-              ...mockRouteData.data.directions.forward.sections[0],
-              status: "CONGESTED",
-              travel_time: 30,
-              speed: 40,
-            },
-          ],
-        },
-        reverse: {
-          sections: mockRouteData.data.directions.reverse.sections,
-        },
+    const newTrafficData: RealTimeTraffic[] = [
+      {
+        conzone_id: "",
+        congestion: "CONGESTED",
+        travel_time: 0,
       },
-    };
+    ];
 
     // subscribe 콜백 함수 호출하여 데이터 업데이트 시뮬레이션
     act(() => {

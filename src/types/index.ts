@@ -37,6 +37,12 @@ export type SectionInfo = {
   hasAccident?: boolean;
 };
 
+export type RealTimeTraffic = {
+  conzone_id: string;
+  congestion: "SMOOTH" | "SLOW" | "CONGESTED";
+  travel_time: number;
+};
+
 export type AccidentInfo = {
   accidents: {
     occurred_at: string;

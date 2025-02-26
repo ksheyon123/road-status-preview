@@ -53,7 +53,6 @@ const Container: React.FC = () => {
 
   // 데이터 처리 함수 - 원본 데이터를 기반으로 가공된 데이터 생성
   const processData = useCallback(() => {
-    console.log("PROCESSING");
     if (!rawRouteData || !rawAccidents.length) return;
 
     const filteredAccidents = rawAccidents.filter(
@@ -78,8 +77,6 @@ const Container: React.FC = () => {
     );
 
     const processedRouteData = processRealTimeRouteData(temp, realtimeData);
-    console.log(processedRouteData.directions.forward.sections);
-    console.log(processedRouteData.directions.reverse.sections);
     setAccidents(processedAccidents);
     setRoute(processedRouteData);
   }, [
@@ -98,9 +95,6 @@ const Container: React.FC = () => {
         getAccidents(),
         getRoutes(route_id),
       ]);
-      console.log(
-        accidentData.data.accidents.filter((el) => el.route_id === "0010")
-      );
       // 원본 데이터 저장
       setRawAccidents(accidentData.data.accidents);
       setRawRouteData(routeData.data);

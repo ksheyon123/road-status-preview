@@ -126,10 +126,13 @@ const Container: React.FC = () => {
 
     // 기본 데이터 초기화
     let defaultData = {
-      route: "정보없음",
-      type: "정보없음",
+      from: "정보없음",
+      to: "정보없음",
+      accidentType: "정보없음",
+      accidentDetailType: "정보없음",
       content: "정보없음",
-      time: "- ~ -",
+      fromTime: "",
+      toTime: "",
     };
 
     // 사고 정보가 있을 경우 데이터 업데이트
@@ -143,27 +146,20 @@ const Container: React.FC = () => {
         start_name,
         end_name,
       } = currentAccident;
-
       defaultData = {
-        route: `${start_name} -> ${end_name}`,
-        type: `${accident_type} ${accident_detail_type}`,
+        from: start_name,
+        to: end_name,
+        accidentType: accident_type,
+        accidentDetailType: accident_detail_type,
         content: description,
-        time: `${moment(occurred_at).format("YYYY-MM-DD HH:mm:ss")} ~ ${
-          cleared_at === "-" || !cleared_at
-            ? "진행중"
-            : moment(cleared_at).format("YYYY-MM-DD HH:mm:ss")
-        }`,
+        fromTime: moment(occurred_at).format("YYYY-MM-DD HH:mm:ss"),
+        toTime: moment(cleared_at).format("YYYY-MM-DD HH:mm:ss"),
       };
     }
 
     openModal(
-      <div className="px-2.5 py-2.5">
-        <TravelItem
-          tableWidth={500}
-          rowWidth={414}
-          rowHeight={40}
-          data={defaultData}
-        />
+      <div className="px-2.5 py-2.5 w-[500px]">
+        <TravelItem rowWidth={414} rowHeight={40} data={defaultData} />
       </div>,
       <AlertModalHeader />,
       {
@@ -211,7 +207,10 @@ const Container: React.FC = () => {
                         );
 
                         if (existingIndex >= 0) {
-                          newAccidents[existingIndex] = newAccident;
+                          newAccidents[existingIndex] = {
+                            ...newAccidents[existingIndex],
+                            ...newAccident,
+                          };
                         } else {
                           newAccidents.push(newAccident);
                         }

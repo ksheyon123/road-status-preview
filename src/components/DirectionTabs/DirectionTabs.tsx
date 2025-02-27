@@ -12,16 +12,19 @@ export const TravelItem = ({
   rowWidth,
 }: {
   data: {
-    route: string;
-    type: string;
+    from: string;
+    to: string;
+    accidentType: string;
+    accidentDetailType: string;
     content: string;
-    time: string;
+    fromTime: string;
+    toTime: string;
   };
   tableWidth?: number;
   rowHeight?: number;
   rowWidth?: number;
 }) => (
-  <table className="w-full border border-gray-200">
+  <table className={`w-full border border-gray-200`}>
     <tbody>
       <tr>
         <th
@@ -32,7 +35,9 @@ export const TravelItem = ({
         <td
           className={`w-[${rowWidth}px] pl-2 py-2 bg-white border-b border-gray-200`}
         >
-          {data.route}
+          <span>{data.from}</span>
+          <span> ~ </span>
+          <span>{data.to}</span>
         </td>
       </tr>
       <tr>
@@ -44,7 +49,9 @@ export const TravelItem = ({
         <td
           className={`w-[${rowWidth}px] pl-2 py-2 bg-white border-b border-gray-200 text-red-500`}
         >
-          {data.type}
+          <span>{data.accidentType || ""}</span>
+          <span> </span>
+          <span>{data.accidentDetailType || ""}</span>
         </td>
       </tr>
       <tr className={`min-h-[${rowHeight}px]`}>
@@ -56,7 +63,7 @@ export const TravelItem = ({
         <td
           className={`w-[${rowWidth}px] pl-2 py-2 bg-white border-b border-gray-200`}
         >
-          {data.content}
+          {data.content || ""}
         </td>
       </tr>
       <tr className={`min-h-[${rowHeight}px]`}>
@@ -65,7 +72,11 @@ export const TravelItem = ({
         >
           일시
         </th>
-        <td className={`w-[${rowWidth}px] pl-2 py-2 bg-white`}>{data.time}</td>
+        <td className={`w-[${rowWidth}px] pl-2 py-2 bg-white`}>
+          <span>{data.fromTime}</span>
+          <span> - </span>
+          <span>{data.fromTime || "진행중"}</span>
+        </td>
       </tr>
     </tbody>
   </table>
@@ -148,14 +159,13 @@ const DirectionTabs = ({ data }: { data: AccidentInfo["accidents"] }) => {
               end_name,
             } = item;
             const data = {
-              route: `${start_name} -> ${end_name}`,
-              type: `${accident_type} ${accident_detail_type}`,
+              from: start_name,
+              to: end_name,
+              accidentType: accident_type,
+              accidentDetailType: accident_detail_type,
               content: description,
-              time: `${moment(occurred_at).format("YYYY-MM-DD HH:mm:ss")} ~ ${
-                cleared_at === "-" || !cleared_at
-                  ? "진행중"
-                  : moment(cleared_at).format("YYYY-MM-DD HH:mm:ss")
-              }`,
+              fromTime: moment(occurred_at).format("YYYY-MM-DD HH:mm:ss"),
+              toTime: moment(cleared_at).format("YYYY-MM-DD HH:mm:ss"),
             };
             return (
               <div key={index} className="py-2">

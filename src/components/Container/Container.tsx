@@ -112,7 +112,7 @@ const Container: React.FC = () => {
   // 원본 데이터가 변경되면 가공 데이터 업데이트
   useEffect(() => {
     processData();
-  }, [rawRouteData, rawAccidents, realtimeData, processData]);
+  }, [processData]);
 
   const openSearchModal = () => {
     openModal(<SearchModal />);
@@ -240,11 +240,7 @@ const Container: React.FC = () => {
                   if (trafficData && trafficData.length > 0) {
                     setRealtimeData((prevRouteData) => {
                       if (!prevRouteData) return trafficData;
-
-                      // 이전 값과 비교하여 변동이 있는 정보만 추가
-                      const newRouteData: RealTimeTraffic[] = [];
-
-                      trafficData.forEach((newItem) => {
+                      return trafficData.map((newItem) => {
                         // 이전 데이터에서 같은 conzone_id를 가진 항목 찾기
                         const prevItem = prevRouteData.find(
                           (item) => item.conzone_id === newItem.conzone_id
@@ -256,33 +252,11 @@ const Container: React.FC = () => {
                           prevItem.congestion !== newItem.congestion ||
                           prevItem.travel_time !== newItem.travel_time
                         ) {
-                          newRouteData.push(newItem);
-                        }
-                      });
-
-                      // 변동이 있는 항목이 없으면 이전 데이터 유지
-                      if (newRouteData.length === 0) {
-                        return prevRouteData;
-                      }
-
-                      // 이전 데이터를 기반으로 변동된 항목만 업데이트
-                      const updatedRouteData = [...prevRouteData];
-
-                      newRouteData.forEach((newItem) => {
-                        const index = updatedRouteData.findIndex(
-                          (item) => item.conzone_id === newItem.conzone_id
-                        );
-
-                        if (index !== -1) {
-                          // 기존 항목 업데이트
-                          updatedRouteData[index] = newItem;
+                          return newItem;
                         } else {
-                          // 새 항목 추가
-                          updatedRouteData.push(newItem);
+                          return prevItem;
                         }
                       });
-                      console.log("Traffic data updated!");
-                      return updatedRouteData;
                     });
                   }
                 } catch (e) {

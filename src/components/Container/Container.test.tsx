@@ -472,6 +472,89 @@ describe("Container 컴포넌트", () => {
     });
   });
 
+  // 테스트 케이스 분할 - 3-1: realtimeData가 업데이트되면 useEffect에 의해 processData가 호출된다
+  it("realtimeData가 업데이트되면 useEffect에 의해 processData가 호출된다", async () => {
+    // processRealTimeRouteData 함수 호출을 추적하기 위한 스파이 설정
+    const processRealTimeRouteDataSpy = jest.spyOn(
+      utils,
+      "processRealTimeRouteData"
+    );
+    processRealTimeRouteDataSpy.mockClear(); // 이전 호출 기록 초기화
+
+    // 컴포넌트 렌더링
+    await act(async () => {
+      render(<Container />);
+    });
+
+    // 초기 데이터 로딩 후 processRealTimeRouteData 호출 확인
+    await waitFor(() => {
+      expect(processRealTimeRouteDataSpy).toHaveBeenCalled();
+    });
+
+    // 호출 횟수 초기화
+    processRealTimeRouteDataSpy.mockClear();
+
+    // onConnect 콜백 수동 호출
+    act(() => {
+      const mockFrame: IFrame = { headers: {}, command: "CONNECTED" } as IFrame;
+      if (mockClient.onConnect) {
+        mockClient.onConnect(mockFrame);
+      }
+    });
+
+    // subscribe 콜백 함수 가져오기
+    const trafficCall = mockSubscribe.mock.calls.find(
+      (call: any[]) => call[0] === `/topic/traffic-0010`
+    );
+
+    // 콜백 함수가 있는지 확인
+    expect(trafficCall).toBeDefined();
+    const trafficSubscribeCallback = trafficCall ? trafficCall[1] : null;
+    expect(trafficSubscribeCallback).toBeInstanceOf(Function);
+
+    // 새로운 교통 데이터
+    const newTrafficData: RealTimeTraffic[] = [
+      {
+        conzone_id: "section1",
+        congestion: "CONGESTED",
+        travel_time: 30,
+      },
+    ];
+
+    // subscribe 콜백 함수 호출하여 realtimeData 업데이트 시뮬레이션
+    act(() => {
+      const mockMessage: IMessage = {
+        body: JSON.stringify(newTrafficData),
+        ack: jest.fn(),
+        nack: jest.fn(),
+        headers: {},
+        command: "MESSAGE",
+        binaryBody: new Uint8Array(),
+        isBinaryBody: false,
+      };
+
+      if (trafficSubscribeCallback) {
+        trafficSubscribeCallback(mockMessage);
+      }
+    });
+
+    // realtimeData 업데이트 후 processRealTimeRouteData가 호출되었는지 확인
+    await waitFor(() => {
+      expect(processRealTimeRouteDataSpy).toHaveBeenCalled();
+      // processRealTimeRouteData가 호출될 때 전달된 인자 확인
+      expect(processRealTimeRouteDataSpy).toHaveBeenCalledWith(
+        expect.anything(),
+        expect.arrayContaining([
+          expect.objectContaining({
+            conzone_id: "section1",
+            congestion: "CONGESTED",
+            travel_time: 30,
+          }),
+        ])
+      );
+    });
+  });
+
   // 테스트 케이스 분할 - 4: rawAccidents 업데이트 시 processData 호출 확인
   it("rawAccidents가 업데이트되면 useEffect에 의해 processData가 호출된다", async () => {
     // processData 함수 호출 횟수를 추적하기 위한 스파이 설정

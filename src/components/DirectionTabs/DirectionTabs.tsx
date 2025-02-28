@@ -150,7 +150,6 @@ const DirectionTabs = ({ data }: { data: AccidentInfo["accidents"] }) => {
         {filteredData.length > 0 ? (
           filteredData.map((item, index) => {
             const {
-              accident_type,
               accident_detail_type,
               description,
               occurred_at,
@@ -161,7 +160,7 @@ const DirectionTabs = ({ data }: { data: AccidentInfo["accidents"] }) => {
             const data = {
               from: start_name,
               to: end_name,
-              accidentType: accident_type,
+              accidentType: "",
               accidentDetailType: accident_detail_type,
               content: description,
               fromTime: moment(occurred_at).format("YYYY-MM-DD HH:mm:ss"),

@@ -138,7 +138,6 @@ const Container: React.FC = () => {
     // 사고 정보가 있을 경우 데이터 업데이트
     if (currentAccident) {
       const {
-        accident_type,
         accident_detail_type,
         description,
         occurred_at,
@@ -149,7 +148,7 @@ const Container: React.FC = () => {
       defaultData = {
         from: start_name,
         to: end_name,
-        accidentType: accident_type,
+        accidentType: "",
         accidentDetailType: accident_detail_type,
         content: description,
         fromTime: moment(occurred_at).format("YYYY-MM-DD HH:mm:ss"),
@@ -195,29 +194,7 @@ const Container: React.FC = () => {
 
                   // 소켓으로 받은 사고 데이터 업데이트
                   if (accidentData && accidentData.length > 0) {
-                    setRawAccidents((prevAccidents) => {
-                      // 기존 데이터와 새 데이터를 병합하는 로직
-                      // 실제 구현은 데이터 구조에 따라 달라질 수 있음
-                      const newAccidents = [...prevAccidents];
-
-                      // 새로운 사고 정보 추가 또는 기존 정보 업데이트
-                      accidentData.forEach((newAccident: any) => {
-                        const existingIndex = newAccidents.findIndex(
-                          (acc) => acc.conzone_id === newAccident.conzone_id
-                        );
-
-                        if (existingIndex >= 0) {
-                          newAccidents[existingIndex] = {
-                            ...newAccidents[existingIndex],
-                            ...newAccident,
-                          };
-                        } else {
-                          newAccidents.push(newAccident);
-                        }
-                      });
-
-                      return newAccidents;
-                    });
+                    setRawAccidents(accidentData);
                   }
                 } catch (e) {
                   console.error("사고 메시지 파싱 오류:", e);

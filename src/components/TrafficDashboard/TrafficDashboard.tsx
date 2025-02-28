@@ -189,7 +189,7 @@ const Section = (props: SectionProps) => {
       <div className="h-[46px] bg-gray-100 grid grid-cols-4 items-center">
         <div className="flex items-center pl-4 text-[#777779] text-[10px]">
           <span>{distance}km</span>
-          <img
+          {/* <img
             className="w-[5px] h-[8px] ml-2 cursor-pointer"
             onClick={() => {
               if (!!onClick) {
@@ -198,7 +198,7 @@ const Section = (props: SectionProps) => {
             }}
             src={ic_right_arrow_small.src}
             alt="right_arrow_small"
-          />
+          /> */}
         </div>
         <div className="w-full h-full">
           <TrafficBar

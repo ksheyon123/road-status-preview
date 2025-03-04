@@ -74,8 +74,8 @@ export const TravelItem = ({
         </th>
         <td className={`w-[${rowWidth}px] pl-2 py-2 bg-white`}>
           <span>{data.fromTime}</span>
-          <span> - </span>
-          <span>{data.fromTime || "진행중"}</span>
+          {/* <span> - </span> */}
+          {/* <span>{data.toTime || "진행중"}</span> */}
         </td>
       </tr>
     </tbody>
@@ -163,8 +163,12 @@ const DirectionTabs = ({ data }: { data: AccidentInfo["accidents"] }) => {
               accidentType: "",
               accidentDetailType: accident_detail_type,
               content: description,
-              fromTime: moment(occurred_at).format("YYYY-MM-DD HH:mm:ss"),
-              toTime: moment(cleared_at).format("YYYY-MM-DD HH:mm:ss"),
+              fromTime: occurred_at
+                ? moment(occurred_at).format("YYYY-MM-DD HH:mm:ss")
+                : "",
+              toTime: cleared_at
+                ? moment(cleared_at).format("YYYY-MM-DD HH:mm:ss")
+                : "",
             };
             return (
               <div key={index} className="py-2">

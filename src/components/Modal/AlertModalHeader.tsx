@@ -5,13 +5,20 @@ import CloseIcon from "@/assets/images/xmark.png";
 import HighwayIcon from "@/assets/images/highway.png";
 import { useHighwayContext } from "@/contexts/HighwayContext";
 
-const AlertModalHeader = () => {
+interface IProps {
+  direction: "s" | "e";
+}
+
+const AlertModalHeader = ({ direction }: IProps) => {
   const { closeModal } = useModalContext();
   const { curHighway } = useHighwayContext();
-  const { route_display_id, route_name } = curHighway || {
-    route_display_id: "",
-    route_name: "",
-  };
+  const { route_display_id, route_name, start_point, end_point } =
+    curHighway || {
+      route_display_id: "",
+      route_name: "",
+      start_point: "",
+      end_point: "",
+    };
   return (
     <div className="flex flex-col w-[500px] p-[10px] pb-[0px]">
       <div className="h-10">
@@ -44,7 +51,9 @@ const AlertModalHeader = () => {
             />
           </div>
         </div>
-        <div className="pl-[26px] text-sm text-[#000]">서울방향</div>
+        <div className="pl-[26px] text-sm text-[#000]">
+          {direction === "s" ? start_point : end_point}방향
+        </div>
       </div>
     </div>
   );

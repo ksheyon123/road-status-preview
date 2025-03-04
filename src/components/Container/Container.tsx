@@ -151,8 +151,12 @@ const Container: React.FC = () => {
         accidentType: "",
         accidentDetailType: accident_detail_type,
         content: description,
-        fromTime: moment(occurred_at).format("YYYY-MM-DD HH:mm:ss"),
-        toTime: moment(cleared_at).format("YYYY-MM-DD HH:mm:ss"),
+        fromTime: occurred_at
+          ? moment(occurred_at).format("YYYY-MM-DD HH:mm:ss")
+          : "",
+        toTime: cleared_at
+          ? moment(cleared_at).format("YYYY-MM-DD HH:mm:ss")
+          : "",
       };
     }
 
@@ -160,7 +164,7 @@ const Container: React.FC = () => {
       <div className="px-2.5 py-2.5 w-[500px]">
         <TravelItem rowWidth={414} rowHeight={40} data={defaultData} />
       </div>,
-      <AlertModalHeader />,
+      <AlertModalHeader direction={conzoneId.includes("S") ? "s" : "e"} />,
       {
         useHeader: true,
       }

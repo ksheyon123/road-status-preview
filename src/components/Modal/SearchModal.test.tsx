@@ -50,10 +50,10 @@ describe("SearchModal", () => {
     });
 
     // 검색 입력창이 렌더링되는지 확인
-    expect(screen.getByPlaceholderText("고속도로")).toBeInTheDocument();
+    expect(screen.getByPlaceholderText("고속도로 검색")).toBeInTheDocument();
 
-    // 취소 버튼이 렌더링되는지 확인
-    expect(screen.getByText("취소")).toBeInTheDocument();
+    // 뒤로가기 아이콘이 렌더링되는지 확인
+    expect(screen.getByAltText("back")).toBeInTheDocument();
 
     // 고속도로 목록이 로드되는지 확인
     expect(screen.getByText("경부고속도로")).toBeInTheDocument();
@@ -69,7 +69,7 @@ describe("SearchModal", () => {
     });
 
     // 검색어 입력
-    const searchInput = screen.getByPlaceholderText("고속도로");
+    const searchInput = screen.getByPlaceholderText("고속도로 검색");
     await user.type(searchInput, "중부");
 
     // 필터링 결과 확인
@@ -78,15 +78,17 @@ describe("SearchModal", () => {
     expect(screen.getByText("중부고속도로")).toBeInTheDocument();
   });
 
-  it("취소 버튼 클릭 시 모달이 닫힌다", async () => {
+  it("뒤로가기 아이콘 클릭 시 모달이 닫힌다", async () => {
     const user = userEvent.setup();
 
     await act(async () => {
       render(<SearchModal />);
     });
 
-    const cancelButton = screen.getByText("취소");
-    await user.click(cancelButton);
+    const backButton = screen.getByAltText("back").closest("div");
+    if (backButton) {
+      await user.click(backButton);
+    }
 
     expect(mockCloseModal).toHaveBeenCalled();
   });

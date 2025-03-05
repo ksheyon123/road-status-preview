@@ -46,7 +46,7 @@ const Button = ({
     secondary: `bg-gray-100 border border-gray-300 ${
       hover ? "hover:bg-gray-200" : ""
     } focus:ring-2 focus:ring-gray-300`,
-    text: `text-blue-500 ${hover ? "hover:bg-blue-50" : ""}`,
+    text: "",
   };
 
   // 아이콘 간격

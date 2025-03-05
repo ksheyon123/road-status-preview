@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import Button from "@/components/Button/Button";
 
 interface NavigationProps {
   activeTab: string;
@@ -12,9 +13,10 @@ const Tabs: React.FC<NavigationProps> = ({ activeTab, setActiveTab }) => {
     <div className="w-full h-[38px] border-b border-[#EEE] border-solid">
       <div className="flex h-full">
         {tabs.map((tab) => (
-          <button
+          <Button
             key={tab}
             onClick={() => setActiveTab(tab)}
+            variant="text"
             className={`flex-1 h-full text-center text-xs transition-colors
               ${
                 activeTab === tab
@@ -23,7 +25,7 @@ const Tabs: React.FC<NavigationProps> = ({ activeTab, setActiveTab }) => {
               }`}
           >
             {tab}
-          </button>
+          </Button>
         ))}
       </div>
     </div>

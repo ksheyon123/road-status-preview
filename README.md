@@ -236,8 +236,8 @@ STOMP over WebSocket을 사용하여 실시간 데이터를 수신합니다:
 
 - `Button`: 다양한 스타일과 크기의 버튼 컴포넌트
 
-  - variant, size, width, icon 등 다양한 props를 통한 커스터마이징
-  - 로딩 상태 및 비활성화 상태 지원
+  \- variant, size, width, icon 등 다양한 props를 통한 커스터마이징
+  \- 로딩 상태 및 비활성화 상태 지원
 
 - `Input` 컴포넌트 시리즈:
 

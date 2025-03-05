@@ -261,5 +261,8 @@ STOMP over WebSocket을 사용하여 실시간 데이터를 수신합니다:
 
 ## 10. 배포 환경
 
+- `rsync -avz --exclude='node_modules' --exclude='.env.local' --exclude='.next' --exclude='.git' .  ubuntu@3.36.200.143:~/mlff__front` 프로젝트 코드를 AWS로 복사합니다.
+- `ssh ubuntu@3.36.200.143` 접근
+- AWS의 root에서 `bash deploy.sh` 실행합니다.
 - Docker 컨테이너화 지원 (Dockerfile 및 docker-compose.yml 포함)
 - 환경 변수를 통한 설정 관리 (.env 파일)

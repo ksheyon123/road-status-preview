@@ -8,7 +8,7 @@
 
 > **getRoutes**(`id`): `Promise`\<[`ApiResponse`](../../../types/https/interfaces/ApiResponse.md)\<[`RouteInfo`](../../../types/type-aliases/RouteInfo.md)\>\>
 
-Defined in: [src/https/apis.ts:31](https://github.com/ksheyon123/road-status-preview/blob/f8475dd9e1f35d9b8acf92ef20ed9d0782a8bb42/src/https/apis.ts#L31)
+Defined in: [src/https/apis.ts:31](https://github.com/ksheyon123/road-status-preview/blob/d56258a23fae54155a9cd30000ae39fff6269a67/src/https/apis.ts#L31)
 
 특정 고속도로의 경로 정보를 가져옵니다.
 

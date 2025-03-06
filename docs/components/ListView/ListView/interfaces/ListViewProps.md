@@ -6,11 +6,17 @@
 
 # Interface: ListViewProps\<T\>
 
-Defined in: [src/components/ListView/ListView.tsx:3](https://github.com/ksheyon123/road-status-preview/blob/f8475dd9e1f35d9b8acf92ef20ed9d0782a8bb42/src/components/ListView/ListView.tsx#L3)
+Defined in: [src/components/ListView/ListView.tsx:21](https://github.com/ksheyon123/road-status-preview/blob/d56258a23fae54155a9cd30000ae39fff6269a67/src/components/ListView/ListView.tsx#L21)
+
+리스트 뷰 컴포넌트의 Props 인터페이스
+
+ ListViewProps
 
 ## Type Parameters
 
 • **T**
+
+리스트 아이템의 타입
 
 ## Properties
 
@@ -18,7 +24,9 @@ Defined in: [src/components/ListView/ListView.tsx:3](https://github.com/ksheyon1
 
 > `optional` **className**: `string`
 
-Defined in: [src/components/ListView/ListView.tsx:6](https://github.com/ksheyon123/road-status-preview/blob/f8475dd9e1f35d9b8acf92ef20ed9d0782a8bb42/src/components/ListView/ListView.tsx#L6)
+Defined in: [src/components/ListView/ListView.tsx:24](https://github.com/ksheyon123/road-status-preview/blob/d56258a23fae54155a9cd30000ae39fff6269a67/src/components/ListView/ListView.tsx#L24)
+
+추가 CSS 클래스
 
 ***
 
@@ -26,7 +34,9 @@ Defined in: [src/components/ListView/ListView.tsx:6](https://github.com/ksheyon1
 
 > `optional` **emptyMessage**: `string`
 
-Defined in: [src/components/ListView/ListView.tsx:7](https://github.com/ksheyon123/road-status-preview/blob/f8475dd9e1f35d9b8acf92ef20ed9d0782a8bb42/src/components/ListView/ListView.tsx#L7)
+Defined in: [src/components/ListView/ListView.tsx:25](https://github.com/ksheyon123/road-status-preview/blob/d56258a23fae54155a9cd30000ae39fff6269a67/src/components/ListView/ListView.tsx#L25)
+
+데이터가 없을 때 표시할 메시지
 
 ***
 
@@ -34,7 +44,9 @@ Defined in: [src/components/ListView/ListView.tsx:7](https://github.com/ksheyon1
 
 > `optional` **isLoading**: `boolean`
 
-Defined in: [src/components/ListView/ListView.tsx:8](https://github.com/ksheyon123/road-status-preview/blob/f8475dd9e1f35d9b8acf92ef20ed9d0782a8bb42/src/components/ListView/ListView.tsx#L8)
+Defined in: [src/components/ListView/ListView.tsx:26](https://github.com/ksheyon123/road-status-preview/blob/d56258a23fae54155a9cd30000ae39fff6269a67/src/components/ListView/ListView.tsx#L26)
+
+로딩 상태 여부
 
 ***
 
@@ -42,7 +54,9 @@ Defined in: [src/components/ListView/ListView.tsx:8](https://github.com/ksheyon1
 
 > **items**: `T`[]
 
-Defined in: [src/components/ListView/ListView.tsx:4](https://github.com/ksheyon123/road-status-preview/blob/f8475dd9e1f35d9b8acf92ef20ed9d0782a8bb42/src/components/ListView/ListView.tsx#L4)
+Defined in: [src/components/ListView/ListView.tsx:22](https://github.com/ksheyon123/road-status-preview/blob/d56258a23fae54155a9cd30000ae39fff6269a67/src/components/ListView/ListView.tsx#L22)
+
+렌더링할 아이템 배열
 
 ***
 
@@ -50,7 +64,9 @@ Defined in: [src/components/ListView/ListView.tsx:4](https://github.com/ksheyon1
 
 > **renderItem**: (`item`, `index`) => `ReactNode`
 
-Defined in: [src/components/ListView/ListView.tsx:5](https://github.com/ksheyon123/road-status-preview/blob/f8475dd9e1f35d9b8acf92ef20ed9d0782a8bb42/src/components/ListView/ListView.tsx#L5)
+Defined in: [src/components/ListView/ListView.tsx:23](https://github.com/ksheyon123/road-status-preview/blob/d56258a23fae54155a9cd30000ae39fff6269a67/src/components/ListView/ListView.tsx#L23)
+
+각 아이템을 렌더링하는 함수
 
 #### Parameters
 

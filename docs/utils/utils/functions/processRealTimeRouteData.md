@@ -8,7 +8,7 @@
 
 > **processRealTimeRouteData**(`routeData`, `realtimeData`): `object`
 
-Defined in: [src/utils/utils.ts:164](https://github.com/ksheyon123/road-status-preview/blob/f8475dd9e1f35d9b8acf92ef20ed9d0782a8bb42/src/utils/utils.ts#L164)
+Defined in: [src/utils/utils.ts:164](https://github.com/ksheyon123/road-status-preview/blob/d56258a23fae54155a9cd30000ae39fff6269a67/src/utils/utils.ts#L164)
 
 실시간 교통 정보를 경로 데이터에 추가하는 함수
 

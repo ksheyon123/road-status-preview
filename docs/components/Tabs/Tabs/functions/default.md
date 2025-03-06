@@ -8,13 +8,20 @@
 
 > **default**(`props`, `deprecatedLegacyContext`?): `ReactNode`
 
-Defined in: [src/components/Tabs/Tabs.tsx:9](https://github.com/ksheyon123/road-status-preview/blob/f8475dd9e1f35d9b8acf92ef20ed9d0782a8bb42/src/components/Tabs/Tabs.tsx#L9)
+Defined in: [src/components/Tabs/Tabs.tsx:32](https://github.com/ksheyon123/road-status-preview/blob/d56258a23fae54155a9cd30000ae39fff6269a67/src/components/Tabs/Tabs.tsx#L32)
+
+탭 컴포넌트
+
+여러 탭 간의 전환을 관리하는 네비게이션 컴포넌트입니다.
+현재 활성화된 탭을 시각적으로 표시합니다.
 
 ## Parameters
 
 ### props
 
 `NavigationProps`
+
+탭 컴포넌트 props
 
 ### deprecatedLegacyContext?
 
@@ -29,3 +36,5 @@ Defined in: [src/components/Tabs/Tabs.tsx:9](https://github.com/ksheyon123/road-
 ## Returns
 
 `ReactNode`
+
+탭 컴포넌트 JSX 요소

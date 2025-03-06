@@ -1,6 +1,30 @@
+/**
+ * BasicInput.tsx
+ *
+ * 기본 스타일이 적용된 입력 필드 컴포넌트입니다.
+ * 레이블, 아이콘, 에러 메시지, 도움말 등의 기능을 제공합니다.
+ */
+
 import React, { ChangeEvent } from "react";
 import BaseInput from "./BaseInput";
 
+/**
+ * 기본 입력 필드 컴포넌트의 Props 인터페이스
+ *
+ * @interface BasicInputProps
+ * @extends {Omit<React.InputHTMLAttributes<HTMLInputElement>, "onChange">}
+ * @property {string} value - 입력 필드의 값
+ * @property {(event: ChangeEvent<HTMLInputElement>) => void} onChange - 값 변경 이벤트 핸들러
+ * @property {string} [className] - 추가 CSS 클래스
+ * @property {string} [label] - 입력 필드 레이블
+ * @property {string} [icon] - 아이콘 URL
+ * @property {string} [iconClass] - 아이콘 CSS 클래스
+ * @property {string} [error] - 에러 메시지
+ * @property {string} [helperText] - 도움말 텍스트
+ * @property {React.ReactNode} [helperIcon] - 도움말 아이콘
+ * @property {number | string} [width] - 컨테이너 너비
+ * @property {number | string} [height] - 컨테이너 높이
+ */
 export interface BasicInputProps
   extends Omit<React.InputHTMLAttributes<HTMLInputElement>, "onChange"> {
   value: string;
@@ -16,6 +40,15 @@ export interface BasicInputProps
   height?: number | string;
 }
 
+/**
+ * 기본 입력 필드 컴포넌트
+ *
+ * 레이블, 아이콘, 에러 메시지, 도움말 등의 기능을 제공하는 입력 필드 컴포넌트입니다.
+ * BaseInput 컴포넌트를 기반으로 추가 기능을 제공합니다.
+ *
+ * @param {BasicInputProps} props - 기본 입력 필드 컴포넌트 props
+ * @returns {JSX.Element} 기본 입력 필드 컴포넌트 JSX 요소
+ */
 const BasicInput: React.FC<BasicInputProps> = ({
   value,
   onChange,

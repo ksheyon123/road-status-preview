@@ -6,7 +6,7 @@
 
 # Interface: ModalOptions
 
-Defined in: [src/hooks/useModal.tsx:40](https://github.com/ksheyon123/road-status-preview/blob/f8475dd9e1f35d9b8acf92ef20ed9d0782a8bb42/src/hooks/useModal.tsx#L40)
+Defined in: [src/hooks/useModal.tsx:40](https://github.com/ksheyon123/road-status-preview/blob/d56258a23fae54155a9cd30000ae39fff6269a67/src/hooks/useModal.tsx#L40)
 
 모달 옵션 인터페이스
 
@@ -18,7 +18,7 @@ Defined in: [src/hooks/useModal.tsx:40](https://github.com/ksheyon123/road-statu
 
 > `optional` **backdropProps**: `HTMLAttributes`\<`HTMLDivElement`\>
 
-Defined in: [src/hooks/useModal.tsx:42](https://github.com/ksheyon123/road-status-preview/blob/f8475dd9e1f35d9b8acf92ef20ed9d0782a8bb42/src/hooks/useModal.tsx#L42)
+Defined in: [src/hooks/useModal.tsx:42](https://github.com/ksheyon123/road-status-preview/blob/d56258a23fae54155a9cd30000ae39fff6269a67/src/hooks/useModal.tsx#L42)
 
 배경 요소에 전달할 props
 
@@ -28,7 +28,7 @@ Defined in: [src/hooks/useModal.tsx:42](https://github.com/ksheyon123/road-statu
 
 > `optional` **containerProps**: `HTMLAttributes`\<`HTMLDivElement`\>
 
-Defined in: [src/hooks/useModal.tsx:45](https://github.com/ksheyon123/road-status-preview/blob/f8475dd9e1f35d9b8acf92ef20ed9d0782a8bb42/src/hooks/useModal.tsx#L45)
+Defined in: [src/hooks/useModal.tsx:45](https://github.com/ksheyon123/road-status-preview/blob/d56258a23fae54155a9cd30000ae39fff6269a67/src/hooks/useModal.tsx#L45)
 
 컨테이너 요소에 전달할 props
 
@@ -38,7 +38,7 @@ Defined in: [src/hooks/useModal.tsx:45](https://github.com/ksheyon123/road-statu
 
 > `optional` **headerProps**: `HTMLAttributes`\<`HTMLDivElement`\>
 
-Defined in: [src/hooks/useModal.tsx:48](https://github.com/ksheyon123/road-status-preview/blob/f8475dd9e1f35d9b8acf92ef20ed9d0782a8bb42/src/hooks/useModal.tsx#L48)
+Defined in: [src/hooks/useModal.tsx:48](https://github.com/ksheyon123/road-status-preview/blob/d56258a23fae54155a9cd30000ae39fff6269a67/src/hooks/useModal.tsx#L48)
 
 헤더 요소에 전달할 props
 
@@ -48,7 +48,7 @@ Defined in: [src/hooks/useModal.tsx:48](https://github.com/ksheyon123/road-statu
 
 > `optional` **useDefaultBackdrop**: `boolean`
 
-Defined in: [src/hooks/useModal.tsx:41](https://github.com/ksheyon123/road-status-preview/blob/f8475dd9e1f35d9b8acf92ef20ed9d0782a8bb42/src/hooks/useModal.tsx#L41)
+Defined in: [src/hooks/useModal.tsx:41](https://github.com/ksheyon123/road-status-preview/blob/d56258a23fae54155a9cd30000ae39fff6269a67/src/hooks/useModal.tsx#L41)
 
 기본 배경 사용 여부 (배경 클릭시 모달 닫힘)
 
@@ -58,7 +58,7 @@ Defined in: [src/hooks/useModal.tsx:41](https://github.com/ksheyon123/road-statu
 
 > `optional` **useDefaultContainer**: `boolean`
 
-Defined in: [src/hooks/useModal.tsx:44](https://github.com/ksheyon123/road-status-preview/blob/f8475dd9e1f35d9b8acf92ef20ed9d0782a8bb42/src/hooks/useModal.tsx#L44)
+Defined in: [src/hooks/useModal.tsx:44](https://github.com/ksheyon123/road-status-preview/blob/d56258a23fae54155a9cd30000ae39fff6269a67/src/hooks/useModal.tsx#L44)
 
 기본 컨테이너 사용 여부
 
@@ -68,6 +68,6 @@ Defined in: [src/hooks/useModal.tsx:44](https://github.com/ksheyon123/road-statu
 
 > `optional` **useHeader**: `boolean`
 
-Defined in: [src/hooks/useModal.tsx:47](https://github.com/ksheyon123/road-status-preview/blob/f8475dd9e1f35d9b8acf92ef20ed9d0782a8bb42/src/hooks/useModal.tsx#L47)
+Defined in: [src/hooks/useModal.tsx:47](https://github.com/ksheyon123/road-status-preview/blob/d56258a23fae54155a9cd30000ae39fff6269a67/src/hooks/useModal.tsx#L47)
 
 헤더 사용 여부

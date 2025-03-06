@@ -8,7 +8,7 @@
 
 > **HighwayProvider**(`props`): `Element`
 
-Defined in: [src/contexts/HighwayContext.tsx:45](https://github.com/ksheyon123/road-status-preview/blob/f8475dd9e1f35d9b8acf92ef20ed9d0782a8bb42/src/contexts/HighwayContext.tsx#L45)
+Defined in: [src/contexts/HighwayContext.tsx:45](https://github.com/ksheyon123/road-status-preview/blob/d56258a23fae54155a9cd30000ae39fff6269a67/src/contexts/HighwayContext.tsx#L45)
 
 고속도로 Context Provider 컴포넌트
 고속도로 데이터를 가져와서 자식 컴포넌트에 제공합니다.

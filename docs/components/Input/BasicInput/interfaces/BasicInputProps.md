@@ -6,7 +6,11 @@
 
 # Interface: BasicInputProps
 
-Defined in: [src/components/Input/BasicInput.tsx:4](https://github.com/ksheyon123/road-status-preview/blob/f8475dd9e1f35d9b8acf92ef20ed9d0782a8bb42/src/components/Input/BasicInput.tsx#L4)
+Defined in: [src/components/Input/BasicInput.tsx:28](https://github.com/ksheyon123/road-status-preview/blob/d56258a23fae54155a9cd30000ae39fff6269a67/src/components/Input/BasicInput.tsx#L28)
+
+기본 입력 필드 컴포넌트의 Props 인터페이스
+
+ BasicInputProps
 
 ## Extends
 
@@ -18,7 +22,9 @@ Defined in: [src/components/Input/BasicInput.tsx:4](https://github.com/ksheyon12
 
 > `optional` **className**: `string`
 
-Defined in: [src/components/Input/BasicInput.tsx:8](https://github.com/ksheyon123/road-status-preview/blob/f8475dd9e1f35d9b8acf92ef20ed9d0782a8bb42/src/components/Input/BasicInput.tsx#L8)
+Defined in: [src/components/Input/BasicInput.tsx:32](https://github.com/ksheyon123/road-status-preview/blob/d56258a23fae54155a9cd30000ae39fff6269a67/src/components/Input/BasicInput.tsx#L32)
+
+추가 CSS 클래스
 
 #### Overrides
 
@@ -30,7 +36,9 @@ Defined in: [src/components/Input/BasicInput.tsx:8](https://github.com/ksheyon12
 
 > `optional` **error**: `string`
 
-Defined in: [src/components/Input/BasicInput.tsx:12](https://github.com/ksheyon123/road-status-preview/blob/f8475dd9e1f35d9b8acf92ef20ed9d0782a8bb42/src/components/Input/BasicInput.tsx#L12)
+Defined in: [src/components/Input/BasicInput.tsx:36](https://github.com/ksheyon123/road-status-preview/blob/d56258a23fae54155a9cd30000ae39fff6269a67/src/components/Input/BasicInput.tsx#L36)
+
+에러 메시지
 
 ***
 
@@ -38,7 +46,9 @@ Defined in: [src/components/Input/BasicInput.tsx:12](https://github.com/ksheyon1
 
 > `optional` **height**: `string` \| `number`
 
-Defined in: [src/components/Input/BasicInput.tsx:16](https://github.com/ksheyon123/road-status-preview/blob/f8475dd9e1f35d9b8acf92ef20ed9d0782a8bb42/src/components/Input/BasicInput.tsx#L16)
+Defined in: [src/components/Input/BasicInput.tsx:40](https://github.com/ksheyon123/road-status-preview/blob/d56258a23fae54155a9cd30000ae39fff6269a67/src/components/Input/BasicInput.tsx#L40)
+
+컨테이너 높이
 
 #### Overrides
 
@@ -50,7 +60,9 @@ Defined in: [src/components/Input/BasicInput.tsx:16](https://github.com/ksheyon1
 
 > `optional` **helperIcon**: `ReactNode`
 
-Defined in: [src/components/Input/BasicInput.tsx:14](https://github.com/ksheyon123/road-status-preview/blob/f8475dd9e1f35d9b8acf92ef20ed9d0782a8bb42/src/components/Input/BasicInput.tsx#L14)
+Defined in: [src/components/Input/BasicInput.tsx:38](https://github.com/ksheyon123/road-status-preview/blob/d56258a23fae54155a9cd30000ae39fff6269a67/src/components/Input/BasicInput.tsx#L38)
+
+도움말 아이콘
 
 ***
 
@@ -58,7 +70,9 @@ Defined in: [src/components/Input/BasicInput.tsx:14](https://github.com/ksheyon1
 
 > `optional` **helperText**: `string`
 
-Defined in: [src/components/Input/BasicInput.tsx:13](https://github.com/ksheyon123/road-status-preview/blob/f8475dd9e1f35d9b8acf92ef20ed9d0782a8bb42/src/components/Input/BasicInput.tsx#L13)
+Defined in: [src/components/Input/BasicInput.tsx:37](https://github.com/ksheyon123/road-status-preview/blob/d56258a23fae54155a9cd30000ae39fff6269a67/src/components/Input/BasicInput.tsx#L37)
+
+도움말 텍스트
 
 ***
 
@@ -66,7 +80,9 @@ Defined in: [src/components/Input/BasicInput.tsx:13](https://github.com/ksheyon1
 
 > `optional` **icon**: `string`
 
-Defined in: [src/components/Input/BasicInput.tsx:10](https://github.com/ksheyon123/road-status-preview/blob/f8475dd9e1f35d9b8acf92ef20ed9d0782a8bb42/src/components/Input/BasicInput.tsx#L10)
+Defined in: [src/components/Input/BasicInput.tsx:34](https://github.com/ksheyon123/road-status-preview/blob/d56258a23fae54155a9cd30000ae39fff6269a67/src/components/Input/BasicInput.tsx#L34)
+
+아이콘 URL
 
 ***
 
@@ -74,7 +90,9 @@ Defined in: [src/components/Input/BasicInput.tsx:10](https://github.com/ksheyon1
 
 > `optional` **iconClass**: `string`
 
-Defined in: [src/components/Input/BasicInput.tsx:11](https://github.com/ksheyon123/road-status-preview/blob/f8475dd9e1f35d9b8acf92ef20ed9d0782a8bb42/src/components/Input/BasicInput.tsx#L11)
+Defined in: [src/components/Input/BasicInput.tsx:35](https://github.com/ksheyon123/road-status-preview/blob/d56258a23fae54155a9cd30000ae39fff6269a67/src/components/Input/BasicInput.tsx#L35)
+
+아이콘 CSS 클래스
 
 ***
 
@@ -82,7 +100,9 @@ Defined in: [src/components/Input/BasicInput.tsx:11](https://github.com/ksheyon1
 
 > `optional` **label**: `string`
 
-Defined in: [src/components/Input/BasicInput.tsx:9](https://github.com/ksheyon123/road-status-preview/blob/f8475dd9e1f35d9b8acf92ef20ed9d0782a8bb42/src/components/Input/BasicInput.tsx#L9)
+Defined in: [src/components/Input/BasicInput.tsx:33](https://github.com/ksheyon123/road-status-preview/blob/d56258a23fae54155a9cd30000ae39fff6269a67/src/components/Input/BasicInput.tsx#L33)
+
+입력 필드 레이블
 
 ***
 
@@ -90,7 +110,9 @@ Defined in: [src/components/Input/BasicInput.tsx:9](https://github.com/ksheyon12
 
 > **onChange**: (`event`) => `void`
 
-Defined in: [src/components/Input/BasicInput.tsx:7](https://github.com/ksheyon123/road-status-preview/blob/f8475dd9e1f35d9b8acf92ef20ed9d0782a8bb42/src/components/Input/BasicInput.tsx#L7)
+Defined in: [src/components/Input/BasicInput.tsx:31](https://github.com/ksheyon123/road-status-preview/blob/d56258a23fae54155a9cd30000ae39fff6269a67/src/components/Input/BasicInput.tsx#L31)
+
+값 변경 이벤트 핸들러
 
 #### Parameters
 
@@ -108,7 +130,9 @@ Defined in: [src/components/Input/BasicInput.tsx:7](https://github.com/ksheyon12
 
 > **value**: `string`
 
-Defined in: [src/components/Input/BasicInput.tsx:6](https://github.com/ksheyon123/road-status-preview/blob/f8475dd9e1f35d9b8acf92ef20ed9d0782a8bb42/src/components/Input/BasicInput.tsx#L6)
+Defined in: [src/components/Input/BasicInput.tsx:30](https://github.com/ksheyon123/road-status-preview/blob/d56258a23fae54155a9cd30000ae39fff6269a67/src/components/Input/BasicInput.tsx#L30)
+
+입력 필드의 값
 
 #### Overrides
 
@@ -120,7 +144,9 @@ Defined in: [src/components/Input/BasicInput.tsx:6](https://github.com/ksheyon12
 
 > `optional` **width**: `string` \| `number`
 
-Defined in: [src/components/Input/BasicInput.tsx:15](https://github.com/ksheyon123/road-status-preview/blob/f8475dd9e1f35d9b8acf92ef20ed9d0782a8bb42/src/components/Input/BasicInput.tsx#L15)
+Defined in: [src/components/Input/BasicInput.tsx:39](https://github.com/ksheyon123/road-status-preview/blob/d56258a23fae54155a9cd30000ae39fff6269a67/src/components/Input/BasicInput.tsx#L39)
+
+컨테이너 너비
 
 #### Overrides
 

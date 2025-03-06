@@ -8,7 +8,7 @@
 
 > **useModal**(): `object`
 
-Defined in: [src/hooks/useModal.tsx:62](https://github.com/ksheyon123/road-status-preview/blob/f8475dd9e1f35d9b8acf92ef20ed9d0782a8bb42/src/hooks/useModal.tsx#L62)
+Defined in: [src/hooks/useModal.tsx:62](https://github.com/ksheyon123/road-status-preview/blob/d56258a23fae54155a9cd30000ae39fff6269a67/src/hooks/useModal.tsx#L62)
 
 모달 상태와 기능을 관리하는 커스텀 훅
 

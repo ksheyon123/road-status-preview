@@ -1,5 +1,27 @@
+/**
+ * Button.tsx
+ *
+ * 재사용 가능한 버튼 컴포넌트입니다.
+ * 다양한 스타일, 크기, 상태를 지원하며 아이콘을 포함할 수 있습니다.
+ */
+
 import React, { ButtonHTMLAttributes, ReactNode } from "react";
 
+/**
+ * 버튼 컴포넌트의 Props 인터페이스
+ *
+ * @interface ButtonProps
+ * @extends {ButtonHTMLAttributes<HTMLButtonElement>}
+ * @property {"primary" | "secondary" | "text"} [variant] - 버튼 스타일 변형
+ * @property {"small" | "medium" | "large"} [size] - 버튼 크기
+ * @property {string} [width] - 버튼 너비
+ * @property {ReactNode} [startIcon] - 버튼 시작 부분에 표시할 아이콘
+ * @property {ReactNode} [endIcon] - 버튼 끝 부분에 표시할 아이콘
+ * @property {ReactNode} [icon] - 아이콘 전용 버튼에 사용할 아이콘
+ * @property {boolean} [iconOnly] - 아이콘만 표시할지 여부
+ * @property {boolean} [loading] - 로딩 상태 여부
+ * @property {boolean} [hover] - 호버 효과 사용 여부
+ */
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: "primary" | "secondary" | "text";
   size?: "small" | "medium" | "large";
@@ -12,6 +34,15 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   hover?: boolean;
 }
 
+/**
+ * 버튼 컴포넌트
+ *
+ * 다양한 스타일과 크기를 지원하는 재사용 가능한 버튼 컴포넌트입니다.
+ * 아이콘, 로딩 상태, 비활성화 상태 등을 지원합니다.
+ *
+ * @param {ButtonProps} props - 버튼 컴포넌트 props
+ * @returns {JSX.Element} 버튼 컴포넌트 JSX 요소
+ */
 const Button = ({
   variant = "primary",
   size = "medium",
@@ -72,7 +103,13 @@ const Button = ({
     .filter(Boolean)
     .join(" ");
 
-  // 로딩 스피너 컴포넌트
+  /**
+   * 로딩 스피너 컴포넌트
+   *
+   * 버튼이 로딩 상태일 때 표시되는 애니메이션 스피너입니다.
+   *
+   * @returns {JSX.Element} 로딩 스피너 JSX 요소
+   */
   const LoadingSpinner = () => (
     <svg
       className="animate-spin h-5 w-5"

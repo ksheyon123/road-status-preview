@@ -8,13 +8,20 @@
 
 > **default**(`props`, `deprecatedLegacyContext`?): `ReactNode`
 
-Defined in: [src/components/Modal/SearchModal.tsx:21](https://github.com/ksheyon123/road-status-preview/blob/f8475dd9e1f35d9b8acf92ef20ed9d0782a8bb42/src/components/Modal/SearchModal.tsx#L21)
+Defined in: [src/components/Modal/SearchModal.tsx:49](https://github.com/ksheyon123/road-status-preview/blob/d56258a23fae54155a9cd30000ae39fff6269a67/src/components/Modal/SearchModal.tsx#L49)
+
+검색 모달 컴포넌트
+
+고속도로 목록을 검색하고 선택할 수 있는 모달 컴포넌트입니다.
+검색 기능과 고속도로 목록을 표시합니다.
 
 ## Parameters
 
 ### props
 
 `IProps`
+
+검색 모달 컴포넌트 props
 
 ### deprecatedLegacyContext?
 
@@ -29,3 +36,5 @@ Defined in: [src/components/Modal/SearchModal.tsx:21](https://github.com/ksheyon
 ## Returns
 
 `ReactNode`
+
+검색 모달 컴포넌트 JSX 요소

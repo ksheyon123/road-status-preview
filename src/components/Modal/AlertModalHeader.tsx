@@ -1,3 +1,10 @@
+/**
+ * AlertModalHeader.tsx
+ *
+ * 알림 모달의 헤더 컴포넌트입니다.
+ * 고속도로 정보와 방향을 표시하고 닫기 버튼을 제공합니다.
+ */
+
 import { useModalContext } from "@/contexts/ModalContext";
 import Image from "next/image";
 
@@ -5,10 +12,25 @@ import CloseIcon from "@/assets/images/xmark.png";
 import HighwayIcon from "@/assets/images/highway.png";
 import { useHighwayContext } from "@/contexts/HighwayContext";
 
+/**
+ * 알림 모달 헤더 컴포넌트의 Props 인터페이스
+ *
+ * @interface IProps
+ * @property {"s" | "e"} direction - 방향 ("s": 시작점 방향, "e": 종점 방향)
+ */
 interface IProps {
   direction: "s" | "e";
 }
 
+/**
+ * 알림 모달 헤더 컴포넌트
+ *
+ * 알림 모달의 상단에 표시되는 헤더 컴포넌트입니다.
+ * 고속도로 정보, 방향, 닫기 버튼을 포함합니다.
+ *
+ * @param {IProps} props - 알림 모달 헤더 컴포넌트 props
+ * @returns {JSX.Element} 알림 모달 헤더 컴포넌트 JSX 요소
+ */
 const AlertModalHeader = ({ direction }: IProps) => {
   const { closeModal } = useModalContext();
   const { curHighway } = useHighwayContext();

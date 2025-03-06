@@ -6,7 +6,7 @@
 
 # Class: default
 
-Defined in: [src/pages/\_document.tsx:3](https://github.com/ksheyon123/road-status-preview/blob/f8475dd9e1f35d9b8acf92ef20ed9d0782a8bb42/src/pages/_document.tsx#L3)
+Defined in: [src/pages/\_document.tsx:3](https://github.com/ksheyon123/road-status-preview/blob/d56258a23fae54155a9cd30000ae39fff6269a67/src/pages/_document.tsx#L3)
 
 ## Extends
 
@@ -70,7 +70,7 @@ Defined in: node\_modules/@types/react/index.d.ts:1020
 
 > **render**(): `Element`
 
-Defined in: [src/pages/\_document.tsx:9](https://github.com/ksheyon123/road-status-preview/blob/f8475dd9e1f35d9b8acf92ef20ed9d0782a8bb42/src/pages/_document.tsx#L9)
+Defined in: [src/pages/\_document.tsx:9](https://github.com/ksheyon123/road-status-preview/blob/d56258a23fae54155a9cd30000ae39fff6269a67/src/pages/_document.tsx#L9)
 
 #### Returns
 
@@ -86,7 +86,7 @@ Defined in: [src/pages/\_document.tsx:9](https://github.com/ksheyon123/road-stat
 
 > `static` **getInitialProps**(`ctx`): `Promise`\<`DocumentInitialProps`\>
 
-Defined in: [src/pages/\_document.tsx:4](https://github.com/ksheyon123/road-status-preview/blob/f8475dd9e1f35d9b8acf92ef20ed9d0782a8bb42/src/pages/_document.tsx#L4)
+Defined in: [src/pages/\_document.tsx:4](https://github.com/ksheyon123/road-status-preview/blob/d56258a23fae54155a9cd30000ae39fff6269a67/src/pages/_document.tsx#L4)
 
 `getInitialProps` hook returns the context object with the addition of `renderPage`.
 `renderPage` callback executes `React` rendering logic synchronously to support server-rendering wrappers

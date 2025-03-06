@@ -8,13 +8,20 @@
 
 > **default**(`props`, `deprecatedLegacyContext`?): `ReactNode`
 
-Defined in: [src/components/Input/SearchInput.tsx:14](https://github.com/ksheyon123/road-status-preview/blob/f8475dd9e1f35d9b8acf92ef20ed9d0782a8bb42/src/components/Input/SearchInput.tsx#L14)
+Defined in: [src/components/Input/SearchInput.tsx:41](https://github.com/ksheyon123/road-status-preview/blob/d56258a23fae54155a9cd30000ae39fff6269a67/src/components/Input/SearchInput.tsx#L41)
+
+검색 입력 필드 컴포넌트
+
+검색 기능을 제공하는 입력 필드 컴포넌트입니다.
+검색 아이콘, 입력 지우기 버튼, 엔터 키 검색 기능을 제공합니다.
 
 ## Parameters
 
 ### props
 
 `SearchInputProps`
+
+검색 입력 필드 컴포넌트 props
 
 ### deprecatedLegacyContext?
 
@@ -29,3 +36,5 @@ Defined in: [src/components/Input/SearchInput.tsx:14](https://github.com/ksheyon
 ## Returns
 
 `ReactNode`
+
+검색 입력 필드 컴포넌트 JSX 요소

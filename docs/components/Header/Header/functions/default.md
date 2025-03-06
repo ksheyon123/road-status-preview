@@ -6,16 +6,25 @@
 
 # Function: default()
 
-> **default**(`__namedParameters`): `Element`
+> **default**(`props`): `Element`
 
-Defined in: [src/components/Header/Header.tsx:14](https://github.com/ksheyon123/road-status-preview/blob/f8475dd9e1f35d9b8acf92ef20ed9d0782a8bb42/src/components/Header/Header.tsx#L14)
+Defined in: [src/components/Header/Header.tsx:39](https://github.com/ksheyon123/road-status-preview/blob/d56258a23fae54155a9cd30000ae39fff6269a67/src/components/Header/Header.tsx#L39)
+
+헤더 컴포넌트
+
+애플리케이션 상단에 표시되는 헤더 컴포넌트입니다.
+뒤로가기 버튼, 고속도로 아이콘, 제목, 검색 버튼을 포함합니다.
 
 ## Parameters
 
-### \_\_namedParameters
+### props
 
 `HeaderProps`
+
+헤더 컴포넌트 props
 
 ## Returns
 
 `Element`
+
+헤더 컴포넌트 JSX 요소

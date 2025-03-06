@@ -8,7 +8,7 @@
 
 > **getHighways**(): `Promise`\<[`ApiResponse`](../../../types/https/interfaces/ApiResponse.md)\<[`HighwayInfo`](../../../types/type-aliases/HighwayInfo.md)\>\>
 
-Defined in: [src/https/apis.ts:13](https://github.com/ksheyon123/road-status-preview/blob/f8475dd9e1f35d9b8acf92ef20ed9d0782a8bb42/src/https/apis.ts#L13)
+Defined in: [src/https/apis.ts:13](https://github.com/ksheyon123/road-status-preview/blob/d56258a23fae54155a9cd30000ae39fff6269a67/src/https/apis.ts#L13)
 
 모든 고속도로에 대한 정보를 가져옵니다.
 

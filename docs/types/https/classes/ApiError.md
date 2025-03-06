@@ -6,7 +6,7 @@
 
 # Class: ApiError
 
-Defined in: [src/types/https.ts:17](https://github.com/ksheyon123/road-status-preview/blob/f8475dd9e1f35d9b8acf92ef20ed9d0782a8bb42/src/types/https.ts#L17)
+Defined in: [src/types/https.ts:17](https://github.com/ksheyon123/road-status-preview/blob/d56258a23fae54155a9cd30000ae39fff6269a67/src/types/https.ts#L17)
 
 API 에러 클래스
 HTTP 요청 중 발생한 에러를 표현합니다.
@@ -23,7 +23,7 @@ HTTP 요청 중 발생한 에러를 표현합니다.
 
 > **new ApiError**(`status`, `data`, `message`): [`ApiError`](ApiError.md)
 
-Defined in: [src/types/https.ts:18](https://github.com/ksheyon123/road-status-preview/blob/f8475dd9e1f35d9b8acf92ef20ed9d0782a8bb42/src/types/https.ts#L18)
+Defined in: [src/types/https.ts:18](https://github.com/ksheyon123/road-status-preview/blob/d56258a23fae54155a9cd30000ae39fff6269a67/src/types/https.ts#L18)
 
 #### Parameters
 
@@ -53,7 +53,7 @@ Defined in: [src/types/https.ts:18](https://github.com/ksheyon123/road-status-pr
 
 > **data**: `any`
 
-Defined in: [src/types/https.ts:18](https://github.com/ksheyon123/road-status-preview/blob/f8475dd9e1f35d9b8acf92ef20ed9d0782a8bb42/src/types/https.ts#L18)
+Defined in: [src/types/https.ts:18](https://github.com/ksheyon123/road-status-preview/blob/d56258a23fae54155a9cd30000ae39fff6269a67/src/types/https.ts#L18)
 
 에러 응답 데이터
 
@@ -63,6 +63,6 @@ Defined in: [src/types/https.ts:18](https://github.com/ksheyon123/road-status-pr
 
 > **status**: `number`
 
-Defined in: [src/types/https.ts:18](https://github.com/ksheyon123/road-status-preview/blob/f8475dd9e1f35d9b8acf92ef20ed9d0782a8bb42/src/types/https.ts#L18)
+Defined in: [src/types/https.ts:18](https://github.com/ksheyon123/road-status-preview/blob/d56258a23fae54155a9cd30000ae39fff6269a67/src/types/https.ts#L18)
 
 HTTP 상태 코드

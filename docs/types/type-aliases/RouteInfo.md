@@ -8,7 +8,7 @@
 
 > **RouteInfo**: `object`
 
-Defined in: [src/types/index.ts:46](https://github.com/ksheyon123/road-status-preview/blob/f8475dd9e1f35d9b8acf92ef20ed9d0782a8bb42/src/types/index.ts#L46)
+Defined in: [src/types/index.ts:46](https://github.com/ksheyon123/road-status-preview/blob/d56258a23fae54155a9cd30000ae39fff6269a67/src/types/index.ts#L46)
 
 경로 정보 타입
 

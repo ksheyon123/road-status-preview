@@ -6,7 +6,6 @@
     "dev": "NEXT_PRIVATE_LOCAL_WEBPACK=true next dev",
     "build": "NEXT_PRIVATE_LOCAL_WEBPACK=true next build",
     "start": "next start",
-    "docs": "jsdoc -c jsdoc.config.json",
     "typedocs": "typedoc --options typedoc.json",
     "test": "jest",
     "lint": "next lint"

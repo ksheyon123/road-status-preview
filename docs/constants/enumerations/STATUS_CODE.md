@@ -6,7 +6,7 @@
 
 # Enumeration: STATUS\_CODE
 
-Defined in: [src/constants/index.ts:1](https://github.com/ksheyon123/road-status-preview/blob/f8475dd9e1f35d9b8acf92ef20ed9d0782a8bb42/src/constants/index.ts#L1)
+Defined in: [src/constants/index.ts:1](https://github.com/ksheyon123/road-status-preview/blob/d56258a23fae54155a9cd30000ae39fff6269a67/src/constants/index.ts#L1)
 
 ## Enumeration Members
 
@@ -14,7 +14,7 @@ Defined in: [src/constants/index.ts:1](https://github.com/ksheyon123/road-status
 
 > **AUTH\_FAILURE**: `401`
 
-Defined in: [src/constants/index.ts:4](https://github.com/ksheyon123/road-status-preview/blob/f8475dd9e1f35d9b8acf92ef20ed9d0782a8bb42/src/constants/index.ts#L4)
+Defined in: [src/constants/index.ts:4](https://github.com/ksheyon123/road-status-preview/blob/d56258a23fae54155a9cd30000ae39fff6269a67/src/constants/index.ts#L4)
 
 ***
 
@@ -22,7 +22,7 @@ Defined in: [src/constants/index.ts:4](https://github.com/ksheyon123/road-status
 
 > **BAD\_REQUEST**: `400`
 
-Defined in: [src/constants/index.ts:3](https://github.com/ksheyon123/road-status-preview/blob/f8475dd9e1f35d9b8acf92ef20ed9d0782a8bb42/src/constants/index.ts#L3)
+Defined in: [src/constants/index.ts:3](https://github.com/ksheyon123/road-status-preview/blob/d56258a23fae54155a9cd30000ae39fff6269a67/src/constants/index.ts#L3)
 
 ***
 
@@ -30,7 +30,7 @@ Defined in: [src/constants/index.ts:3](https://github.com/ksheyon123/road-status
 
 > **NOT\_FOUND**: `404`
 
-Defined in: [src/constants/index.ts:5](https://github.com/ksheyon123/road-status-preview/blob/f8475dd9e1f35d9b8acf92ef20ed9d0782a8bb42/src/constants/index.ts#L5)
+Defined in: [src/constants/index.ts:5](https://github.com/ksheyon123/road-status-preview/blob/d56258a23fae54155a9cd30000ae39fff6269a67/src/constants/index.ts#L5)
 
 ***
 
@@ -38,7 +38,7 @@ Defined in: [src/constants/index.ts:5](https://github.com/ksheyon123/road-status
 
 > **SERVER\_ERROR**: `500`
 
-Defined in: [src/constants/index.ts:6](https://github.com/ksheyon123/road-status-preview/blob/f8475dd9e1f35d9b8acf92ef20ed9d0782a8bb42/src/constants/index.ts#L6)
+Defined in: [src/constants/index.ts:6](https://github.com/ksheyon123/road-status-preview/blob/d56258a23fae54155a9cd30000ae39fff6269a67/src/constants/index.ts#L6)
 
 ***
 
@@ -46,4 +46,4 @@ Defined in: [src/constants/index.ts:6](https://github.com/ksheyon123/road-status
 
 > **SUCCESS**: `200`
 
-Defined in: [src/constants/index.ts:2](https://github.com/ksheyon123/road-status-preview/blob/f8475dd9e1f35d9b8acf92ef20ed9d0782a8bb42/src/constants/index.ts#L2)
+Defined in: [src/constants/index.ts:2](https://github.com/ksheyon123/road-status-preview/blob/d56258a23fae54155a9cd30000ae39fff6269a67/src/constants/index.ts#L2)

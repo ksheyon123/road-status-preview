@@ -8,7 +8,7 @@
 
 > **useModalContext**(): `ModalContextType`
 
-Defined in: [src/contexts/ModalContext.tsx:100](https://github.com/ksheyon123/road-status-preview/blob/f8475dd9e1f35d9b8acf92ef20ed9d0782a8bb42/src/contexts/ModalContext.tsx#L100)
+Defined in: [src/contexts/ModalContext.tsx:100](https://github.com/ksheyon123/road-status-preview/blob/d56258a23fae54155a9cd30000ae39fff6269a67/src/contexts/ModalContext.tsx#L100)
 
 모달 Context를 사용하기 위한 커스텀 훅
 컴포넌트에서 모달 기능에 쉽게 접근할 수 있도록 합니다.

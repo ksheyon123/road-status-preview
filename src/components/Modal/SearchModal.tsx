@@ -1,3 +1,10 @@
+/**
+ * SearchModal.tsx
+ *
+ * 고속도로 검색 모달 컴포넌트입니다.
+ * 고속도로 목록을 검색하고 선택할 수 있는 기능을 제공합니다.
+ */
+
 import React, { useState, ChangeEvent, useEffect } from "react";
 import BasicInput from "@/components/Input/BasicInput";
 import List from "@/components/List/List";
@@ -11,13 +18,34 @@ import { HighwayInfo } from "@/types/index";
 import { get } from "@/https";
 import { useHighwayContext } from "@/contexts/HighwayContext";
 
+/**
+ * 고속도로 정보 인터페이스
+ *
+ * @interface Highway
+ * @property {string} id - 고속도로 ID
+ * @property {string} name - 고속도로 이름
+ */
 interface Highway {
   id: string;
   name: string;
 }
 
+/**
+ * 검색 모달 컴포넌트의 Props 인터페이스
+ *
+ * @interface IProps
+ */
 interface IProps {}
 
+/**
+ * 검색 모달 컴포넌트
+ *
+ * 고속도로 목록을 검색하고 선택할 수 있는 모달 컴포넌트입니다.
+ * 검색 기능과 고속도로 목록을 표시합니다.
+ *
+ * @param {IProps} props - 검색 모달 컴포넌트 props
+ * @returns {JSX.Element} 검색 모달 컴포넌트 JSX 요소
+ */
 const SearchModal: React.FC<IProps> = () => {
   const [searchText, setSearchText] = useState<string>("");
   const [highways, setHighways] = useState<HighwayInfo["highways"]>([]);
@@ -39,6 +67,13 @@ const SearchModal: React.FC<IProps> = () => {
     fetchHighways();
   }, []);
 
+  /**
+   * 검색 이벤트 핸들러
+   *
+   * 입력 값에 따라 고속도로 목록을 필터링합니다.
+   *
+   * @param {ChangeEvent<HTMLInputElement>} event - 입력 변경 이벤트
+   */
   const handleSearch = (event: ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value;
     setSearchText(value);

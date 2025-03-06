@@ -1,3 +1,10 @@
+/**
+ * DirectionTabs.tsx
+ *
+ * 고속도로 방향별 사고 및 통제 정보를 표시하는 탭 컴포넌트입니다.
+ * 상행/하행 방향을 선택하고 해당 방향의 사고 정보를 표시합니다.
+ */
+
 import React, { useState } from "react";
 import AlertCircleIcon from "@/assets/images/info.png";
 import Image from "next/image";
@@ -5,6 +12,25 @@ import { useHighwayContext } from "@/contexts/HighwayContext";
 import { AccidentInfo } from "@/types/index";
 import moment from "moment";
 
+/**
+ * 여행 정보 아이템 컴포넌트
+ *
+ * 사고 또는 통제 정보를 테이블 형식으로 표시합니다.
+ *
+ * @param {Object} props - 컴포넌트 props
+ * @param {Object} props.data - 표시할 데이터
+ * @param {string} props.data.from - 시작 지점
+ * @param {string} props.data.to - 종료 지점
+ * @param {string} props.data.accidentType - 사고 유형
+ * @param {string} props.data.accidentDetailType - 사고 상세 유형
+ * @param {string} props.data.content - 사고 내용
+ * @param {string} props.data.fromTime - 시작 시간
+ * @param {string} props.data.toTime - 종료 시간
+ * @param {number} [props.tableWidth] - 테이블 너비
+ * @param {number} [props.rowHeight] - 행 높이
+ * @param {number} [props.rowWidth] - 행 너비
+ * @returns {JSX.Element} 여행 정보 아이템 JSX 요소
+ */
 export const TravelItem = ({
   data,
   tableWidth,
@@ -82,6 +108,13 @@ export const TravelItem = ({
   </table>
 );
 
+/**
+ * 빈 상태 컴포넌트
+ *
+ * 사고 또는 통제 정보가 없을 때 표시되는 컴포넌트입니다.
+ *
+ * @returns {JSX.Element} 빈 상태 JSX 요소
+ */
 const EmptyState = () => (
   <div className="flex flex-col items-center justify-center py-16 text-gray-500">
     <Image
@@ -94,6 +127,16 @@ const EmptyState = () => (
   </div>
 );
 
+/**
+ * 방향 탭 컴포넌트
+ *
+ * 고속도로 방향별 사고 및 통제 정보를 표시하는 탭 컴포넌트입니다.
+ * 상행/하행 방향을 선택하고 해당 방향의 사고 정보를 표시합니다.
+ *
+ * @param {Object} props - 컴포넌트 props
+ * @param {AccidentInfo["accidents"]} props.data - 사고 데이터 배열
+ * @returns {JSX.Element} 방향 탭 JSX 요소
+ */
 const DirectionTabs = ({ data }: { data: AccidentInfo["accidents"] }) => {
   const { curHighway } = useHighwayContext();
   // 상행 : E, 하행 : S

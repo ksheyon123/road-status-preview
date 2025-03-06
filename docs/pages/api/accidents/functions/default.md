@@ -8,7 +8,7 @@
 
 > **default**(`req`, `res`): `Promise`\<`void`\>
 
-Defined in: [src/pages/api/accidents.ts:6](https://github.com/ksheyon123/road-status-preview/blob/f8475dd9e1f35d9b8acf92ef20ed9d0782a8bb42/src/pages/api/accidents.ts#L6)
+Defined in: [src/pages/api/accidents.ts:6](https://github.com/ksheyon123/road-status-preview/blob/d56258a23fae54155a9cd30000ae39fff6269a67/src/pages/api/accidents.ts#L6)
 
 ## Parameters
 

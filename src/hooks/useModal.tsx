@@ -39,7 +39,8 @@ export const useModal = () => {
 
   /**
    * ReactNode를 모달 컨텐츠로 설정하고 모달을 엽니다.
-   * @param modalContent Modal에 표시할 ReactNode
+   * @param modalContent Modal에 표시할 content측 ReactNode
+   * @param modalHeader Modal에 표시할 Header측 ReactNode
    * @param modalOptions 모달 옵션 (useDefaultContainer, useDefaultBackdrop, useDefaultHeader 등)
    */
   const openModal = (

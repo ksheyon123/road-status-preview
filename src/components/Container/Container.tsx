@@ -1,3 +1,11 @@
+/**
+ * Container.tsx
+ *
+ * 애플리케이션의 메인 컨테이너 컴포넌트입니다.
+ * 고속도로 데이터를 가져오고, 실시간 업데이트를 처리하며, UI 컴포넌트들을 조합합니다.
+ * Container/Presentational 패턴에서 Container 역할을 담당합니다.
+ */
+
 import { AccidentInfo, RealTimeTraffic, RouteInfo } from "@/types/index";
 import dynamic from "next/dynamic";
 import { useState, useEffect, useCallback } from "react";
@@ -18,10 +26,18 @@ import {
   processRealTimeRouteData,
 } from "@/utils/utils";
 
+/**
+ * 동적으로 불러오는 Header 컴포넌트
+ * 서버 사이드 렌더링을 비활성화합니다.
+ */
 const DynamicHeader = dynamic(() => import("@/components/Header/Header"), {
   ssr: false, // 필요한 경우
 });
 
+/**
+ * 동적으로 불러오는 TrafficDashboard 컴포넌트
+ * 서버 사이드 렌더링을 비활성화합니다.
+ */
 const DynamicTrafficDashboard = dynamic<{
   data: RouteInfo & { from: string; to: string };
   onClickDetail: Function;
@@ -30,13 +46,26 @@ const DynamicTrafficDashboard = dynamic<{
   ssr: false, // 필요한 경우
 });
 
+/**
+ * 동적으로 불러오는 Tabs 컴포넌트
+ * 서버 사이드 렌더링을 비활성화합니다.
+ */
 const DynamicTabs = dynamic(() => import("@/components/Tabs/Tabs"), {
   ssr: false, // 필요한 경우
 });
 
+/**
+ * 메인 컨테이너 컴포넌트
+ * 데이터 페칭, 상태 관리, 이벤트 핸들링을 담당합니다.
+ *
+ * @returns {JSX.Element} 컨테이너 컴포넌트 JSX 요소
+ */
 const Container: React.FC = () => {
+  // 컨텍스트에서 필요한 값과 함수 가져오기
   const { openModal } = useModalContext();
   const { curHighway } = useHighwayContext();
+
+  // 상태 관리
   const [rawRouteData, setRawRouteData] = useState<RouteInfo | null>(null);
   const [rawAccidents, setRawAccidents] = useState<AccidentInfo["accidents"]>(
     []
@@ -48,10 +77,14 @@ const Container: React.FC = () => {
     RouteInfo & { from: string; to: string }
   >();
 
+  // 현재 선택된 고속도로 정보 추출
   const { route_name, route_id, start_point, end_point, route_display_id } =
     curHighway!;
 
-  // 데이터 처리 함수 - 원본 데이터를 기반으로 가공된 데이터 생성
+  /**
+   * 데이터 처리 함수
+   * 원본 데이터를 기반으로 가공된 데이터를 생성합니다.
+   */
   const processData = useCallback(() => {
     if (!rawRouteData || !rawAccidents.length) return;
 
@@ -88,7 +121,10 @@ const Container: React.FC = () => {
     end_point,
   ]);
 
-  // API에서 데이터 가져오기
+  /**
+   * API에서 데이터 가져오기
+   * 고속도로 및 사고 데이터를 가져옵니다.
+   */
   const fetchData = async () => {
     try {
       const [accidentData, routeData] = await Promise.all([
@@ -114,10 +150,18 @@ const Container: React.FC = () => {
     processData();
   }, [processData]);
 
+  /**
+   * 검색 모달 열기 함수
+   */
   const openSearchModal = () => {
     openModal(<SearchModal />);
   };
 
+  /**
+   * 사고 알림 모달 열기 함수
+   *
+   * @param {string} conzoneId - 구간 ID
+   */
   const openAlertModal = (conzoneId: string) => {
     const filteredAccidents = accidents.filter(
       (el) => el.conzone_id === conzoneId
@@ -171,7 +215,10 @@ const Container: React.FC = () => {
     );
   };
 
-  // 소켓 연결 및 데이터 처리
+  /**
+   * 소켓 연결 및 실시간 데이터 처리
+   * STOMP 클라이언트를 생성하고 사고 및 교통 정보 주제를 구독합니다.
+   */
   useEffect(() => {
     let client: Client;
     const createStompClient = (): void => {

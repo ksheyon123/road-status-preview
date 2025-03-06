@@ -1,0 +1,15 @@
+{
+  "entryPoints": ["src"],
+  "entryPointStrategy": "expand",
+  "out": "docs",
+  "excludePrivate": true,
+  "excludeProtected": true,
+  "excludeExternals": true,
+  "includeVersion": true,
+  "name": "고속도로 교통상황 서비스",
+  "readme": "README.md",
+  "plugin": ["typedoc-plugin-markdown"],
+  "theme": "default",
+  "exclude": ["**/*.test.tsx", "**/*.test.ts", "**/setupTests.ts"],
+  "skipErrorChecking": true
+}

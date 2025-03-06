@@ -1,3 +1,10 @@
+/**
+ * TrafficDashboard.tsx
+ *
+ * 고속도로 교통 상황을 시각적으로 표시하는 대시보드 컴포넌트입니다.
+ * 상행/하행 방향의 구간별 교통 상태, 소요 시간, 사고 정보 등을 표시합니다.
+ */
+
 import React from "react";
 import { RouteInfo, SectionInfo } from "@/types/index";
 import ic_direction_up from "@/assets/images/up.png";
@@ -5,7 +12,12 @@ import ic_direction_down from "@/assets/images/down.png";
 import ic_right_arrow_small from "@/assets/images/arrows_button_right__arrow_small.png";
 import ic_warning_sign from "@/assets/images/warning-sign.png";
 
-// 상태에 따른 색상 반환 함수
+/**
+ * 상태에 따른 색상 반환 함수
+ *
+ * @param {string} status - 교통 상태 ("SMOOTH", "SLOW", "CONGESTED")
+ * @returns {string} 상태에 해당하는 색상 코드
+ */
 const getStatusColor = (status: string) => {
   switch (status) {
     case "SMOOTH":
@@ -19,7 +31,13 @@ const getStatusColor = (status: string) => {
   }
 };
 
-// 방향 아이콘 컴포넌트
+/**
+ * 방향 아이콘 컴포넌트
+ *
+ * @param {Object} props - 컴포넌트 props
+ * @param {string} props.direction - 방향 ("up" 또는 "down")
+ * @returns {JSX.Element} 방향 아이콘 JSX 요소
+ */
 const DirectionIcon = ({ direction }: { direction: string }) => {
   return (
     <img
@@ -31,7 +49,14 @@ const DirectionIcon = ({ direction }: { direction: string }) => {
   );
 };
 
-// 원형 방향 아이콘 컴포넌트
+/**
+ * 원형 방향 아이콘 컴포넌트
+ *
+ * @param {Object} props - 컴포넌트 props
+ * @param {string} props.status - 교통 상태
+ * @param {"up" | "down"} props.direction - 방향
+ * @returns {JSX.Element} 원형 방향 아이콘 JSX 요소
+ */
 const CircleDirectionIcon = ({
   status,
   direction,
@@ -65,7 +90,17 @@ const CircleDirectionIcon = ({
   );
 };
 
-// 수정된 TrafficBar 컴포넌트
+/**
+ * 교통 상태 막대 컴포넌트
+ *
+ * @param {Object} props - 컴포넌트 props
+ * @param {number} props.time - 소요 시간 (초)
+ * @param {"SMOOTH" | "SLOW" | "CONGESTED"} props.status - 교통 상태
+ * @param {string} props.sectionId - 구간 ID
+ * @param {boolean} [props.hasAccident] - 사고 발생 여부
+ * @param {Function} [props.openModal] - 모달 열기 함수
+ * @returns {JSX.Element} 교통 상태 막대 JSX 요소
+ */
 const TrafficBar = ({
   time,
   status,
@@ -135,7 +170,19 @@ const TrafficBar = ({
   );
 };
 
-// Section 컴포넌트 props 인터페이스 업데이트
+/**
+ * 구간 컴포넌트 props 인터페이스
+ *
+ * @interface SectionProps
+ * @property {string} startPoint - 구간 시작점
+ * @property {string} endPoint - 구간 종점
+ * @property {number} distance - 구간 거리 (km)
+ * @property {Omit<SectionInfo, "start_name" & "end_name" & "distance">} forward - 정방향 구간 정보
+ * @property {Omit<SectionInfo, "start_name" & "end_name" & "distance">} reverse - 역방향 구간 정보
+ * @property {boolean} [isLast] - 마지막 구간 여부
+ * @property {Function} [onClick] - 클릭 이벤트 핸들러
+ * @property {Function} [openModal] - 모달 열기 함수
+ */
 interface SectionProps {
   startPoint: string;
   endPoint: string;
@@ -147,7 +194,12 @@ interface SectionProps {
   openModal?: Function;
 }
 
-// 수정된 Section 컴포넌트
+/**
+ * 구간 컴포넌트
+ *
+ * @param {SectionProps} props - 컴포넌트 props
+ * @returns {JSX.Element} 구간 JSX 요소
+ */
 const Section = (props: SectionProps) => {
   const {
     startPoint,
@@ -239,6 +291,15 @@ const Section = (props: SectionProps) => {
   );
 };
 
+/**
+ * 교통 대시보드 컴포넌트
+ *
+ * @param {Object} props - 컴포넌트 props
+ * @param {RouteInfo & { from: string; to: string }} props.data - 경로 데이터
+ * @param {Function} props.onClickDetail - 상세 정보 클릭 핸들러
+ * @param {Function} [props.openModal] - 모달 열기 함수
+ * @returns {JSX.Element} 교통 대시보드 JSX 요소
+ */
 const TrafficDashboard = (props: {
   data: RouteInfo & { from: string; to: string };
   onClickDetail: Function;
@@ -246,6 +307,12 @@ const TrafficDashboard = (props: {
 }) => {
   const { data, onClickDetail, openModal } = props;
   const { from, to } = data;
+  /**
+   * 정방향과 역방향 구간을 매칭하는 함수
+   *
+   * @param {RouteInfo} param0 - 경로 정보
+   * @returns {Array<Object>} 매칭된 구간 배열
+   */
   function matchSections({ directions }: RouteInfo) {
     const { forward, reverse } = directions;
 
